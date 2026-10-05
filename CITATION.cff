@@ -10,4 +10,4 @@ version: "1.0.0"
 date-released: "2026-10-05"
 license: MIT
 repository-code: "https://github.com/apo-cyber/humidity-arrhenius-shelf-life-bounds"
-# doi: "10.5281/zenodo.XXXXXXXX"   # fill in the version DOI after the first Zenodo release
+doi: "10.5281/zenodo.23161429"
