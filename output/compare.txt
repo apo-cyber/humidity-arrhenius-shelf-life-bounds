@@ -1,0 +1,40 @@
+
+=== ICH 3x2 40/50/60 x 60/75, 0/2/4/6 mo; assay sigma=0.02; 1 batch; weak prior where a prior is used ===
+method                                                      cover LB/true LB/med med/true z mean  z sd drop%
+A  paper-A as published (obs weights, floor, normal, resid var, z)  0.971    0.46   0.53     0.89  -0.34  1.09   0.6
+A2 two-stage, observed weights, NIG-t                       0.987    0.53   0.62     0.86  -0.61  1.14   0.6
+C  two-stage, fitted weights (k-space GN), NIG-t  [this paper]  0.960    0.61   0.61     1.00  -0.06  1.10   0.6
+D  one-stage NLS + delta method + t (AccelStab-type, no prior)  0.968    0.57   0.57     1.01  -0.05  1.06   0.0
+F  FBH: 4000 draws from the multivariate t, 5 % quantile    0.968    0.57   0.57     1.01  -0.05  1.06   0.0
+S  ASAP-type: unweighted ln t_iso regression + MC over Stage 1  0.969    0.37   0.41     1.02  -0.22  1.32   0.6
+   (D vs F: max |LB difference| = 0.057 in ln t90; C vs D median: 1.000)
+
+=== ICH 3x2 40/50/60 x 60/75, 0/2/4/6 mo; degradant sigma=0.0075; 1 batch; weak prior where a prior is used ===
+method                                                      cover LB/true LB/med med/true z mean  z sd drop%
+A  paper-A as published (obs weights, floor, normal, resid var, z)  0.959    0.74   0.76     0.98  -0.13  1.05   0.0
+A2 two-stage, observed weights, NIG-t                       0.965    0.80   0.83     0.97  -0.25  1.14   0.0
+C  two-stage, fitted weights (k-space GN), NIG-t  [this paper]  0.950    0.83   0.83     1.00  -0.03  1.13   0.0
+D  one-stage NLS + delta method + t (AccelStab-type, no prior)  0.961    0.81   0.81     1.00  -0.03  1.06   0.0
+F  FBH: 4000 draws from the multivariate t, 5 % quantile    0.961    0.81   0.81     1.00  -0.03  1.06   0.0
+S  ASAP-type: unweighted ln t_iso regression + MC over Stage 1  0.922    0.71   0.72     1.00  -0.07  1.50   0.0
+   (D vs F: max |LB difference| = 0.021 in ln t90; C vs D median: 1.000)
+
+=== ASAP-5 isoconversion (4 points to alpha*); assay sigma=0.02; 1 batch; weak prior where a prior is used ===
+method                                                      cover LB/true LB/med med/true z mean  z sd drop%
+A  paper-A as published (obs weights, floor, normal, resid var, z)  0.939    0.39   0.41     0.96  -0.07  1.12   0.0
+A2 two-stage, observed weights, NIG-t                       0.967    0.43   0.45     0.97  -0.12  1.03   0.0
+C  two-stage, fitted weights (k-space GN), NIG-t  [this paper]  0.953    0.45   0.45     1.00  -0.03  1.08   0.0
+D  one-stage NLS + delta method + t (AccelStab-type, no prior)  0.956    0.38   0.38     1.00  -0.03  1.07   0.0
+F  FBH: 4000 draws from the multivariate t, 5 % quantile    0.957    0.38   0.38     1.00  -0.03  1.07   0.0
+S  ASAP-type: unweighted ln t_iso regression + MC over Stage 1  0.940    0.40   0.40     1.01  -0.01  1.13   0.0
+   (D vs F: max |LB difference| = 0.099 in ln t90; C vs D median: 0.999)
+
+=== ASAP-5 isoconversion (4 points to alpha*); degradant sigma=0.0075; 1 batch; weak prior where a prior is used ===
+method                                                      cover LB/true LB/med med/true z mean  z sd drop%
+A  paper-A as published (obs weights, floor, normal, resid var, z)  0.934    0.71   0.71     0.99  -0.03  1.12   0.0
+A2 two-stage, observed weights, NIG-t                       0.939    0.72   0.73     0.99  -0.05  1.17   0.0
+C  two-stage, fitted weights (k-space GN), NIG-t  [this paper]  0.934    0.72   0.73     1.00  -0.02  1.18   0.0
+D  one-stage NLS + delta method + t (AccelStab-type, no prior)  0.950    0.69   0.70     1.00  -0.02  1.09   0.0
+F  FBH: 4000 draws from the multivariate t, 5 % quantile    0.948    0.69   0.70     1.00  -0.02  1.09   0.0
+S  ASAP-type: unweighted ln t_iso regression + MC over Stage 1  0.926    0.72   0.72     1.00  -0.01  1.19   0.0
+   (D vs F: max |LB difference| = 0.034 in ln t90; C vs D median: 1.000)

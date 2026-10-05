@@ -1,0 +1,26 @@
+=== Proposition 4: two pathways, E = 80 ± delta/2, equal rates at 25 °C, B = 0.04 shared; first-order loss; sigma=0.02; weak prior; nrep=4000 ===
+displacement = ln k_hat(25/60) - ln k(25/60) of the fitted line (negative = rate too low = shelf life too long = anti-conservative)
+
+-- ICH 3x2, 0/2/4/6 mo
+kind         delta Var_w(E)  cover LB/true med/true  disp sim  disp WLS  closed
+parallel         0        0  0.958    0.61     1.01    -0.008    +0.000  -0.000
+parallel        20       85  0.933    0.66     1.06    -0.060    -0.053  -0.069
+parallel        40      219  0.858    0.76     1.17    -0.159    -0.182  -0.180
+parallel        60      258  0.627    0.94     1.34    -0.294    -0.330  -0.218
+consecutive      0        0  0.955    0.61     1.00    -0.003    -0.000  +0.000
+consecutive     20       85  0.966    0.57     0.96    +0.040    +0.052  +0.068
+consecutive     40      226  0.979    0.49     0.88    +0.129    +0.174  +0.174
+consecutive     60      290  0.987    0.41     0.82    +0.197    +0.305  +0.213
+   (lever l_T = -0.0389 mol/kJ from the weighted centre, s_T^2 = 4.0e-05)
+
+-- ASAP-5, isoconversion
+kind         delta Var_w(E)  cover LB/true med/true  disp sim  disp WLS  closed
+parallel         0        0  0.955    0.45     1.02    -0.017    -0.000  -0.000
+parallel        20       80  0.948    0.48     1.06    -0.058    -0.094  -0.089
+parallel        40      176  0.906    0.55     1.24    -0.213    -0.283  -0.196
+parallel        60      177  0.885    0.58     1.32    -0.281    -0.448  -0.197
+consecutive      0        0  0.957    0.45     0.99    +0.011    +0.000  +0.000
+consecutive     20       80  0.965    0.42     0.95    +0.049    +0.094  +0.089
+consecutive     40      176  0.980    0.37     0.83    +0.185    +0.283  +0.196
+consecutive     60      177  0.986    0.33     0.75    +0.287    +0.448  +0.197
+   (lever l_T = -0.0484 mol/kJ from the weighted centre, s_T^2 = 1.2e-04)

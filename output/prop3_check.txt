@@ -1,0 +1,3 @@
+max |I_profile − I_two-stage| / |I_profile| = 1.215851201124266e-15
+SE(ln k̂_i) per condition: [2.734 1.5   1.056 0.58  0.432 0.237]
+(対照: 切片のみ) max rel diff = 1.7112857641227773e-17

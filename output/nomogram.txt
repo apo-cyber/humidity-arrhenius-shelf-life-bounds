@@ -1,0 +1,73 @@
+=== Table 2: geometry only, SE(ln k_i) = 0.1 at every condition, flat prior, target 25 C / 60 %RH ===
+design                                    n  SE(Ea)   SE(B)   corr    sd0 bound/med
+T-only 40/50/60 (RH 75 fixed)             3     6.1   ----  B not identifiable (single RH)
+ICH-type 40/50/60 x 60/75                 6     4.3   0.005   0.00  0.146      0.79
+ICH-type 40/60 x 60/75                    4     4.3   0.007   0.00  0.151      0.78
+ASAP 50/75, 60/40, 70/5, 70/75, 80/40     5     4.6   0.002   0.43  0.218      0.70
+ASAP + 40/75                              6     3.4   0.002   0.56  0.144      0.79
+(T-only 3-point Arrhenius, RH term absent: SE(Ea)=6.1, sd0=0.199, bound/med=0.72)
+
+=== Variance decomposition of sd0^2 at 25/60 (centred at the precision-weighted centroid; flat prior) ===
+design                                     total    icpt       T      RH    EaxB | share T
+-- uniform SE 0.10
+ICH-type 3x2, 0/2/4/6                      0.021   0.002   0.018   0.002   0.000 |   84 %  (cross with intercept -2.1e-17; bound/med 0.79)
+ICH-type 2x2, 0/2/4/6                      0.023   0.003   0.018   0.003   0.000 |   78 %  (cross with intercept -3.2e-17; bound/med 0.78)
+ASAP-5 isoconversion                       0.047   0.002   0.049   0.001  -0.005 |  104 %  (cross with intercept -8.7e-17; bound/med 0.70)
+ASAP-5 iso + 40/75                         0.021   0.002   0.021   0.000  -0.003 |  103 %  (cross with intercept -3.5e-17; bound/med 0.79)
+ASAP-5 fixed 28 d                          0.047   0.002   0.049   0.001  -0.005 |  104 %  (cross with intercept -8.7e-17; bound/med 0.70)
+-- assay sigma=0.02, own grid
+ICH-type 3x2, 0/2/4/6                      0.107   0.002   0.100   0.005  -0.000 |   94 %  (cross with intercept +2.1e-18; bound/med 0.58)
+ICH-type 2x2, 0/2/4/6                      0.250   0.002   0.243   0.006  -0.000 |   97 %  (cross with intercept +4.3e-16; bound/med 0.44)
+ASAP-5 isoconversion                       0.307   0.013   0.321   0.004  -0.030 |  104 %  (cross with intercept +1.3e-16; bound/med 0.40)
+ASAP-5 iso + 40/75                         0.160   0.011   0.166   0.002  -0.020 |  104 %  (cross with intercept -1.6e-16; bound/med 0.52)
+ASAP-5 fixed 28 d                          2.992   0.014   2.788   0.006   0.184 |   93 %  (cross with intercept -1.7e-15; bound/med 0.06)
+-- degradant sigma=0.0025, own grid
+ICH-type 3x2, 0/2/4/6                      0.002   0.000   0.002   0.000  -0.000 |   94 %  (cross with intercept +3.3e-20; bound/med 0.94)
+ICH-type 2x2, 0/2/4/6                      0.004   0.000   0.004   0.000  -0.000 |   97 %  (cross with intercept +6.7e-18; bound/med 0.90)
+ASAP-5 isoconversion                       0.005   0.000   0.005   0.000  -0.000 |  104 %  (cross with intercept +2.1e-18; bound/med 0.89)
+ASAP-5 iso + 40/75                         0.002   0.000   0.003   0.000  -0.000 |  104 %  (cross with intercept -2.5e-18; bound/med 0.92)
+ASAP-5 fixed 28 d                          0.047   0.000   0.044   0.000   0.003 |   93 %  (cross with intercept -2.6e-17; bound/med 0.70)
+
+=== Value of one more condition added to ASAP-5 (rank-1 update); bound/median before -> after ===
+-- uniform SE 0.10 (new condition also 0.10; = ASAP isoconversion at sigma/alpha* 0.075): before 0.70 (sd0 0.218)
+   + 40/40: 0.81
+   + 40/60: 0.80
+   + 40/75: 0.79
+   + 50/40: 0.76
+   + 60/75: 0.70
+   + 70/40: 0.70
+   + 80/75: 0.73
+   + 90/40: 0.75
+   + 90/75: 0.76
+-- assay sigma=0.02, ASAP isoconversion base, new condition 0/2/4/6 mo: before 0.40 (sd0 0.555)
+   + 40/40: 0.42
+   + 40/60: 0.46
+   + 40/75: 0.52
+   + 50/40: 0.44
+   + 60/75: 0.42
+   + 70/40: 0.40
+   + 80/75: 0.50
+   + 90/40: 0.59
+   + 90/75: 0.56
+-- degradant sigma=0.0075, ASAP isoconversion base, new condition 0/2/4/6 mo: before 0.71 (sd0 0.208)
+   + 40/40: 0.72
+   + 40/60: 0.75
+   + 40/75: 0.78
+   + 50/40: 0.73
+   + 60/75: 0.72
+   + 70/40: 0.71
+   + 80/75: 0.77
+   + 90/40: 0.82
+   + 90/75: 0.81
+-- degradant sigma=0.0075, ASAP isoconversion base, new condition also isoconversion: before 0.71 (sd0 0.208)
+   + 40/40: 0.82
+   + 40/60: 0.81
+   + 40/75: 0.80
+   + 50/40: 0.77
+   + 60/75: 0.71
+   + 70/40: 0.71
+   + 80/75: 0.74
+   + 90/40: 0.76
+   + 90/75: 0.77
+
+figure: ../figures/fig1_design_nomogram.png  (open circles = simulated median LB/true from simulate.py)

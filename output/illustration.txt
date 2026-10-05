@@ -1,0 +1,49 @@
+=== Stage 1: 60 conditions, 232 points, pooled residual df 112 ===
+residual SD pooled within temperature (absolute % total related substances): 35 C: 0.470, 40 C: 1.369, 50 C: 1.951; conditions rescaled to the 40 C level (sigma_ref = 1.369); pooled after rescaling 1.369
+SE(ln k_i) = sigma/(k_i sqrt(S_tt,i)): min 0.06, median 0.19, max 3.26
+   least precise: 35 C / 12 %RH / MgSt 0 %: k=0.0190 %/d, SE(ln k)=3.26
+   least precise: 40 C / 13 %RH / MgSt 0 %: k=0.3520 %/d, SE(ln k)=1.74
+   least precise: 35 C / 30 %RH / MgSt 0 %: k=0.0740 %/d, SE(ln k)=0.84
+   least precise: 35 C / 12 %RH / MgSt 1 %: k=0.0910 %/d, SE(ln k)=0.68
+   least precise: 40 C / 32 %RH / MgSt 0 %: k=0.9210 %/d, SE(ln k)=0.66
+k_hat <= 0: 0 conditions
+
+=== Stage 2, weakly informative prior (SD Ea 100, B 0.1, C 10; flat intercept), k-space GN, NIG-t; alpha0=0.56 %, limit 2.0 % ===
+-- 60 conditions, 4 parameters (Tamura Eq. 2: ln k = b0 + Ea x1 + B RH + C MgSt)
+this paper, working weights (MgSt 2 %) Ea= 230.5 ±  3.7 kJ/mol  B=0.0209 ± 0.0011  C=0.5049 ± 0.0213 | corr(Ea,B)=+0.08 | k(25/60)=0.674 %/mo (95 % upper 0.784) | t to 2.0 %: median 2.1 mo, one-sided 95 % LB 1.8 mo (LB/med 0.86), nu=173
+  observed weights, for comparison Ea= 227.2 ±  3.8 kJ/mol  B=0.0215 ± 0.0012  C=0.4517 ± 0.0218 | corr(Ea,B)=+0.09 | k(25/60)=0.834 %/mo (95 % upper 0.971) | t to 2.0 %: median 1.7 mo, one-sided 95 % LB 1.5 mo (LB/med 0.86), nu=173
+  unweighted OLS of ln k_hat (authors' method): Ea=229.2 kJ/mol (54.8 kcal/mol), B=0.0226, C=0.4564, RMSE=0.4275   [paper: Ea 227.5 kJ/mol = 54.4 kcal/mol, B 0.0227, C 0.4465, RMSE 0.4185]
+
+-- per MgSt level, 12 conditions, 3 parameters
+MgSt 0 % (12 conditions)           Ea= 234.4 ± 13.0 kJ/mol  B=0.0248 ± 0.0021 | corr(Ea,B)=+0.19 | k(25/60)=0.193 %/mo (95 % upper 0.373) | t to 2.0 %: median 7.5 mo, one-sided 95 % LB 3.9 mo (LB/med 0.52), nu=34
+MgSt 1 % (12 conditions)           Ea= 221.8 ±  7.4 kJ/mol  B=0.0228 ± 0.0024 | corr(Ea,B)=+0.25 | k(25/60)=0.673 %/mo (95 % upper 0.934) | t to 2.0 %: median 2.1 mo, one-sided 95 % LB 1.5 mo (LB/med 0.72), nu=37
+MgSt 2 % (12 conditions)           Ea= 231.3 ±  6.8 kJ/mol  B=0.0217 ± 0.0022 | corr(Ea,B)=+0.41 | k(25/60)=0.826 %/mo (95 % upper 1.085) | t to 2.0 %: median 1.7 mo, one-sided 95 % LB 1.3 mo (LB/med 0.76), nu=37
+MgSt 3 % (12 conditions)           Ea= 230.0 ±  6.7 kJ/mol  B=0.0175 ± 0.0023 | corr(Ea,B)=-0.02 | k(25/60)=1.097 %/mo (95 % upper 1.396) | t to 2.0 %: median 1.3 mo, one-sided 95 % LB 1.0 mo (LB/med 0.79), nu=36
+MgSt 4 % (12 conditions)           Ea= 233.4 ±  6.7 kJ/mol  B=0.0204 ± 0.0021 | corr(Ea,B)=-0.04 | k(25/60)=1.695 %/mo (95 % upper 2.099) | t to 2.0 %: median 0.8 mo, one-sided 95 % LB 0.7 mo (LB/med 0.81), nu=33
+
+=== Design calculus on the real per-condition precisions (MgSt 0 %, flat prior) ===
+SE(Ea)=13.7 kJ/mol, SE(B)=0.0024, corr=+0.26, sd(ln k0)=0.402, bound/median=0.52
+decomposition of sd0^2=0.162: intercept 0.004, temperature 0.164 (101 %), humidity 0.001, EaxB cross -0.006
+(35 °C is the nearest tested temperature to 25 °C; the humidity axis is interpolated at 60 %RH within 12-77 %RH)
+
+=== Prior transfer: Stage A = MgSt 0 % (12 conditions) -> Stage B = single condition 40 C / 77 %RH of MgSt m % (4 points) ===
+Stage A posterior: Ea=234.4 ± 13.0, B=0.0248 ± 0.0021, corr=+0.19; levers (40/77 -> 25/60): L_T=-0.0193, L_RH=-17; sqrt(l' Sigma_A l)=0.260
+level    Stage B bound (mo)  median LB/med | 12-cond fit: LB  median |    dEa       dB  shift budget cf cov
+MgSt 1 %                1.0     1.7   0.60 |             1.5     2.1 |  +12.6  +0.0020  +0.28  0.241  0.921
+MgSt 2 %                0.8     1.4   0.58 |             1.3     1.7 |   +3.1  +0.0031  +0.11  0.264  0.997
+MgSt 3 %                0.6     1.0   0.61 |             1.0     1.3 |   +4.4  +0.0073  +0.21  0.302  0.996
+MgSt 4 %                0.5     0.8   0.60 |             0.7     0.8 |   +1.0  +0.0045  +0.09  0.324  1.000
+shift > 0 = imported prior makes the product look more stable than its own 12-condition fit (anti-conservative); budget = 1.645 (s - s_data)
+
+=== Sensitivity: drop points above 20 % total related substances (authors' linear range) ===
+57 conditions kept (>= 3 points), pooled sigma 1.259 %
+4-parameter fit, points <= 20 %    Ea= 229.2 ±  3.9 kJ/mol  B=0.0194 ± 0.0012  C=0.4448 ± 0.0239 | corr(Ea,B)=+0.17 | k(25/60)=0.733 %/mo (95 % upper 0.849) | t to 2.0 %: median 2.0 mo, one-sided 95 % LB 1.7 mo (LB/med 0.86), nu=161
+
+=== Real-time 25 C / 60 %RH (Tamura Fig. 7, digitised with fig7_digitise.py): predicted level at 6 months with one-sided 95 % upper bound ===
+level     k(25/60) %/mo pred 6 mo 95 % upper observed authors auth/obs |  observed k (OLS of 4 pts)
+MgSt 0 %          0.245       2.0        2.4     2.85    2.60     0.91 |    0.389 ± 0.083 %/mo
+MgSt 1 %          0.407       3.0        3.5     3.26    3.74     1.15 |    0.455 ± 0.122 %/mo
+MgSt 2 %          0.674       4.6        5.3     4.44    5.54     1.25 |    0.634 ± 0.163 %/mo
+MgSt 3 %          1.116       7.3        8.2     7.76    8.36     1.08 |    1.217 ± 0.075 %/mo
+MgSt 4 %          1.849      11.7       13.0    11.14   12.70     1.14 |    1.729 ± 0.208 %/mo
+figure: ../figures/fig3_tamura_realtime.png

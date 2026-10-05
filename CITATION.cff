@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper and this archive."
+title: "Code for: Closed-form Bayesian shelf-life bounds from temperature-humidity accelerated stability data: one-sided coverage, design precision and the cost of an imported prior"
+authors:
+  - family-names: Arai
+    given-names: Yasushi
+    orcid: "https://orcid.org/0009-0005-7300-4234"
+    affiliation: "Supply Chain Headquarters, Alfresa Pharma Corporation, Osaka, Japan"
+version: "1.0.0"
+date-released: "2026-10-05"
+license: MIT
+repository-code: "https://github.com/apo-cyber/humidity-arrhenius-shelf-life-bounds"
+# doi: "10.5281/zenodo.XXXXXXXX"   # fill in the version DOI after the first Zenodo release
