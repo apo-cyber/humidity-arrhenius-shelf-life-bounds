@@ -6,8 +6,8 @@ authors:
     given-names: Yasushi
     orcid: "https://orcid.org/0009-0005-7300-4234"
     affiliation: "Supply Chain Headquarters, Alfresa Pharma Corporation, Osaka, Japan"
-version: "1.1.0"
+version: "1.1.1"
 date-released: "2026-10-28"
 license: MIT
 repository-code: "https://github.com/apo-cyber/humidity-arrhenius-shelf-life-bounds"
-doi: "10.5281/zenodo.23161428"   # concept DOI (all versions); v1.0.0 = 10.5281/zenodo.23161429, v1.1.0 DOI assigned at deposit
+doi: "10.5281/zenodo.23161428"   # concept DOI (all versions); v1.0.0 = 10.5281/zenodo.23161429, v1.1.0 = 10.5281/zenodo.23730553, v1.1.1 DOI assigned at deposit

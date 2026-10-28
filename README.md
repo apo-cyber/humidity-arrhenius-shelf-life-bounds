@@ -1,8 +1,8 @@
 # Closed-form one-sided shelf-life bounds under temperature and humidity — code
 
 Code for the paper *Closed-form one-sided shelf-life bounds from temperature–humidity accelerated stability data*
-(Y. Arai, 2026). Version 1.1.0 corresponds to the revised manuscript (flat prior by default, per-batch intercepts, 54-truth sensitivity grid, Supplementary S13–S16). Sixteen self-contained Python scripts
-(NumPy + SciPy; Matplotlib for the figures) produce every table and figure of the paper. Sections 2–5 use no measured data:
+(Y. Arai, 2026). Version 1.1.1 corresponds to the revised manuscript (flat prior by default, per-batch intercepts, 54-truth sensitivity grid, Supplementary S1–S17); it differs from 1.1.0 only in this README and `CITATION.cff`. Eighteen self-contained Python scripts
+(NumPy + SciPy; Matplotlib for the figures) produce every table and figure of the paper and its Supplementary Material. Sections 2–5 use no measured data:
 they run on the generating model in `model.py` (first-order loss, humidity-corrected Arrhenius with $E_a$ = 80 kJ/mol,
 $B$ = 0.04 per % RH and a shelf life of 30 months at 25 °C / 60 % RH), and `sensitivity_truth.py` varies that truth. Section 6 uses the published supplementary tables of Tamura et al. (2020), transcribed in `tamura2020.py`, and the
 real-time values digitised from their Figure 7 (`fig7_digitise.py`). `model.py` is the single source of the model, the three
@@ -40,7 +40,7 @@ pip install -r requirements.txt
 ./run_all.sh        # ~30 s; writes output/*.txt and ../figures/fig{1,2,3}_*.{png,pdf,tiff} (TIFF: 1200 dpi line art, 600 dpi for fig3; fig3 is Figure S1)
 ```
 
-The `.txt` files in `output/` are the runs used for the paper (seeds fixed in the scripts: 20260919 for Stage A, 1 for Stage B).
+The `.txt` files in `output/` are the runs used for the paper (every random stream is seeded in its script, so `run_all.sh` reproduces them).
 Script docstrings and some printed headers are in Japanese (the working language of the project). "paper-A" and "paper-B" in
 the comments are earlier studies by the author (github.com/apo-cyber/bayesian-shelf-life-arrhenius and apo-cyber/arrhenius-r2-criterion).
 
