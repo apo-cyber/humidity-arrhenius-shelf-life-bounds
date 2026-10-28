@@ -1,0 +1,365 @@
+columns: loss % at 40/75 in 6 mo | max SE(ln k_i) | t_iso max (mo, ASAP only) | gn flat: cover, LB/true, z sd | closed-form LB/med vs simulated LB/med | obs weights (flat): cover, med/true | gn weak prior at (80, 0.04): cover, LB/true, med/true | no bound %
+
+=================== noise: assay sigma = 0.02 ===================
+Ea    40 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40   4.9 | SEmax  0.72 | t_iso    nan | 0.984  0.30 1.08 | cf 0.29 sim 0.30 | obs 0.995 0.63 | weak 0.892 0.49 1.68 | nobound 0.0  drop2.1
+Ea    40 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40   4.9 | SEmax  0.76 | t_iso    nan | 0.996  0.16 1.18 | cf 0.17 sim 0.18 | obs 0.997 0.69 | weak 0.886 0.34 2.23 | nobound 0.0  drop3.4
+Ea    40 B 0.02 tSL   18 ASAP-5 iso       loss40   4.9 | SEmax  0.25 | t_iso   13.4 | 0.959  0.38 1.07 | cf 0.37 sim 0.38 | obs 0.969 0.95 | weak 0.920 0.48 1.27 | nobound 0.0
+Ea    40 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40   3.0 | SEmax  1.21 | t_iso    nan | 0.997  0.12 1.11 | cf 0.13 sim 0.13 | obs 0.999 0.40 | weak 0.857 0.47 2.70 | nobound 0.0  drop7.9
+Ea    40 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40   3.0 | SEmax  1.27 | t_iso    nan | 0.999  0.04 1.23 | cf 0.05 sim 0.06 | obs 0.999 0.53 | weak 0.853 0.38 3.85 | nobound 0.0  drop9.5
+Ea    40 B 0.02 tSL   30 ASAP-5 iso       loss40   3.0 | SEmax  0.25 | t_iso   22.3 | 0.959  0.38 1.06 | cf 0.37 sim 0.38 | obs 0.970 0.97 | weak 0.917 0.48 1.31 | nobound 0.0
+Ea    40 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   1.5 | SEmax  2.41 | t_iso    nan | 1.000  0.01 2.27 | cf 0.02 sim 0.02 | obs 1.000 0.21 | weak 0.900 0.45 4.73 | nobound 0.1  drop22.0
+Ea    40 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   1.5 | SEmax  2.55 | t_iso    nan | 1.000  0.00 1.38 | cf 0.00 sim 0.00 | obs 1.000 0.34 | weak 0.911 0.32 5.40 | nobound 0.2  drop22.7
+Ea    40 B 0.02 tSL   60 ASAP-5 iso       loss40   1.5 | SEmax  0.25 | t_iso   44.6 | 0.963  0.38 1.05 | cf 0.37 sim 0.37 | obs 0.971 0.99 | weak 0.915 0.49 1.34 | nobound 0.0
+Ea    40 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40   6.5 | SEmax  0.72 | t_iso    nan | 0.971  0.37 1.07 | cf 0.36 sim 0.36 | obs 0.993 0.70 | weak 0.916 0.49 1.39 | nobound 0.0  drop1.7
+Ea    40 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40   6.5 | SEmax  0.76 | t_iso    nan | 0.985  0.22 1.27 | cf 0.23 sim 0.24 | obs 0.990 0.76 | weak 0.922 0.35 1.70 | nobound 0.0  drop2.4
+Ea    40 B 0.04 tSL   18 ASAP-5 iso       loss40   6.5 | SEmax  0.25 | t_iso   40.2 | 0.963  0.38 1.06 | cf 0.37 sim 0.38 | obs 0.971 0.96 | weak 0.917 0.48 1.28 | nobound 0.0  drop0.0
+Ea    40 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40   4.0 | SEmax  1.21 | t_iso    nan | 0.992  0.17 1.06 | cf 0.18 sim 0.18 | obs 0.999 0.47 | weak 0.899 0.43 2.08 | nobound 0.0  drop6.5
+Ea    40 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40   4.0 | SEmax  1.27 | t_iso    nan | 0.996  0.07 1.17 | cf 0.09 sim 0.08 | obs 0.997 0.57 | weak 0.895 0.33 2.94 | nobound 0.0  drop8.1
+Ea    40 B 0.04 tSL   30 ASAP-5 iso       loss40   4.0 | SEmax  0.25 | t_iso   67.0 | 0.959  0.38 1.07 | cf 0.37 sim 0.38 | obs 0.968 0.96 | weak 0.918 0.48 1.30 | nobound 0.0  drop0.0
+Ea    40 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   2.0 | SEmax  2.41 | t_iso    nan | 1.000  0.02 1.59 | cf 0.03 sim 0.03 | obs 1.000 0.24 | weak 0.923 0.42 3.65 | nobound 0.1  drop18.6
+Ea    40 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   2.0 | SEmax  2.55 | t_iso    nan | 1.000  0.00 1.45 | cf 0.01 sim 0.00 | obs 1.000 0.36 | weak 0.914 0.32 4.49 | nobound 0.2  drop19.8
+Ea    40 B 0.04 tSL   60 ASAP-5 iso       loss40   2.0 | SEmax  0.25 | t_iso  134.0 | 0.960  0.39 1.07 | cf 0.37 sim 0.38 | obs 0.970 0.99 | weak 0.919 0.49 1.31 | nobound 0.0
+Ea    40 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40   8.7 | SEmax  0.72 | t_iso    nan | 0.962  0.44 1.09 | cf 0.43 sim 0.44 | obs 0.987 0.75 | weak 0.936 0.51 1.19 | nobound 0.0  drop1.6
+Ea    40 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40   8.7 | SEmax  0.76 | t_iso    nan | 0.974  0.31 1.29 | cf 0.30 sim 0.31 | obs 0.980 0.83 | weak 0.951 0.35 1.34 | nobound 0.0  drop2.4
+Ea    40 B 0.06 tSL   18 ASAP-5 iso       loss40   8.7 | SEmax  0.25 | t_iso  120.8 | 0.962  0.38 1.05 | cf 0.37 sim 0.37 | obs 0.971 0.98 | weak 0.924 0.48 1.31 | nobound 0.0  drop0.0
+Ea    40 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40   5.3 | SEmax  1.21 | t_iso    nan | 0.981  0.24 1.06 | cf 0.25 sim 0.24 | obs 0.996 0.56 | weak 0.933 0.41 1.63 | nobound 0.0  drop5.5
+Ea    40 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40   5.3 | SEmax  1.27 | t_iso    nan | 0.995  0.11 1.18 | cf 0.13 sim 0.13 | obs 0.995 0.65 | weak 0.934 0.28 2.09 | nobound 0.0  drop6.5
+Ea    40 B 0.06 tSL   30 ASAP-5 iso       loss40   5.3 | SEmax  0.25 | t_iso  201.3 | 0.966  0.38 1.05 | cf 0.37 sim 0.38 | obs 0.973 0.97 | weak 0.928 0.48 1.30 | nobound 0.0  drop0.0
+Ea    40 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40   2.7 | SEmax  2.41 | t_iso    nan | 1.000  0.03 1.44 | cf 0.06 sim 0.05 | obs 1.000 0.28 | weak 0.945 0.37 2.72 | nobound 0.0  drop16.2
+Ea    40 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40   2.7 | SEmax  2.55 | t_iso    nan | 1.000  0.01 1.32 | cf 0.02 sim 0.01 | obs 1.000 0.40 | weak 0.937 0.30 3.54 | nobound 0.0  drop16.7
+Ea    40 B 0.06 tSL   60 ASAP-5 iso       loss40   2.7 | SEmax  0.25 | t_iso  402.6 | 0.964  0.38 1.06 | cf 0.37 sim 0.37 | obs 0.974 0.98 | weak 0.923 0.48 1.30 | nobound 0.0  drop0.0
+Ea    50 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40   5.9 | SEmax  0.60 | t_iso    nan | 0.970  0.39 1.10 | cf 0.39 sim 0.39 | obs 0.992 0.70 | weak 0.930 0.50 1.25 | nobound 0.0  drop1.1
+Ea    50 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40   5.9 | SEmax  0.63 | t_iso    nan | 0.990  0.23 1.30 | cf 0.24 sim 0.26 | obs 0.992 0.75 | weak 0.941 0.34 1.49 | nobound 0.0  drop1.8
+Ea    50 B 0.02 tSL   18 ASAP-5 iso       loss40   5.9 | SEmax  0.25 | t_iso    7.9 | 0.966  0.38 1.05 | cf 0.37 sim 0.38 | obs 0.971 0.97 | weak 0.935 0.47 1.22 | nobound 0.0  drop0.0
+Ea    50 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40   3.6 | SEmax  1.00 | t_iso    nan | 0.989  0.20 1.05 | cf 0.21 sim 0.21 | obs 0.998 0.48 | weak 0.933 0.41 1.73 | nobound 0.0  drop5.0
+Ea    50 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40   3.6 | SEmax  1.05 | t_iso    nan | 0.998  0.08 1.21 | cf 0.09 sim 0.10 | obs 0.998 0.57 | weak 0.928 0.30 2.31 | nobound 0.0  drop6.9
+Ea    50 B 0.02 tSL   30 ASAP-5 iso       loss40   3.6 | SEmax  0.25 | t_iso   13.1 | 0.961  0.38 1.06 | cf 0.37 sim 0.38 | obs 0.968 0.97 | weak 0.936 0.46 1.21 | nobound 0.0  drop0.0
+Ea    50 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   1.8 | SEmax  1.99 | t_iso    nan | 1.000  0.03 1.28 | cf 0.04 sim 0.04 | obs 1.000 0.24 | weak 0.944 0.38 2.86 | nobound 0.1  drop15.2
+Ea    50 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   1.8 | SEmax  2.10 | t_iso    nan | 1.000  0.01 1.26 | cf 0.01 sim 0.01 | obs 1.000 0.35 | weak 0.936 0.29 3.38 | nobound 0.0  drop16.4
+Ea    50 B 0.02 tSL   60 ASAP-5 iso       loss40   1.8 | SEmax  0.25 | t_iso   26.3 | 0.960  0.38 1.08 | cf 0.37 sim 0.38 | obs 0.966 0.96 | weak 0.928 0.47 1.23 | nobound 0.0  drop0.0
+Ea    50 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40   7.9 | SEmax  0.60 | t_iso    nan | 0.970  0.46 1.08 | cf 0.46 sim 0.46 | obs 0.987 0.77 | weak 0.944 0.53 1.16 | nobound 0.0  drop0.9
+Ea    50 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40   7.9 | SEmax  0.63 | t_iso    nan | 0.983  0.31 1.25 | cf 0.31 sim 0.33 | obs 0.988 0.83 | weak 0.941 0.39 1.28 | nobound 0.0  drop1.5
+Ea    50 B 0.04 tSL   18 ASAP-5 iso       loss40   7.9 | SEmax  0.25 | t_iso   23.7 | 0.957  0.38 1.07 | cf 0.37 sim 0.38 | obs 0.966 0.98 | weak 0.927 0.47 1.23 | nobound 0.0  drop0.0
+Ea    50 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40   4.8 | SEmax  1.00 | t_iso    nan | 0.981  0.27 1.08 | cf 0.27 sim 0.28 | obs 0.997 0.57 | weak 0.937 0.42 1.44 | nobound 0.0  drop4.0
+Ea    50 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40   4.8 | SEmax  1.05 | t_iso    nan | 0.997  0.13 1.22 | cf 0.14 sim 0.15 | obs 0.998 0.66 | weak 0.944 0.30 1.81 | nobound 0.0  drop5.6
+Ea    50 B 0.04 tSL   30 ASAP-5 iso       loss40   4.8 | SEmax  0.25 | t_iso   39.5 | 0.957  0.38 1.07 | cf 0.37 sim 0.37 | obs 0.969 0.98 | weak 0.929 0.47 1.23 | nobound 0.0  drop0.0
+Ea    50 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   2.4 | SEmax  1.99 | t_iso    nan | 0.999  0.06 1.21 | cf 0.07 sim 0.07 | obs 1.000 0.29 | weak 0.960 0.35 2.28 | nobound 0.0  drop12.5
+Ea    50 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   2.4 | SEmax  2.10 | t_iso    nan | 0.999  0.01 1.28 | cf 0.02 sim 0.02 | obs 0.999 0.40 | weak 0.952 0.27 2.85 | nobound 0.0  drop14.2
+Ea    50 B 0.04 tSL   60 ASAP-5 iso       loss40   2.4 | SEmax  0.25 | t_iso   79.0 | 0.964  0.38 1.05 | cf 0.37 sim 0.38 | obs 0.973 0.97 | weak 0.934 0.47 1.22 | nobound 0.0
+Ea    50 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40  10.5 | SEmax  0.60 | t_iso    nan | 0.956  0.53 1.08 | cf 0.53 sim 0.53 | obs 0.981 0.84 | weak 0.942 0.57 1.08 | nobound 0.0  drop0.9
+Ea    50 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40  10.5 | SEmax  0.63 | t_iso    nan | 0.974  0.40 1.26 | cf 0.38 sim 0.41 | obs 0.979 0.87 | weak 0.963 0.42 1.15 | nobound 0.0  drop1.4
+Ea    50 B 0.06 tSL   18 ASAP-5 iso       loss40  10.5 | SEmax  0.25 | t_iso   71.2 | 0.960  0.38 1.06 | cf 0.37 sim 0.37 | obs 0.970 0.97 | weak 0.933 0.46 1.21 | nobound 0.0
+Ea    50 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40   6.4 | SEmax  1.00 | t_iso    nan | 0.973  0.36 1.07 | cf 0.35 sim 0.34 | obs 0.993 0.68 | weak 0.949 0.45 1.27 | nobound 0.0  drop3.3
+Ea    50 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40   6.4 | SEmax  1.05 | t_iso    nan | 0.988  0.19 1.21 | cf 0.20 sim 0.21 | obs 0.990 0.74 | weak 0.957 0.30 1.45 | nobound 0.0  drop4.6
+Ea    50 B 0.06 tSL   30 ASAP-5 iso       loss40   6.4 | SEmax  0.25 | t_iso  118.6 | 0.961  0.38 1.06 | cf 0.37 sim 0.38 | obs 0.970 0.98 | weak 0.936 0.46 1.22 | nobound 0.0
+Ea    50 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40   3.3 | SEmax  1.99 | t_iso    nan | 0.998  0.10 1.09 | cf 0.12 sim 0.11 | obs 0.999 0.35 | weak 0.973 0.32 1.75 | nobound 0.0  drop10.7
+Ea    50 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40   3.3 | SEmax  2.10 | t_iso    nan | 0.999  0.02 1.22 | cf 0.04 sim 0.03 | obs 1.000 0.46 | weak 0.970 0.24 2.25 | nobound 0.0  drop12.6
+Ea    50 B 0.06 tSL   60 ASAP-5 iso       loss40   3.3 | SEmax  0.25 | t_iso  237.2 | 0.955  0.38 1.07 | cf 0.37 sim 0.37 | obs 0.964 0.97 | weak 0.927 0.47 1.22 | nobound 0.0
+Ea    60 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40   7.1 | SEmax  0.49 | t_iso    nan | 0.969  0.49 1.07 | cf 0.48 sim 0.49 | obs 0.991 0.79 | weak 0.950 0.54 1.10 | nobound 0.0  drop0.4
+Ea    60 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40   7.1 | SEmax  0.52 | t_iso    nan | 0.985  0.31 1.26 | cf 0.31 sim 0.34 | obs 0.991 0.81 | weak 0.960 0.38 1.18 | nobound 0.0  drop0.9
+Ea    60 B 0.02 tSL   18 ASAP-5 iso       loss40   7.1 | SEmax  0.25 | t_iso    4.6 | 0.965  0.38 1.06 | cf 0.37 sim 0.38 | obs 0.971 0.97 | weak 0.947 0.45 1.16 | nobound 0.0
+Ea    60 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40   4.3 | SEmax  0.82 | t_iso    nan | 0.981  0.30 1.08 | cf 0.30 sim 0.31 | obs 0.997 0.60 | weak 0.959 0.41 1.26 | nobound 0.0  drop2.9
+Ea    60 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40   4.3 | SEmax  0.86 | t_iso    nan | 0.997  0.13 1.23 | cf 0.14 sim 0.16 | obs 0.997 0.63 | weak 0.973 0.27 1.47 | nobound 0.0  drop4.3
+Ea    60 B 0.02 tSL   30 ASAP-5 iso       loss40   4.3 | SEmax  0.25 | t_iso    7.7 | 0.963  0.37 1.06 | cf 0.37 sim 0.38 | obs 0.973 0.95 | weak 0.950 0.45 1.13 | nobound 0.0
+Ea    60 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   2.2 | SEmax  1.64 | t_iso    nan | 0.999  0.08 1.09 | cf 0.09 sim 0.10 | obs 1.000 0.29 | weak 0.978 0.31 1.76 | nobound 0.0  drop10.9
+Ea    60 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   2.2 | SEmax  1.73 | t_iso    nan | 1.000  0.02 1.26 | cf 0.02 sim 0.02 | obs 1.000 0.41 | weak 0.980 0.23 2.17 | nobound 0.0  drop13.2
+Ea    60 B 0.02 tSL   60 ASAP-5 iso       loss40   2.2 | SEmax  0.25 | t_iso   15.5 | 0.961  0.38 1.07 | cf 0.37 sim 0.37 | obs 0.970 0.97 | weak 0.946 0.45 1.14 | nobound 0.0  drop0.0
+Ea    60 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40   9.5 | SEmax  0.49 | t_iso    nan | 0.968  0.56 1.06 | cf 0.55 sim 0.56 | obs 0.986 0.85 | weak 0.953 0.59 1.06 | nobound 0.0  drop0.4
+Ea    60 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40   9.5 | SEmax  0.52 | t_iso    nan | 0.981  0.39 1.26 | cf 0.38 sim 0.41 | obs 0.987 0.86 | weak 0.965 0.44 1.12 | nobound 0.0  drop0.7
+Ea    60 B 0.04 tSL   18 ASAP-5 iso       loss40   9.5 | SEmax  0.25 | t_iso   14.0 | 0.964  0.38 1.07 | cf 0.37 sim 0.38 | obs 0.970 0.96 | weak 0.947 0.45 1.13 | nobound 0.0  drop0.0
+Ea    60 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40   5.8 | SEmax  0.82 | t_iso    nan | 0.971  0.38 1.07 | cf 0.37 sim 0.38 | obs 0.993 0.68 | weak 0.957 0.45 1.17 | nobound 0.0  drop2.2
+Ea    60 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40   5.8 | SEmax  0.86 | t_iso    nan | 0.993  0.20 1.19 | cf 0.20 sim 0.22 | obs 0.996 0.71 | weak 0.968 0.31 1.30 | nobound 0.0  drop3.6
+Ea    60 B 0.04 tSL   30 ASAP-5 iso       loss40   5.8 | SEmax  0.25 | t_iso   23.3 | 0.958  0.38 1.07 | cf 0.37 sim 0.38 | obs 0.968 0.97 | weak 0.939 0.45 1.14 | nobound 0.0  drop0.0
+Ea    60 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   2.9 | SEmax  1.64 | t_iso    nan | 0.994  0.12 1.05 | cf 0.14 sim 0.14 | obs 0.999 0.37 | weak 0.976 0.31 1.51 | nobound 0.0  drop9.0
+Ea    60 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   2.9 | SEmax  1.73 | t_iso    nan | 1.000  0.03 1.20 | cf 0.04 sim 0.05 | obs 1.000 0.44 | weak 0.982 0.22 1.77 | nobound 0.0  drop10.2
+Ea    60 B 0.04 tSL   60 ASAP-5 iso       loss40   2.9 | SEmax  0.25 | t_iso   46.5 | 0.959  0.38 1.06 | cf 0.37 sim 0.38 | obs 0.968 0.97 | weak 0.940 0.45 1.14 | nobound 0.0
+Ea    60 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40  12.5 | SEmax  0.49 | t_iso    nan | 0.957  0.63 1.04 | cf 0.62 sim 0.62 | obs 0.978 0.91 | weak 0.953 0.65 1.04 | nobound 0.0  drop0.4
+Ea    60 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40  12.5 | SEmax  0.52 | t_iso    nan | 0.973  0.48 1.27 | cf 0.47 sim 0.48 | obs 0.977 0.93 | weak 0.968 0.50 1.08 | nobound 0.0  drop0.8
+Ea    60 B 0.06 tSL   18 ASAP-5 iso       loss40  12.5 | SEmax  0.25 | t_iso   41.9 | 0.967  0.38 1.05 | cf 0.37 sim 0.38 | obs 0.975 0.96 | weak 0.954 0.45 1.13 | nobound 0.0
+Ea    60 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40   7.7 | SEmax  0.82 | t_iso    nan | 0.962  0.46 1.10 | cf 0.45 sim 0.45 | obs 0.987 0.76 | weak 0.955 0.50 1.09 | nobound 0.0  drop2.0
+Ea    60 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40   7.7 | SEmax  0.86 | t_iso    nan | 0.983  0.28 1.24 | cf 0.28 sim 0.30 | obs 0.989 0.80 | weak 0.973 0.35 1.18 | nobound 0.0  drop3.2
+Ea    60 B 0.06 tSL   30 ASAP-5 iso       loss40   7.7 | SEmax  0.25 | t_iso   69.9 | 0.962  0.38 1.06 | cf 0.37 sim 0.37 | obs 0.972 0.96 | weak 0.944 0.44 1.14 | nobound 0.0
+Ea    60 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40   3.9 | SEmax  1.64 | t_iso    nan | 0.989  0.19 1.08 | cf 0.20 sim 0.20 | obs 0.999 0.46 | weak 0.978 0.32 1.31 | nobound 0.0  drop7.6
+Ea    60 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40   3.9 | SEmax  1.73 | t_iso    nan | 1.000  0.06 1.18 | cf 0.08 sim 0.07 | obs 0.999 0.55 | weak 0.994 0.22 1.54 | nobound 0.0  drop9.4
+Ea    60 B 0.06 tSL   60 ASAP-5 iso       loss40   3.9 | SEmax  0.25 | t_iso  139.8 | 0.962  0.38 1.06 | cf 0.37 sim 0.38 | obs 0.973 0.98 | weak 0.951 0.45 1.15 | nobound 0.0  drop0.0
+Ea    80 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40  10.3 | SEmax  0.33 | t_iso    nan | 0.960  0.66 1.07 | cf 0.66 sim 0.66 | obs 0.980 0.92 | weak 0.964 0.67 1.01 | nobound 0.0  drop0.0
+Ea    80 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40  10.3 | SEmax  0.35 | t_iso    nan | 0.972  0.47 1.31 | cf 0.46 sim 0.48 | obs 0.979 0.90 | weak 0.982 0.48 1.01 | nobound 0.0  drop0.1
+Ea    80 B 0.02 tSL   18 ASAP-5 iso       loss40  10.3 | SEmax  0.25 | t_iso    2.3 | 0.959  0.38 1.06 | cf 0.37 sim 0.38 | obs 0.969 0.98 | weak 0.969 0.41 1.02 | nobound 0.0
+Ea    80 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40   6.3 | SEmax  0.56 | t_iso    nan | 0.962  0.50 1.07 | cf 0.50 sim 0.50 | obs 0.987 0.79 | weak 0.969 0.52 1.00 | nobound 0.0  drop0.8
+Ea    80 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40   6.3 | SEmax  0.59 | t_iso    nan | 0.994  0.27 1.29 | cf 0.27 sim 0.29 | obs 0.995 0.77 | weak 0.997 0.33 1.01 | nobound 0.0  drop1.3
+Ea    80 B 0.02 tSL   30 ASAP-5 iso       loss40   6.3 | SEmax  0.25 | t_iso    3.8 | 0.957  0.38 1.06 | cf 0.37 sim 0.37 | obs 0.968 0.98 | weak 0.970 0.41 1.02 | nobound 0.0  drop0.0
+Ea    80 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   3.2 | SEmax  1.11 | t_iso    nan | 0.988  0.25 1.08 | cf 0.25 sim 0.26 | obs 0.999 0.50 | weak 0.995 0.32 1.02 | nobound 0.0  drop5.0
+Ea    80 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   3.2 | SEmax  1.18 | t_iso    nan | 1.000  0.07 1.28 | cf 0.07 sim 0.09 | obs 1.000 0.53 | weak 1.000 0.18 1.03 | nobound 0.0  drop8.0
+Ea    80 B 0.02 tSL   60 ASAP-5 iso       loss40   3.2 | SEmax  0.25 | t_iso    7.5 | 0.959  0.38 1.07 | cf 0.37 sim 0.38 | obs 0.971 0.95 | weak 0.970 0.40 1.00 | nobound 0.0  drop0.0
+Ea    80 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40  13.6 | SEmax  0.33 | t_iso    nan | 0.956  0.71 1.09 | cf 0.71 sim 0.71 | obs 0.972 0.94 | weak 0.958 0.71 1.00 | nobound 0.0  drop0.0
+Ea    80 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40  13.6 | SEmax  0.35 | t_iso    nan | 0.965  0.55 1.28 | cf 0.53 sim 0.55 | obs 0.973 0.93 | weak 0.969 0.56 1.00 | nobound 0.0  drop0.0
+Ea    80 B 0.04 tSL   18 ASAP-5 iso       loss40  13.6 | SEmax  0.25 | t_iso    4.8 | 0.956  0.38 1.08 | cf 0.37 sim 0.37 | obs 0.967 0.96 | weak 0.967 0.40 0.99 | nobound 0.0  drop0.0
+Ea    80 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40   8.4 | SEmax  0.56 | t_iso    nan | 0.965  0.57 1.06 | cf 0.56 sim 0.57 | obs 0.984 0.84 | weak 0.969 0.58 1.00 | nobound 0.0  drop0.6
+Ea    80 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40   8.4 | SEmax  0.59 | t_iso    nan | 0.982  0.35 1.28 | cf 0.35 sim 0.37 | obs 0.986 0.83 | weak 0.990 0.39 1.00 | nobound 0.0  drop1.3
+Ea    80 B 0.04 tSL   30 ASAP-5 iso       loss40   8.4 | SEmax  0.25 | t_iso    8.1 | 0.963  0.37 1.06 | cf 0.37 sim 0.37 | obs 0.971 0.96 | weak 0.971 0.40 0.99 | nobound 0.0
+Ea    80 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   4.3 | SEmax  1.11 | t_iso    nan | 0.976  0.32 1.07 | cf 0.32 sim 0.33 | obs 0.993 0.60 | weak 0.986 0.37 0.98 | nobound 0.0  drop4.0
+Ea    80 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   4.3 | SEmax  1.18 | t_iso    nan | 0.998  0.11 1.25 | cf 0.12 sim 0.13 | obs 0.999 0.59 | weak 0.999 0.22 1.00 | nobound 0.0  drop6.4
+Ea    80 B 0.04 tSL   60 ASAP-5 iso       loss40   4.3 | SEmax  0.25 | t_iso   16.1 | 0.965  0.38 1.03 | cf 0.37 sim 0.37 | obs 0.973 0.96 | weak 0.976 0.41 1.01 | nobound 0.0  drop0.0
+Ea    80 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40  17.9 | SEmax  0.33 | t_iso    nan | 0.961  0.76 1.06 | cf 0.76 sim 0.76 | obs 0.974 0.96 | weak 0.964 0.76 1.00 | nobound 0.0  drop0.1
+Ea    80 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40  17.9 | SEmax  0.35 | t_iso    nan | 0.967  0.62 1.28 | cf 0.60 sim 0.62 | obs 0.971 0.96 | weak 0.974 0.62 1.00 | nobound 0.0  drop0.1
+Ea    80 B 0.06 tSL   18 ASAP-5 iso       loss40  17.9 | SEmax  0.25 | t_iso   14.6 | 0.958  0.39 1.05 | cf 0.37 sim 0.38 | obs 0.969 0.98 | weak 0.971 0.41 1.01 | nobound 0.0  drop0.0
+Ea    80 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40  11.2 | SEmax  0.56 | t_iso    nan | 0.959  0.64 1.09 | cf 0.63 sim 0.64 | obs 0.982 0.90 | weak 0.967 0.64 1.00 | nobound 0.0  drop0.6
+Ea    80 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40  11.2 | SEmax  0.59 | t_iso    nan | 0.970  0.44 1.31 | cf 0.43 sim 0.46 | obs 0.977 0.90 | weak 0.984 0.46 1.00 | nobound 0.0  drop1.0
+Ea    80 B 0.06 tSL   30 ASAP-5 iso       loss40  11.2 | SEmax  0.25 | t_iso   24.3 | 0.961  0.38 1.07 | cf 0.37 sim 0.38 | obs 0.968 0.96 | weak 0.974 0.40 0.99 | nobound 0.0
+Ea    80 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40   5.7 | SEmax  1.11 | t_iso    nan | 0.971  0.40 1.08 | cf 0.40 sim 0.41 | obs 0.992 0.70 | weak 0.982 0.42 0.98 | nobound 0.0  drop3.4
+Ea    80 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40   5.7 | SEmax  1.18 | t_iso    nan | 0.995  0.17 1.24 | cf 0.19 sim 0.20 | obs 0.996 0.67 | weak 1.000 0.25 0.96 | nobound 0.0  drop5.2
+Ea    80 B 0.06 tSL   60 ASAP-5 iso       loss40   5.7 | SEmax  0.25 | t_iso   48.5 | 0.960  0.39 1.06 | cf 0.37 sim 0.38 | obs 0.970 0.99 | weak 0.973 0.41 1.02 | nobound 0.0
+Ea   100 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40  14.7 | SEmax  0.23 | t_iso    nan | 0.956  0.79 1.07 | cf 0.79 sim 0.79 | obs 0.972 0.97 | weak 0.968 0.78 0.99 | nobound 0.0
+Ea   100 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40  14.7 | SEmax  0.24 | t_iso    nan | 0.966  0.60 1.25 | cf 0.59 sim 0.61 | obs 0.970 0.95 | weak 0.994 0.58 0.97 | nobound 0.0
+Ea   100 B 0.02 tSL   18 ASAP-5 iso       loss40  14.7 | SEmax  0.25 | t_iso    1.2 | 0.961  0.38 1.06 | cf 0.37 sim 0.38 | obs 0.970 0.97 | weak 0.990 0.36 0.90 | nobound 0.0  drop0.0
+Ea   100 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40   9.1 | SEmax  0.38 | t_iso    nan | 0.961  0.68 1.05 | cf 0.67 sim 0.68 | obs 0.979 0.92 | weak 0.974 0.66 0.98 | nobound 0.0  drop0.1
+Ea   100 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40   9.1 | SEmax  0.40 | t_iso    nan | 0.979  0.42 1.30 | cf 0.41 sim 0.44 | obs 0.983 0.86 | weak 1.000 0.41 0.91 | nobound 0.0  drop0.2
+Ea   100 B 0.02 tSL   30 ASAP-5 iso       loss40   9.1 | SEmax  0.25 | t_iso    2.0 | 0.960  0.37 1.07 | cf 0.37 sim 0.37 | obs 0.966 0.97 | weak 0.988 0.35 0.88 | nobound 0.0  drop0.0
+Ea   100 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   4.7 | SEmax  0.76 | t_iso    nan | 0.969  0.46 1.05 | cf 0.45 sim 0.46 | obs 0.989 0.75 | weak 0.992 0.44 0.93 | nobound 0.0  drop2.3
+Ea   100 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   4.7 | SEmax  0.80 | t_iso    nan | 0.995  0.16 1.24 | cf 0.17 sim 0.19 | obs 0.997 0.64 | weak 1.000 0.21 0.80 | nobound 0.0  drop4.0
+Ea   100 B 0.02 tSL   60 ASAP-5 iso       loss40   4.7 | SEmax  0.25 | t_iso    4.0 | 0.955  0.38 1.07 | cf 0.37 sim 0.37 | obs 0.965 0.98 | weak 0.990 0.36 0.90 | nobound 0.0
+Ea   100 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40  19.4 | SEmax  0.23 | t_iso    nan | 0.953  0.83 1.08 | cf 0.82 sim 0.83 | obs 0.965 0.98 | weak 0.961 0.82 0.99 | nobound 0.0
+Ea   100 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40  19.4 | SEmax  0.24 | t_iso    nan | 0.961  0.67 1.25 | cf 0.65 sim 0.67 | obs 0.966 0.96 | weak 0.986 0.65 0.98 | nobound 0.0
+Ea   100 B 0.04 tSL   18 ASAP-5 iso       loss40  19.4 | SEmax  0.25 | t_iso    1.7 | 0.956  0.38 1.06 | cf 0.37 sim 0.37 | obs 0.967 0.97 | weak 0.990 0.36 0.89 | nobound 0.0
+Ea   100 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40  12.1 | SEmax  0.38 | t_iso    nan | 0.953  0.72 1.08 | cf 0.72 sim 0.73 | obs 0.973 0.94 | weak 0.968 0.71 0.98 | nobound 0.0  drop0.1
+Ea   100 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40  12.1 | SEmax  0.40 | t_iso    nan | 0.972  0.50 1.26 | cf 0.49 sim 0.51 | obs 0.978 0.91 | weak 0.998 0.48 0.95 | nobound 0.0  drop0.1
+Ea   100 B 0.04 tSL   30 ASAP-5 iso       loss40  12.1 | SEmax  0.25 | t_iso    2.8 | 0.959  0.39 1.05 | cf 0.37 sim 0.38 | obs 0.968 0.98 | weak 0.992 0.36 0.89 | nobound 0.0  drop0.0
+Ea   100 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   6.3 | SEmax  0.76 | t_iso    nan | 0.970  0.53 1.05 | cf 0.52 sim 0.53 | obs 0.987 0.81 | weak 0.989 0.51 0.94 | nobound 0.0  drop1.7
+Ea   100 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   6.3 | SEmax  0.80 | t_iso    nan | 0.993  0.23 1.21 | cf 0.24 sim 0.26 | obs 0.996 0.75 | weak 1.000 0.27 0.84 | nobound 0.0  drop3.0
+Ea   100 B 0.04 tSL   60 ASAP-5 iso       loss40   6.3 | SEmax  0.25 | t_iso    5.6 | 0.966  0.38 1.04 | cf 0.37 sim 0.38 | obs 0.975 0.96 | weak 0.991 0.35 0.89 | nobound 0.0
+Ea   100 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40  25.2 | SEmax  0.23 | t_iso    nan | 0.952  0.86 1.07 | cf 0.86 sim 0.86 | obs 0.965 0.99 | weak 0.961 0.85 1.00 | nobound 0.0
+Ea   100 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40  25.2 | SEmax  0.24 | t_iso    nan | 0.960  0.72 1.27 | cf 0.71 sim 0.73 | obs 0.964 0.98 | weak 0.987 0.70 0.99 | nobound 0.0
+Ea   100 B 0.06 tSL   18 ASAP-5 iso       loss40  25.2 | SEmax  0.25 | t_iso    5.1 | 0.961  0.38 1.04 | cf 0.37 sim 0.38 | obs 0.973 0.97 | weak 0.992 0.35 0.88 | nobound 0.0
+Ea   100 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40  16.0 | SEmax  0.38 | t_iso    nan | 0.959  0.78 1.05 | cf 0.77 sim 0.78 | obs 0.971 0.97 | weak 0.971 0.77 0.99 | nobound 0.0  drop0.1
+Ea   100 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40  16.0 | SEmax  0.40 | t_iso    nan | 0.969  0.58 1.26 | cf 0.57 sim 0.59 | obs 0.975 0.94 | weak 0.997 0.56 0.96 | nobound 0.0  drop0.2
+Ea   100 B 0.06 tSL   30 ASAP-5 iso       loss40  16.0 | SEmax  0.25 | t_iso    8.4 | 0.963  0.39 1.03 | cf 0.37 sim 0.38 | obs 0.972 0.98 | weak 0.992 0.36 0.90 | nobound 0.0
+Ea   100 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40   8.3 | SEmax  0.76 | t_iso    nan | 0.960  0.60 1.08 | cf 0.60 sim 0.60 | obs 0.982 0.87 | weak 0.978 0.58 0.96 | nobound 0.0  drop1.5
+Ea   100 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40   8.3 | SEmax  0.80 | t_iso    nan | 0.988  0.33 1.28 | cf 0.32 sim 0.35 | obs 0.989 0.82 | weak 1.000 0.33 0.87 | nobound 0.0  drop2.5
+Ea   100 B 0.06 tSL   60 ASAP-5 iso       loss40   8.3 | SEmax  0.25 | t_iso   16.8 | 0.960  0.38 1.07 | cf 0.37 sim 0.37 | obs 0.971 0.99 | weak 0.990 0.35 0.90 | nobound 0.0
+Ea   120 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40  20.9 | SEmax  0.15 | t_iso    nan | 0.947  0.88 1.11 | cf 0.87 sim 0.88 | obs 0.957 0.99 | weak 0.967 0.86 1.00 | nobound 0.0
+Ea   120 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40  20.9 | SEmax  0.16 | t_iso    nan | 0.959  0.71 1.29 | cf 0.70 sim 0.72 | obs 0.966 0.97 | weak 0.998 0.65 0.96 | nobound 0.0
+Ea   120 B 0.02 tSL   18 ASAP-5 iso       loss40  20.9 | SEmax  0.25 | t_iso    0.6 | 0.963  0.38 1.08 | cf 0.37 sim 0.38 | obs 0.970 0.96 | weak 0.998 0.30 0.78 | nobound 0.0  drop0.0
+Ea   120 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40  13.1 | SEmax  0.26 | t_iso    nan | 0.954  0.80 1.06 | cf 0.80 sim 0.80 | obs 0.968 0.97 | weak 0.978 0.78 0.98 | nobound 0.0
+Ea   120 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40  13.1 | SEmax  0.27 | t_iso    nan | 0.963  0.56 1.27 | cf 0.55 sim 0.57 | obs 0.970 0.93 | weak 1.000 0.49 0.92 | nobound 0.0
+Ea   120 B 0.02 tSL   30 ASAP-5 iso       loss40  13.1 | SEmax  0.25 | t_iso    1.1 | 0.958  0.38 1.05 | cf 0.37 sim 0.38 | obs 0.970 0.97 | weak 0.999 0.30 0.78 | nobound 0.0  drop0.0
+Ea   120 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   6.8 | SEmax  0.51 | t_iso    nan | 0.957  0.64 1.09 | cf 0.64 sim 0.65 | obs 0.978 0.89 | weak 0.989 0.60 0.93 | nobound 0.0  drop0.6
+Ea   120 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   6.8 | SEmax  0.54 | t_iso    nan | 0.994  0.30 1.23 | cf 0.30 sim 0.32 | obs 0.996 0.77 | weak 1.000 0.26 0.77 | nobound 0.0  drop1.0
+Ea   120 B 0.02 tSL   60 ASAP-5 iso       loss40   6.8 | SEmax  0.25 | t_iso    2.2 | 0.959  0.38 1.09 | cf 0.37 sim 0.38 | obs 0.968 0.97 | weak 0.998 0.30 0.78 | nobound 0.0  drop0.0
+Ea   120 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40  27.1 | SEmax  0.15 | t_iso    nan | 0.951  0.90 1.08 | cf 0.90 sim 0.90 | obs 0.960 0.99 | weak 0.969 0.89 1.00 | nobound 0.0
+Ea   120 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40  27.1 | SEmax  0.16 | t_iso    nan | 0.962  0.76 1.31 | cf 0.75 sim 0.76 | obs 0.965 0.98 | weak 0.994 0.71 0.97 | nobound 0.0
+Ea   120 B 0.04 tSL   18 ASAP-5 iso       loss40  27.1 | SEmax  0.25 | t_iso    0.6 | 0.961  0.37 1.06 | cf 0.37 sim 0.37 | obs 0.972 0.96 | weak 0.998 0.30 0.77 | nobound 0.0  drop0.0
+Ea   120 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40  17.3 | SEmax  0.26 | t_iso    nan | 0.950  0.84 1.09 | cf 0.83 sim 0.84 | obs 0.962 0.98 | weak 0.974 0.82 0.99 | nobound 0.0
+Ea   120 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40  17.3 | SEmax  0.27 | t_iso    nan | 0.963  0.63 1.28 | cf 0.62 sim 0.64 | obs 0.967 0.95 | weak 1.000 0.56 0.94 | nobound 0.0
+Ea   120 B 0.04 tSL   30 ASAP-5 iso       loss40  17.3 | SEmax  0.25 | t_iso    1.0 | 0.960  0.37 1.07 | cf 0.37 sim 0.37 | obs 0.969 0.96 | weak 0.998 0.30 0.77 | nobound 0.0  drop0.0
+Ea   120 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   9.1 | SEmax  0.51 | t_iso    nan | 0.959  0.70 1.07 | cf 0.70 sim 0.70 | obs 0.975 0.93 | weak 0.985 0.66 0.96 | nobound 0.0  drop0.4
+Ea   120 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   9.1 | SEmax  0.54 | t_iso    nan | 0.980  0.39 1.27 | cf 0.38 sim 0.40 | obs 0.985 0.85 | weak 1.000 0.33 0.84 | nobound 0.0  drop0.8
+Ea   120 B 0.04 tSL   60 ASAP-5 iso       loss40   9.1 | SEmax  0.25 | t_iso    1.9 | 0.957  0.38 1.08 | cf 0.37 sim 0.37 | obs 0.966 0.97 | weak 0.998 0.30 0.79 | nobound 0.0
+Ea   120 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40  34.8 | SEmax  0.15 | t_iso    nan | 0.946  0.92 1.09 | cf 0.92 sim 0.92 | obs 0.953 1.00 | weak 0.964 0.91 1.00 | nobound 0.0
+Ea   120 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40  34.8 | SEmax  0.16 | t_iso    nan | 0.959  0.81 1.29 | cf 0.80 sim 0.81 | obs 0.963 0.99 | weak 0.994 0.76 0.98 | nobound 0.0
+Ea   120 B 0.06 tSL   18 ASAP-5 iso       loss40  34.8 | SEmax  0.25 | t_iso    1.8 | 0.962  0.37 1.05 | cf 0.37 sim 0.37 | obs 0.972 0.97 | weak 0.998 0.30 0.77 | nobound 0.0  drop0.0
+Ea   120 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40  22.6 | SEmax  0.26 | t_iso    nan | 0.950  0.87 1.07 | cf 0.87 sim 0.87 | obs 0.961 0.99 | weak 0.969 0.86 0.99 | nobound 0.0
+Ea   120 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40  22.6 | SEmax  0.27 | t_iso    nan | 0.962  0.69 1.33 | cf 0.68 sim 0.70 | obs 0.966 0.97 | weak 0.998 0.63 0.96 | nobound 0.0
+Ea   120 B 0.06 tSL   30 ASAP-5 iso       loss40  22.6 | SEmax  0.25 | t_iso    2.9 | 0.959  0.38 1.05 | cf 0.37 sim 0.37 | obs 0.970 0.98 | weak 0.999 0.30 0.79 | nobound 0.0  drop0.0
+Ea   120 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40  12.0 | SEmax  0.51 | t_iso    nan | 0.959  0.75 1.08 | cf 0.75 sim 0.76 | obs 0.975 0.96 | weak 0.983 0.72 0.98 | nobound 0.0  drop0.4
+Ea   120 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40  12.0 | SEmax  0.54 | t_iso    nan | 0.973  0.48 1.28 | cf 0.47 sim 0.49 | obs 0.979 0.91 | weak 1.000 0.41 0.89 | nobound 0.0  drop0.6
+Ea   120 B 0.06 tSL   60 ASAP-5 iso       loss40  12.0 | SEmax  0.25 | t_iso    5.8 | 0.961  0.38 1.07 | cf 0.37 sim 0.38 | obs 0.966 0.96 | weak 0.998 0.30 0.78 | nobound 0.0  drop0.0
+
+=================== noise: degradant sigma = 0.0075 ===================
+Ea    40 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40   4.9 | SEmax  0.27 | t_iso    nan | 0.958  0.64 1.10 | cf 0.63 sim 0.64 | obs 0.976 0.92 | weak 0.940 0.67 1.09 | nobound 0.0
+Ea    40 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40   4.9 | SEmax  0.29 | t_iso    nan | 0.972  0.53 1.27 | cf 0.51 sim 0.54 | obs 0.978 0.94 | weak 0.966 0.53 1.13 | nobound 0.0  drop0.0
+Ea    40 B 0.02 tSL   18 ASAP-5 iso       loss40   4.9 | SEmax  0.10 | t_iso   13.4 | 0.956  0.69 1.10 | cf 0.69 sim 0.70 | obs 0.959 0.99 | weak 0.949 0.70 1.04 | nobound 0.0
+Ea    40 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40   3.0 | SEmax  0.45 | t_iso    nan | 0.963  0.47 1.07 | cf 0.46 sim 0.47 | obs 0.988 0.80 | weak 0.919 0.56 1.25 | nobound 0.0  drop0.3
+Ea    40 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40   3.0 | SEmax  0.48 | t_iso    nan | 0.976  0.34 1.27 | cf 0.33 sim 0.35 | obs 0.981 0.84 | weak 0.932 0.40 1.41 | nobound 0.0  drop0.5
+Ea    40 B 0.02 tSL   30 ASAP-5 iso       loss40   3.0 | SEmax  0.10 | t_iso   22.3 | 0.952  0.69 1.08 | cf 0.69 sim 0.70 | obs 0.956 1.00 | weak 0.947 0.70 1.04 | nobound 0.0
+Ea    40 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   1.5 | SEmax  0.91 | t_iso    nan | 0.991  0.21 1.06 | cf 0.21 sim 0.22 | obs 0.999 0.53 | weak 0.891 0.46 2.01 | nobound 0.0  drop4.2
+Ea    40 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   1.5 | SEmax  0.95 | t_iso    nan | 0.997  0.09 1.25 | cf 0.11 sim 0.11 | obs 0.998 0.62 | weak 0.870 0.36 3.02 | nobound 0.0  drop5.8
+Ea    40 B 0.02 tSL   60 ASAP-5 iso       loss40   1.5 | SEmax  0.10 | t_iso   44.6 | 0.953  0.70 1.10 | cf 0.69 sim 0.70 | obs 0.955 1.00 | weak 0.947 0.71 1.04 | nobound 0.0
+Ea    40 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40   6.5 | SEmax  0.27 | t_iso    nan | 0.956  0.68 1.07 | cf 0.68 sim 0.69 | obs 0.974 0.93 | weak 0.941 0.70 1.04 | nobound 0.0
+Ea    40 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40   6.5 | SEmax  0.29 | t_iso    nan | 0.964  0.59 1.27 | cf 0.58 sim 0.59 | obs 0.969 0.95 | weak 0.966 0.57 1.08 | nobound 0.0  drop0.0
+Ea    40 B 0.04 tSL   18 ASAP-5 iso       loss40   6.5 | SEmax  0.10 | t_iso   40.2 | 0.953  0.70 1.09 | cf 0.69 sim 0.70 | obs 0.956 1.00 | weak 0.945 0.71 1.04 | nobound 0.0
+Ea    40 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40   4.0 | SEmax  0.45 | t_iso    nan | 0.965  0.53 1.07 | cf 0.53 sim 0.54 | obs 0.984 0.85 | weak 0.936 0.59 1.13 | nobound 0.0  drop0.2
+Ea    40 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40   4.0 | SEmax  0.48 | t_iso    nan | 0.976  0.41 1.22 | cf 0.40 sim 0.42 | obs 0.983 0.88 | weak 0.953 0.43 1.22 | nobound 0.0  drop0.5
+Ea    40 B 0.04 tSL   30 ASAP-5 iso       loss40   4.0 | SEmax  0.10 | t_iso   67.0 | 0.957  0.69 1.08 | cf 0.69 sim 0.70 | obs 0.958 0.99 | weak 0.951 0.70 1.03 | nobound 0.0
+Ea    40 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   2.0 | SEmax  0.91 | t_iso    nan | 0.981  0.28 1.06 | cf 0.28 sim 0.28 | obs 0.995 0.59 | weak 0.910 0.45 1.58 | nobound 0.0  drop3.1
+Ea    40 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   2.0 | SEmax  0.95 | t_iso    nan | 0.995  0.14 1.24 | cf 0.16 sim 0.16 | obs 0.996 0.66 | weak 0.903 0.32 2.18 | nobound 0.0  drop4.6
+Ea    40 B 0.04 tSL   60 ASAP-5 iso       loss40   2.0 | SEmax  0.10 | t_iso  134.0 | 0.954  0.70 1.11 | cf 0.69 sim 0.70 | obs 0.957 0.99 | weak 0.945 0.71 1.04 | nobound 0.0
+Ea    40 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40   8.7 | SEmax  0.27 | t_iso    nan | 0.950  0.74 1.09 | cf 0.73 sim 0.74 | obs 0.972 0.96 | weak 0.946 0.74 1.03 | nobound 0.0
+Ea    40 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40   8.7 | SEmax  0.29 | t_iso    nan | 0.960  0.65 1.31 | cf 0.64 sim 0.66 | obs 0.965 0.96 | weak 0.975 0.62 1.04 | nobound 0.0  drop0.0
+Ea    40 B 0.06 tSL   18 ASAP-5 iso       loss40   8.7 | SEmax  0.10 | t_iso  120.8 | 0.953  0.70 1.11 | cf 0.69 sim 0.70 | obs 0.955 1.00 | weak 0.949 0.70 1.04 | nobound 0.0
+Ea    40 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40   5.3 | SEmax  0.45 | t_iso    nan | 0.960  0.60 1.07 | cf 0.59 sim 0.59 | obs 0.982 0.89 | weak 0.946 0.63 1.09 | nobound 0.0  drop0.2
+Ea    40 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40   5.3 | SEmax  0.48 | t_iso    nan | 0.965  0.49 1.26 | cf 0.47 sim 0.49 | obs 0.971 0.92 | weak 0.968 0.47 1.12 | nobound 0.0  drop0.5
+Ea    40 B 0.06 tSL   30 ASAP-5 iso       loss40   5.3 | SEmax  0.10 | t_iso  201.3 | 0.953  0.69 1.10 | cf 0.69 sim 0.70 | obs 0.956 0.99 | weak 0.949 0.70 1.04 | nobound 0.0
+Ea    40 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40   2.7 | SEmax  0.91 | t_iso    nan | 0.977  0.36 1.04 | cf 0.35 sim 0.35 | obs 0.994 0.70 | weak 0.935 0.47 1.34 | nobound 0.0  drop3.0
+Ea    40 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40   2.7 | SEmax  0.95 | t_iso    nan | 0.989  0.21 1.23 | cf 0.22 sim 0.22 | obs 0.993 0.77 | weak 0.942 0.31 1.60 | nobound 0.0  drop3.9
+Ea    40 B 0.06 tSL   60 ASAP-5 iso       loss40   2.7 | SEmax  0.10 | t_iso  402.6 | 0.950  0.70 1.11 | cf 0.69 sim 0.70 | obs 0.956 0.99 | weak 0.945 0.71 1.04 | nobound 0.0
+Ea    50 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40   5.9 | SEmax  0.22 | t_iso    nan | 0.962  0.70 1.05 | cf 0.70 sim 0.71 | obs 0.977 0.94 | weak 0.953 0.72 1.03 | nobound 0.0
+Ea    50 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40   5.9 | SEmax  0.24 | t_iso    nan | 0.961  0.60 1.29 | cf 0.58 sim 0.60 | obs 0.968 0.95 | weak 0.958 0.59 1.06 | nobound 0.0
+Ea    50 B 0.02 tSL   18 ASAP-5 iso       loss40   5.9 | SEmax  0.10 | t_iso    7.9 | 0.953  0.69 1.09 | cf 0.69 sim 0.70 | obs 0.956 0.99 | weak 0.947 0.70 1.03 | nobound 0.0
+Ea    50 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40   3.6 | SEmax  0.37 | t_iso    nan | 0.965  0.56 1.09 | cf 0.55 sim 0.56 | obs 0.989 0.86 | weak 0.943 0.60 1.09 | nobound 0.0  drop0.1
+Ea    50 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40   3.6 | SEmax  0.39 | t_iso    nan | 0.981  0.41 1.26 | cf 0.41 sim 0.43 | obs 0.988 0.87 | weak 0.959 0.45 1.17 | nobound 0.0  drop0.2
+Ea    50 B 0.02 tSL   30 ASAP-5 iso       loss40   3.6 | SEmax  0.10 | t_iso   13.1 | 0.949  0.70 1.10 | cf 0.69 sim 0.70 | obs 0.952 1.00 | weak 0.943 0.71 1.03 | nobound 0.0
+Ea    50 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   1.8 | SEmax  0.75 | t_iso    nan | 0.979  0.31 1.04 | cf 0.31 sim 0.31 | obs 0.997 0.62 | weak 0.931 0.45 1.41 | nobound 0.0  drop2.3
+Ea    50 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   1.8 | SEmax  0.79 | t_iso    nan | 0.992  0.15 1.24 | cf 0.17 sim 0.19 | obs 0.995 0.65 | weak 0.938 0.30 1.72 | nobound 0.0  drop3.5
+Ea    50 B 0.02 tSL   60 ASAP-5 iso       loss40   1.8 | SEmax  0.10 | t_iso   26.3 | 0.956  0.70 1.09 | cf 0.69 sim 0.69 | obs 0.959 1.00 | weak 0.949 0.71 1.03 | nobound 0.0
+Ea    50 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40   7.9 | SEmax  0.22 | t_iso    nan | 0.957  0.75 1.08 | cf 0.75 sim 0.75 | obs 0.971 0.96 | weak 0.950 0.76 1.02 | nobound 0.0
+Ea    50 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40   7.9 | SEmax  0.24 | t_iso    nan | 0.959  0.66 1.28 | cf 0.64 sim 0.66 | obs 0.964 0.96 | weak 0.961 0.65 1.04 | nobound 0.0
+Ea    50 B 0.04 tSL   18 ASAP-5 iso       loss40   7.9 | SEmax  0.10 | t_iso   23.7 | 0.955  0.70 1.09 | cf 0.69 sim 0.70 | obs 0.958 1.00 | weak 0.948 0.71 1.03 | nobound 0.0
+Ea    50 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40   4.8 | SEmax  0.37 | t_iso    nan | 0.959  0.62 1.06 | cf 0.61 sim 0.62 | obs 0.980 0.90 | weak 0.945 0.65 1.07 | nobound 0.0  drop0.1
+Ea    50 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40   4.8 | SEmax  0.39 | t_iso    nan | 0.974  0.49 1.24 | cf 0.48 sim 0.50 | obs 0.980 0.91 | weak 0.961 0.50 1.10 | nobound 0.0  drop0.1
+Ea    50 B 0.04 tSL   30 ASAP-5 iso       loss40   4.8 | SEmax  0.10 | t_iso   39.5 | 0.953  0.70 1.11 | cf 0.69 sim 0.70 | obs 0.954 0.99 | weak 0.944 0.71 1.03 | nobound 0.0
+Ea    50 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   2.4 | SEmax  0.75 | t_iso    nan | 0.966  0.39 1.09 | cf 0.38 sim 0.38 | obs 0.992 0.70 | weak 0.934 0.48 1.26 | nobound 0.0  drop1.8
+Ea    50 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   2.4 | SEmax  0.79 | t_iso    nan | 0.992  0.22 1.22 | cf 0.23 sim 0.24 | obs 0.993 0.76 | weak 0.942 0.34 1.47 | nobound 0.0  drop2.9
+Ea    50 B 0.04 tSL   60 ASAP-5 iso       loss40   2.4 | SEmax  0.10 | t_iso   79.0 | 0.957  0.69 1.07 | cf 0.69 sim 0.69 | obs 0.957 0.99 | weak 0.949 0.70 1.02 | nobound 0.0
+Ea    50 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40  10.5 | SEmax  0.22 | t_iso    nan | 0.958  0.79 1.06 | cf 0.79 sim 0.79 | obs 0.971 0.97 | weak 0.956 0.79 1.01 | nobound 0.0  drop0.0
+Ea    50 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40  10.5 | SEmax  0.24 | t_iso    nan | 0.957  0.71 1.26 | cf 0.70 sim 0.72 | obs 0.963 0.98 | weak 0.968 0.69 1.02 | nobound 0.0
+Ea    50 B 0.06 tSL   18 ASAP-5 iso       loss40  10.5 | SEmax  0.10 | t_iso   71.2 | 0.957  0.70 1.07 | cf 0.69 sim 0.70 | obs 0.960 1.00 | weak 0.951 0.71 1.03 | nobound 0.0
+Ea    50 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40   6.4 | SEmax  0.37 | t_iso    nan | 0.958  0.67 1.07 | cf 0.67 sim 0.68 | obs 0.978 0.92 | weak 0.950 0.69 1.03 | nobound 0.0  drop0.1
+Ea    50 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40   6.4 | SEmax  0.39 | t_iso    nan | 0.965  0.57 1.26 | cf 0.55 sim 0.57 | obs 0.971 0.94 | weak 0.969 0.56 1.06 | nobound 0.0  drop0.1
+Ea    50 B 0.06 tSL   30 ASAP-5 iso       loss40   6.4 | SEmax  0.10 | t_iso  118.6 | 0.952  0.69 1.10 | cf 0.69 sim 0.70 | obs 0.954 0.99 | weak 0.946 0.70 1.03 | nobound 0.0
+Ea    50 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40   3.3 | SEmax  0.75 | t_iso    nan | 0.971  0.46 1.07 | cf 0.45 sim 0.45 | obs 0.989 0.77 | weak 0.953 0.51 1.14 | nobound 0.0  drop1.6
+Ea    50 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40   3.3 | SEmax  0.79 | t_iso    nan | 0.986  0.31 1.22 | cf 0.30 sim 0.32 | obs 0.991 0.81 | weak 0.964 0.36 1.23 | nobound 0.0  drop2.5
+Ea    50 B 0.06 tSL   60 ASAP-5 iso       loss40   3.3 | SEmax  0.10 | t_iso  237.2 | 0.954  0.69 1.09 | cf 0.69 sim 0.70 | obs 0.956 1.00 | weak 0.950 0.70 1.03 | nobound 0.0
+Ea    60 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40   7.1 | SEmax  0.18 | t_iso    nan | 0.960  0.77 1.06 | cf 0.76 sim 0.77 | obs 0.975 0.96 | weak 0.954 0.77 1.01 | nobound 0.0
+Ea    60 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40   7.1 | SEmax  0.19 | t_iso    nan | 0.962  0.66 1.30 | cf 0.64 sim 0.66 | obs 0.966 0.97 | weak 0.961 0.66 1.03 | nobound 0.0
+Ea    60 B 0.02 tSL   18 ASAP-5 iso       loss40   7.1 | SEmax  0.10 | t_iso    4.6 | 0.953  0.70 1.10 | cf 0.69 sim 0.70 | obs 0.957 1.00 | weak 0.949 0.71 1.02 | nobound 0.0
+Ea    60 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40   4.3 | SEmax  0.31 | t_iso    nan | 0.962  0.64 1.08 | cf 0.64 sim 0.64 | obs 0.980 0.91 | weak 0.952 0.66 1.04 | nobound 0.0  drop0.0
+Ea    60 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40   4.3 | SEmax  0.32 | t_iso    nan | 0.969  0.49 1.32 | cf 0.48 sim 0.50 | obs 0.975 0.91 | weak 0.959 0.51 1.07 | nobound 0.0  drop0.0
+Ea    60 B 0.02 tSL   30 ASAP-5 iso       loss40   4.3 | SEmax  0.10 | t_iso    7.7 | 0.956  0.70 1.08 | cf 0.69 sim 0.70 | obs 0.961 1.00 | weak 0.952 0.71 1.02 | nobound 0.0
+Ea    60 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   2.2 | SEmax  0.62 | t_iso    nan | 0.969  0.41 1.07 | cf 0.40 sim 0.41 | obs 0.993 0.73 | weak 0.950 0.49 1.16 | nobound 0.0  drop1.1
+Ea    60 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   2.2 | SEmax  0.65 | t_iso    nan | 0.990  0.23 1.21 | cf 0.23 sim 0.25 | obs 0.991 0.74 | weak 0.964 0.33 1.29 | nobound 0.0  drop2.0
+Ea    60 B 0.02 tSL   60 ASAP-5 iso       loss40   2.2 | SEmax  0.10 | t_iso   15.5 | 0.950  0.70 1.12 | cf 0.69 sim 0.70 | obs 0.954 1.00 | weak 0.946 0.70 1.02 | nobound 0.0
+Ea    60 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40   9.5 | SEmax  0.18 | t_iso    nan | 0.956  0.80 1.08 | cf 0.80 sim 0.80 | obs 0.970 0.98 | weak 0.952 0.81 1.01 | nobound 0.0
+Ea    60 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40   9.5 | SEmax  0.19 | t_iso    nan | 0.954  0.71 1.28 | cf 0.70 sim 0.71 | obs 0.961 0.97 | weak 0.954 0.71 1.02 | nobound 0.0
+Ea    60 B 0.04 tSL   18 ASAP-5 iso       loss40   9.5 | SEmax  0.10 | t_iso   14.0 | 0.957  0.70 1.08 | cf 0.69 sim 0.70 | obs 0.961 1.00 | weak 0.951 0.71 1.02 | nobound 0.0
+Ea    60 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40   5.8 | SEmax  0.31 | t_iso    nan | 0.958  0.70 1.09 | cf 0.69 sim 0.70 | obs 0.974 0.94 | weak 0.951 0.71 1.03 | nobound 0.0  drop0.0
+Ea    60 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40   5.8 | SEmax  0.32 | t_iso    nan | 0.968  0.56 1.28 | cf 0.55 sim 0.57 | obs 0.978 0.94 | weak 0.960 0.58 1.05 | nobound 0.0  drop0.0
+Ea    60 B 0.04 tSL   30 ASAP-5 iso       loss40   5.8 | SEmax  0.10 | t_iso   23.3 | 0.953  0.70 1.08 | cf 0.69 sim 0.70 | obs 0.956 1.00 | weak 0.947 0.71 1.02 | nobound 0.0
+Ea    60 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   2.9 | SEmax  0.62 | t_iso    nan | 0.963  0.48 1.08 | cf 0.47 sim 0.48 | obs 0.987 0.79 | weak 0.950 0.53 1.10 | nobound 0.0  drop0.9
+Ea    60 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   2.9 | SEmax  0.65 | t_iso    nan | 0.986  0.31 1.32 | cf 0.30 sim 0.33 | obs 0.989 0.81 | weak 0.961 0.38 1.19 | nobound 0.0  drop1.6
+Ea    60 B 0.04 tSL   60 ASAP-5 iso       loss40   2.9 | SEmax  0.10 | t_iso   46.5 | 0.956  0.70 1.07 | cf 0.69 sim 0.70 | obs 0.958 0.99 | weak 0.951 0.71 1.02 | nobound 0.0
+Ea    60 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40  12.5 | SEmax  0.18 | t_iso    nan | 0.951  0.84 1.07 | cf 0.83 sim 0.84 | obs 0.961 0.98 | weak 0.950 0.84 1.00 | nobound 0.0
+Ea    60 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40  12.5 | SEmax  0.19 | t_iso    nan | 0.954  0.76 1.30 | cf 0.75 sim 0.77 | obs 0.959 0.98 | weak 0.962 0.75 1.01 | nobound 0.0
+Ea    60 B 0.06 tSL   18 ASAP-5 iso       loss40  12.5 | SEmax  0.10 | t_iso   41.9 | 0.952  0.69 1.10 | cf 0.69 sim 0.70 | obs 0.955 1.00 | weak 0.948 0.70 1.02 | nobound 0.0
+Ea    60 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40   7.7 | SEmax  0.31 | t_iso    nan | 0.946  0.75 1.12 | cf 0.74 sim 0.74 | obs 0.965 0.96 | weak 0.944 0.75 1.02 | nobound 0.0
+Ea    60 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40   7.7 | SEmax  0.32 | t_iso    nan | 0.959  0.64 1.36 | cf 0.62 sim 0.64 | obs 0.966 0.97 | weak 0.962 0.63 1.03 | nobound 0.0  drop0.0
+Ea    60 B 0.06 tSL   30 ASAP-5 iso       loss40   7.7 | SEmax  0.10 | t_iso   69.9 | 0.952  0.70 1.08 | cf 0.69 sim 0.70 | obs 0.955 1.00 | weak 0.948 0.71 1.02 | nobound 0.0
+Ea    60 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40   3.9 | SEmax  0.62 | t_iso    nan | 0.958  0.55 1.10 | cf 0.55 sim 0.56 | obs 0.980 0.84 | weak 0.953 0.58 1.05 | nobound 0.0  drop0.9
+Ea    60 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40   3.9 | SEmax  0.65 | t_iso    nan | 0.975  0.39 1.26 | cf 0.38 sim 0.40 | obs 0.981 0.87 | weak 0.966 0.43 1.12 | nobound 0.0  drop1.7
+Ea    60 B 0.06 tSL   60 ASAP-5 iso       loss40   3.9 | SEmax  0.10 | t_iso  139.8 | 0.957  0.70 1.09 | cf 0.69 sim 0.70 | obs 0.957 1.00 | weak 0.952 0.70 1.03 | nobound 0.0
+Ea    80 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40  10.3 | SEmax  0.13 | t_iso    nan | 0.956  0.86 1.06 | cf 0.85 sim 0.86 | obs 0.967 0.99 | weak 0.957 0.86 1.00 | nobound 0.0
+Ea    80 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40  10.3 | SEmax  0.13 | t_iso    nan | 0.958  0.76 1.31 | cf 0.75 sim 0.76 | obs 0.962 0.99 | weak 0.964 0.75 1.00 | nobound 0.0
+Ea    80 B 0.02 tSL   18 ASAP-5 iso       loss40  10.3 | SEmax  0.10 | t_iso    2.3 | 0.953  0.69 1.10 | cf 0.69 sim 0.70 | obs 0.954 0.99 | weak 0.955 0.69 1.00 | nobound 0.0
+Ea    80 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40   6.3 | SEmax  0.21 | t_iso    nan | 0.953  0.77 1.08 | cf 0.77 sim 0.77 | obs 0.968 0.97 | weak 0.955 0.78 1.01 | nobound 0.0
+Ea    80 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40   6.3 | SEmax  0.22 | t_iso    nan | 0.965  0.63 1.28 | cf 0.61 sim 0.63 | obs 0.970 0.96 | weak 0.972 0.63 1.00 | nobound 0.0
+Ea    80 B 0.02 tSL   30 ASAP-5 iso       loss40   6.3 | SEmax  0.10 | t_iso    3.8 | 0.949  0.69 1.09 | cf 0.69 sim 0.70 | obs 0.953 0.99 | weak 0.953 0.69 1.00 | nobound 0.0
+Ea    80 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   3.2 | SEmax  0.42 | t_iso    nan | 0.967  0.59 1.09 | cf 0.59 sim 0.60 | obs 0.985 0.87 | weak 0.969 0.60 1.00 | nobound 0.0  drop0.1
+Ea    80 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   3.2 | SEmax  0.44 | t_iso    nan | 0.982  0.38 1.27 | cf 0.38 sim 0.40 | obs 0.988 0.85 | weak 0.993 0.41 1.00 | nobound 0.0  drop0.3
+Ea    80 B 0.02 tSL   60 ASAP-5 iso       loss40   3.2 | SEmax  0.10 | t_iso    7.5 | 0.953  0.70 1.09 | cf 0.69 sim 0.70 | obs 0.955 1.00 | weak 0.956 0.70 1.01 | nobound 0.0
+Ea    80 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40  13.6 | SEmax  0.13 | t_iso    nan | 0.948  0.88 1.09 | cf 0.88 sim 0.88 | obs 0.959 0.99 | weak 0.948 0.88 1.00 | nobound 0.0
+Ea    80 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40  13.6 | SEmax  0.13 | t_iso    nan | 0.954  0.80 1.28 | cf 0.79 sim 0.80 | obs 0.958 0.99 | weak 0.955 0.80 1.00 | nobound 0.0
+Ea    80 B 0.04 tSL   18 ASAP-5 iso       loss40  13.6 | SEmax  0.10 | t_iso    4.8 | 0.958  0.69 1.07 | cf 0.69 sim 0.70 | obs 0.961 1.00 | weak 0.959 0.70 1.00 | nobound 0.0
+Ea    80 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40   8.4 | SEmax  0.21 | t_iso    nan | 0.959  0.81 1.05 | cf 0.81 sim 0.81 | obs 0.970 0.97 | weak 0.959 0.81 1.00 | nobound 0.0
+Ea    80 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40   8.4 | SEmax  0.22 | t_iso    nan | 0.962  0.68 1.29 | cf 0.67 sim 0.69 | obs 0.968 0.96 | weak 0.964 0.68 0.99 | nobound 0.0
+Ea    80 B 0.04 tSL   30 ASAP-5 iso       loss40   8.4 | SEmax  0.10 | t_iso    8.1 | 0.955  0.70 1.07 | cf 0.69 sim 0.70 | obs 0.959 1.00 | weak 0.957 0.70 1.00 | nobound 0.0
+Ea    80 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   4.3 | SEmax  0.42 | t_iso    nan | 0.958  0.65 1.07 | cf 0.65 sim 0.66 | obs 0.977 0.91 | weak 0.962 0.66 1.00 | nobound 0.0  drop0.1
+Ea    80 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   4.3 | SEmax  0.44 | t_iso    nan | 0.977  0.47 1.25 | cf 0.45 sim 0.47 | obs 0.982 0.90 | weak 0.983 0.49 1.01 | nobound 0.0  drop0.3
+Ea    80 B 0.04 tSL   60 ASAP-5 iso       loss40   4.3 | SEmax  0.10 | t_iso   16.1 | 0.956  0.69 1.09 | cf 0.69 sim 0.70 | obs 0.959 0.99 | weak 0.957 0.70 1.00 | nobound 0.0
+Ea    80 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40  17.9 | SEmax  0.13 | t_iso    nan | 0.953  0.90 1.10 | cf 0.90 sim 0.90 | obs 0.959 0.99 | weak 0.953 0.90 1.00 | nobound 0.0
+Ea    80 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40  17.9 | SEmax  0.13 | t_iso    nan | 0.951  0.84 1.29 | cf 0.83 sim 0.84 | obs 0.955 0.99 | weak 0.959 0.83 1.00 | nobound 0.0
+Ea    80 B 0.06 tSL   18 ASAP-5 iso       loss40  17.9 | SEmax  0.10 | t_iso   14.6 | 0.951  0.70 1.10 | cf 0.69 sim 0.70 | obs 0.953 0.99 | weak 0.954 0.70 1.00 | nobound 0.0
+Ea    80 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40  11.2 | SEmax  0.21 | t_iso    nan | 0.951  0.84 1.07 | cf 0.84 sim 0.85 | obs 0.961 0.98 | weak 0.953 0.84 1.00 | nobound 0.0
+Ea    80 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40  11.2 | SEmax  0.22 | t_iso    nan | 0.959  0.74 1.25 | cf 0.73 sim 0.74 | obs 0.963 0.98 | weak 0.963 0.74 1.00 | nobound 0.0
+Ea    80 B 0.06 tSL   30 ASAP-5 iso       loss40  11.2 | SEmax  0.10 | t_iso   24.3 | 0.952  0.70 1.12 | cf 0.69 sim 0.70 | obs 0.953 1.00 | weak 0.956 0.70 1.00 | nobound 0.0
+Ea    80 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40   5.7 | SEmax  0.42 | t_iso    nan | 0.955  0.72 1.09 | cf 0.71 sim 0.72 | obs 0.976 0.94 | weak 0.959 0.72 1.00 | nobound 0.0  drop0.1
+Ea    80 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40   5.7 | SEmax  0.44 | t_iso    nan | 0.962  0.54 1.32 | cf 0.53 sim 0.55 | obs 0.968 0.93 | weak 0.974 0.55 1.00 | nobound 0.0  drop0.3
+Ea    80 B 0.06 tSL   60 ASAP-5 iso       loss40   5.7 | SEmax  0.10 | t_iso   48.5 | 0.962  0.70 1.06 | cf 0.69 sim 0.70 | obs 0.965 1.00 | weak 0.965 0.70 1.00 | nobound 0.0
+Ea   100 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40  14.7 | SEmax  0.09 | t_iso    nan | 0.952  0.92 1.06 | cf 0.91 sim 0.92 | obs 0.959 1.00 | weak 0.959 0.91 1.00 | nobound 0.0
+Ea   100 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40  14.7 | SEmax  0.09 | t_iso    nan | 0.958  0.83 1.30 | cf 0.82 sim 0.83 | obs 0.961 0.99 | weak 0.978 0.82 1.00 | nobound 0.0
+Ea   100 B 0.02 tSL   18 ASAP-5 iso       loss40  14.7 | SEmax  0.10 | t_iso    1.2 | 0.954  0.70 1.09 | cf 0.69 sim 0.70 | obs 0.957 1.00 | weak 0.968 0.68 0.99 | nobound 0.0
+Ea   100 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40   9.1 | SEmax  0.14 | t_iso    nan | 0.960  0.86 1.05 | cf 0.86 sim 0.86 | obs 0.968 0.99 | weak 0.967 0.86 1.00 | nobound 0.0
+Ea   100 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40   9.1 | SEmax  0.15 | t_iso    nan | 0.957  0.74 1.28 | cf 0.72 sim 0.74 | obs 0.962 0.99 | weak 0.982 0.71 1.00 | nobound 0.0
+Ea   100 B 0.02 tSL   30 ASAP-5 iso       loss40   9.1 | SEmax  0.10 | t_iso    2.0 | 0.958  0.69 1.08 | cf 0.69 sim 0.70 | obs 0.959 0.99 | weak 0.972 0.68 0.98 | nobound 0.0
+Ea   100 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   4.7 | SEmax  0.28 | t_iso    nan | 0.954  0.74 1.07 | cf 0.74 sim 0.75 | obs 0.971 0.95 | weak 0.966 0.73 0.98 | nobound 0.0  drop0.0
+Ea   100 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   4.7 | SEmax  0.30 | t_iso    nan | 0.968  0.53 1.26 | cf 0.52 sim 0.54 | obs 0.977 0.93 | weak 0.999 0.50 0.96 | nobound 0.0  drop0.0
+Ea   100 B 0.02 tSL   60 ASAP-5 iso       loss40   4.7 | SEmax  0.10 | t_iso    4.0 | 0.955  0.70 1.09 | cf 0.69 sim 0.70 | obs 0.958 1.00 | weak 0.970 0.68 0.98 | nobound 0.0
+Ea   100 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40  19.4 | SEmax  0.09 | t_iso    nan | 0.955  0.93 1.06 | cf 0.93 sim 0.93 | obs 0.961 1.00 | weak 0.961 0.93 1.00 | nobound 0.0
+Ea   100 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40  19.4 | SEmax  0.09 | t_iso    nan | 0.950  0.86 1.30 | cf 0.85 sim 0.86 | obs 0.955 0.99 | weak 0.970 0.85 0.99 | nobound 0.0
+Ea   100 B 0.04 tSL   18 ASAP-5 iso       loss40  19.4 | SEmax  0.10 | t_iso    1.7 | 0.958  0.70 1.09 | cf 0.69 sim 0.70 | obs 0.959 0.99 | weak 0.972 0.68 0.98 | nobound 0.0
+Ea   100 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40  12.1 | SEmax  0.14 | t_iso    nan | 0.955  0.89 1.07 | cf 0.89 sim 0.89 | obs 0.963 0.99 | weak 0.961 0.88 1.00 | nobound 0.0
+Ea   100 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40  12.1 | SEmax  0.15 | t_iso    nan | 0.957  0.77 1.29 | cf 0.76 sim 0.78 | obs 0.959 0.98 | weak 0.974 0.76 0.99 | nobound 0.0
+Ea   100 B 0.04 tSL   30 ASAP-5 iso       loss40  12.1 | SEmax  0.10 | t_iso    2.8 | 0.947  0.70 1.11 | cf 0.69 sim 0.70 | obs 0.953 0.99 | weak 0.965 0.68 0.98 | nobound 0.0
+Ea   100 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   6.3 | SEmax  0.28 | t_iso    nan | 0.957  0.79 1.05 | cf 0.78 sim 0.79 | obs 0.970 0.97 | weak 0.966 0.78 0.99 | nobound 0.0  drop0.0
+Ea   100 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   6.3 | SEmax  0.30 | t_iso    nan | 0.972  0.60 1.26 | cf 0.58 sim 0.60 | obs 0.976 0.95 | weak 0.995 0.58 0.97 | nobound 0.0  drop0.0
+Ea   100 B 0.04 tSL   60 ASAP-5 iso       loss40   6.3 | SEmax  0.10 | t_iso    5.6 | 0.957  0.69 1.09 | cf 0.69 sim 0.70 | obs 0.960 0.99 | weak 0.971 0.68 0.98 | nobound 0.0
+Ea   100 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40  25.2 | SEmax  0.09 | t_iso    nan | 0.946  0.95 1.09 | cf 0.94 sim 0.95 | obs 0.953 1.00 | weak 0.953 0.94 1.00 | nobound 0.0
+Ea   100 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40  25.2 | SEmax  0.09 | t_iso    nan | 0.952  0.89 1.29 | cf 0.88 sim 0.89 | obs 0.955 1.00 | weak 0.972 0.88 1.00 | nobound 0.0
+Ea   100 B 0.06 tSL   18 ASAP-5 iso       loss40  25.2 | SEmax  0.10 | t_iso    5.1 | 0.951  0.70 1.10 | cf 0.69 sim 0.70 | obs 0.952 0.99 | weak 0.970 0.68 0.98 | nobound 0.0
+Ea   100 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40  16.0 | SEmax  0.14 | t_iso    nan | 0.947  0.91 1.09 | cf 0.91 sim 0.91 | obs 0.954 0.99 | weak 0.955 0.91 1.00 | nobound 0.0
+Ea   100 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40  16.0 | SEmax  0.15 | t_iso    nan | 0.954  0.82 1.30 | cf 0.81 sim 0.82 | obs 0.957 0.99 | weak 0.975 0.81 1.00 | nobound 0.0
+Ea   100 B 0.06 tSL   30 ASAP-5 iso       loss40  16.0 | SEmax  0.10 | t_iso    8.4 | 0.952  0.70 1.08 | cf 0.69 sim 0.70 | obs 0.954 1.00 | weak 0.967 0.68 0.98 | nobound 0.0
+Ea   100 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40   8.3 | SEmax  0.28 | t_iso    nan | 0.952  0.83 1.09 | cf 0.82 sim 0.83 | obs 0.964 0.98 | weak 0.962 0.82 0.99 | nobound 0.0
+Ea   100 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40   8.3 | SEmax  0.30 | t_iso    nan | 0.952  0.67 1.30 | cf 0.66 sim 0.67 | obs 0.957 0.97 | weak 0.985 0.65 0.98 | nobound 0.0  drop0.0
+Ea   100 B 0.06 tSL   60 ASAP-5 iso       loss40   8.3 | SEmax  0.10 | t_iso   16.8 | 0.954  0.70 1.09 | cf 0.69 sim 0.70 | obs 0.959 0.99 | weak 0.970 0.68 0.98 | nobound 0.0
+Ea   120 B 0.02 tSL   18 ICH 3x2 0/2/4/6  loss40  20.9 | SEmax  0.06 | t_iso    nan | 0.954  0.95 1.06 | cf 0.95 sim 0.95 | obs 0.957 1.00 | weak 0.966 0.95 1.00 | nobound 0.0
+Ea   120 B 0.02 tSL   18 ICH 2x2 0/3/6    loss40  20.9 | SEmax  0.06 | t_iso    nan | 0.951  0.88 1.29 | cf 0.87 sim 0.88 | obs 0.954 1.00 | weak 0.990 0.85 0.99 | nobound 0.0
+Ea   120 B 0.02 tSL   18 ASAP-5 iso       loss40  20.9 | SEmax  0.10 | t_iso    0.6 | 0.951  0.70 1.10 | cf 0.69 sim 0.70 | obs 0.955 0.99 | weak 0.979 0.65 0.96 | nobound 0.0
+Ea   120 B 0.02 tSL   30 ICH 3x2 0/2/4/6  loss40  13.1 | SEmax  0.10 | t_iso    nan | 0.957  0.92 1.08 | cf 0.92 sim 0.92 | obs 0.962 1.00 | weak 0.969 0.91 1.00 | nobound 0.0
+Ea   120 B 0.02 tSL   30 ICH 2x2 0/3/6    loss40  13.1 | SEmax  0.10 | t_iso    nan | 0.958  0.80 1.34 | cf 0.80 sim 0.81 | obs 0.962 0.99 | weak 0.993 0.76 0.98 | nobound 0.0
+Ea   120 B 0.02 tSL   30 ASAP-5 iso       loss40  13.1 | SEmax  0.10 | t_iso    1.1 | 0.951  0.70 1.12 | cf 0.69 sim 0.70 | obs 0.955 1.00 | weak 0.982 0.65 0.97 | nobound 0.0
+Ea   120 B 0.02 tSL   60 ICH 3x2 0/2/4/6  loss40   6.8 | SEmax  0.19 | t_iso    nan | 0.952  0.85 1.08 | cf 0.85 sim 0.85 | obs 0.967 0.98 | weak 0.975 0.83 0.99 | nobound 0.0
+Ea   120 B 0.02 tSL   60 ICH 2x2 0/3/6    loss40   6.8 | SEmax  0.20 | t_iso    nan | 0.967  0.65 1.25 | cf 0.64 sim 0.66 | obs 0.971 0.96 | weak 1.000 0.58 0.95 | nobound 0.0
+Ea   120 B 0.02 tSL   60 ASAP-5 iso       loss40   6.8 | SEmax  0.10 | t_iso    2.2 | 0.944  0.70 1.11 | cf 0.69 sim 0.70 | obs 0.948 0.99 | weak 0.979 0.65 0.96 | nobound 0.0
+Ea   120 B 0.04 tSL   18 ICH 3x2 0/2/4/6  loss40  27.1 | SEmax  0.06 | t_iso    nan | 0.950  0.96 1.08 | cf 0.96 sim 0.96 | obs 0.955 1.00 | weak 0.966 0.96 1.00 | nobound 0.0
+Ea   120 B 0.04 tSL   18 ICH 2x2 0/3/6    loss40  27.1 | SEmax  0.06 | t_iso    nan | 0.949  0.90 1.33 | cf 0.90 sim 0.90 | obs 0.953 1.00 | weak 0.987 0.88 1.00 | nobound 0.0
+Ea   120 B 0.04 tSL   18 ASAP-5 iso       loss40  27.1 | SEmax  0.10 | t_iso    0.6 | 0.950  0.70 1.11 | cf 0.69 sim 0.70 | obs 0.952 0.99 | weak 0.979 0.65 0.96 | nobound 0.0
+Ea   120 B 0.04 tSL   30 ICH 3x2 0/2/4/6  loss40  17.3 | SEmax  0.10 | t_iso    nan | 0.949  0.94 1.08 | cf 0.93 sim 0.94 | obs 0.953 1.00 | weak 0.959 0.93 1.00 | nobound 0.0
+Ea   120 B 0.04 tSL   30 ICH 2x2 0/3/6    loss40  17.3 | SEmax  0.10 | t_iso    nan | 0.952  0.84 1.26 | cf 0.83 sim 0.84 | obs 0.956 0.99 | weak 0.991 0.81 0.99 | nobound 0.0
+Ea   120 B 0.04 tSL   30 ASAP-5 iso       loss40  17.3 | SEmax  0.10 | t_iso    1.0 | 0.958  0.70 1.07 | cf 0.69 sim 0.70 | obs 0.961 1.00 | weak 0.980 0.66 0.96 | nobound 0.0
+Ea   120 B 0.04 tSL   60 ICH 3x2 0/2/4/6  loss40   9.1 | SEmax  0.19 | t_iso    nan | 0.950  0.87 1.09 | cf 0.87 sim 0.87 | obs 0.959 0.99 | weak 0.968 0.86 0.99 | nobound 0.0
+Ea   120 B 0.04 tSL   60 ICH 2x2 0/3/6    loss40   9.1 | SEmax  0.20 | t_iso    nan | 0.960  0.71 1.26 | cf 0.70 sim 0.71 | obs 0.965 0.97 | weak 0.998 0.65 0.97 | nobound 0.0
+Ea   120 B 0.04 tSL   60 ASAP-5 iso       loss40   9.1 | SEmax  0.10 | t_iso    1.9 | 0.948  0.70 1.10 | cf 0.69 sim 0.70 | obs 0.952 0.99 | weak 0.980 0.65 0.96 | nobound 0.0
+Ea   120 B 0.06 tSL   18 ICH 3x2 0/2/4/6  loss40  34.8 | SEmax  0.06 | t_iso    nan | 0.947  0.97 1.08 | cf 0.97 sim 0.97 | obs 0.948 1.00 | weak 0.959 0.97 1.00 | nobound 0.0
+Ea   120 B 0.06 tSL   18 ICH 2x2 0/3/6    loss40  34.8 | SEmax  0.06 | t_iso    nan | 0.953  0.92 1.31 | cf 0.92 sim 0.92 | obs 0.955 1.00 | weak 0.988 0.90 1.00 | nobound 0.0
+Ea   120 B 0.06 tSL   18 ASAP-5 iso       loss40  34.8 | SEmax  0.10 | t_iso    1.8 | 0.957  0.69 1.07 | cf 0.69 sim 0.70 | obs 0.959 1.00 | weak 0.981 0.65 0.96 | nobound 0.0
+Ea   120 B 0.06 tSL   30 ICH 3x2 0/2/4/6  loss40  22.6 | SEmax  0.10 | t_iso    nan | 0.950  0.95 1.07 | cf 0.95 sim 0.95 | obs 0.956 1.00 | weak 0.966 0.95 1.00 | nobound 0.0
+Ea   120 B 0.06 tSL   30 ICH 2x2 0/3/6    loss40  22.6 | SEmax  0.10 | t_iso    nan | 0.956  0.87 1.27 | cf 0.87 sim 0.88 | obs 0.957 0.99 | weak 0.990 0.84 0.99 | nobound 0.0
+Ea   120 B 0.06 tSL   30 ASAP-5 iso       loss40  22.6 | SEmax  0.10 | t_iso    2.9 | 0.957  0.69 1.09 | cf 0.69 sim 0.70 | obs 0.960 0.99 | weak 0.985 0.65 0.96 | nobound 0.0
+Ea   120 B 0.06 tSL   60 ICH 3x2 0/2/4/6  loss40  12.0 | SEmax  0.19 | t_iso    nan | 0.944  0.90 1.09 | cf 0.90 sim 0.90 | obs 0.953 0.99 | weak 0.966 0.89 1.00 | nobound 0.0
+Ea   120 B 0.06 tSL   60 ICH 2x2 0/3/6    loss40  12.0 | SEmax  0.20 | t_iso    nan | 0.959  0.76 1.31 | cf 0.75 sim 0.77 | obs 0.963 0.98 | weak 0.995 0.71 0.98 | nobound 0.0
+Ea   120 B 0.06 tSL   60 ASAP-5 iso       loss40  12.0 | SEmax  0.10 | t_iso    5.8 | 0.954  0.70 1.08 | cf 0.69 sim 0.70 | obs 0.958 1.00 | weak 0.983 0.66 0.97 | nobound 0.0
+
+=================== summary by the largest per-condition SE(ln k_i) ===================
+  SE(ln k) max cells |  gn cover min–max < 0.93 | |cf − sim| LB/med max > 0.05 | obs med/true min–max
+  0.0–0.3         192 | 0.944–0.972            0 |                 0.025      0 | 0.92–1.00 | LB/true 0.37–0.97 | weak prior: cover 0.915–1.000, < 0.94 in 19   (cells with some 'no bound' replicates: 0)
+  0.3–0.6          57 | 0.946–0.994            0 |                 0.030      0 | 0.70–0.97 | LB/true 0.27–0.78 | weak prior: cover 0.919–1.000, < 0.94 in 4   (cells with some 'no bound' replicates: 0)
+  0.6–1.0          42 | 0.958–0.997            0 |                 0.027      0 | 0.48–0.87 | LB/true 0.09–0.60 | weak prior: cover 0.870–1.000, < 0.94 in 15   (cells with some 'no bound' replicates: 0)
+  1.0–99.0         33 | 0.971–1.000            0 |                 0.016      0 | 0.21–0.74 | LB/true 0.00–0.40 | weak prior: cover 0.853–1.000, < 0.94 in 13   (cells with some 'no bound' replicates: 8)
+
+=================== by true Ea: flat (this paper) vs weak prior centred at (80, 0.04) ===================
+   Ea cells |   flat cover < 0.94    LB/true |   weak cover < 0.94    LB/true   med/true
+   40    54 | 0.950–1.000      0 0.00–0.74 | 0.853–0.975     33 0.28–0.74 1.03–5.40
+   50    54 | 0.949–1.000      0 0.01–0.79 | 0.927–0.973     17 0.24–0.79 1.01–3.38
+   60    54 | 0.946–1.000      0 0.02–0.84 | 0.939–0.994      1 0.22–0.84 1.00–2.17
+   80    54 | 0.948–1.000      0 0.07–0.90 | 0.948–1.000      0 0.18–0.90 0.96–1.03
+  100    54 | 0.946–0.995      0 0.16–0.95 | 0.953–1.000      0 0.21–0.94 0.80–1.00
+  120    54 | 0.944–0.994      0 0.30–0.97 | 0.959–1.000      0 0.26–0.97 0.77–1.00
+
+cells with 'no bound' replicates (flat):
+  ICH 2x2 0/3/6    sigma 0.02   Ea 40 B 0.02 tSL 30: no bound in 0.0 %, loss40 3.0 %, SEmax 1.27, cover 0.999, LB/true 0.04; weak prior: cover 0.853, LB/true 0.38
+  ICH 3x2 0/2/4/6  sigma 0.02   Ea 40 B 0.02 tSL 60: no bound in 0.1 %, loss40 1.5 %, SEmax 2.41, cover 1.000, LB/true 0.01; weak prior: cover 0.900, LB/true 0.45
+  ICH 2x2 0/3/6    sigma 0.02   Ea 40 B 0.02 tSL 60: no bound in 0.2 %, loss40 1.5 %, SEmax 2.55, cover 1.000, LB/true 0.00; weak prior: cover 0.911, LB/true 0.32
+  ICH 3x2 0/2/4/6  sigma 0.02   Ea 40 B 0.04 tSL 60: no bound in 0.1 %, loss40 2.0 %, SEmax 2.41, cover 1.000, LB/true 0.02; weak prior: cover 0.923, LB/true 0.42
+  ICH 2x2 0/3/6    sigma 0.02   Ea 40 B 0.04 tSL 60: no bound in 0.2 %, loss40 2.0 %, SEmax 2.55, cover 1.000, LB/true 0.00; weak prior: cover 0.914, LB/true 0.32
+  ICH 3x2 0/2/4/6  sigma 0.02   Ea 40 B 0.06 tSL 60: no bound in 0.0 %, loss40 2.7 %, SEmax 2.41, cover 1.000, LB/true 0.03; weak prior: cover 0.945, LB/true 0.37
+  ICH 3x2 0/2/4/6  sigma 0.02   Ea 50 B 0.02 tSL 60: no bound in 0.1 %, loss40 1.8 %, SEmax 1.99, cover 1.000, LB/true 0.03; weak prior: cover 0.944, LB/true 0.38
+  ICH 2x2 0/3/6    sigma 0.02   Ea 50 B 0.04 tSL 60: no bound in 0.0 %, loss40 2.4 %, SEmax 2.10, cover 0.999, LB/true 0.01; weak prior: cover 0.952, LB/true 0.27
+
+lowest-coverage cells:
+  ICH 3x2 0/2/4/6  sigma 0.0075 Ea 120 B 0.06 tSL 60: cover 0.944, LB/true 0.90, SEmax 0.19, loss40 12.0 %, cf 0.90 vs sim 0.90
+  ASAP-5 iso       sigma 0.0075 Ea 120 B 0.02 tSL 60: cover 0.944, LB/true 0.70, SEmax 0.10, loss40 6.8 %, cf 0.69 vs sim 0.70
+  ICH 3x2 0/2/4/6  sigma 0.0075 Ea 60 B 0.06 tSL 30: cover 0.946, LB/true 0.75, SEmax 0.31, loss40 7.7 %, cf 0.74 vs sim 0.74
+  ICH 3x2 0/2/4/6  sigma 0.02   Ea 120 B 0.06 tSL 18: cover 0.946, LB/true 0.92, SEmax 0.15, loss40 34.8 %, cf 0.92 vs sim 0.92
+  ICH 3x2 0/2/4/6  sigma 0.0075 Ea 100 B 0.06 tSL 18: cover 0.946, LB/true 0.95, SEmax 0.09, loss40 25.2 %, cf 0.94 vs sim 0.95
+  ICH 3x2 0/2/4/6  sigma 0.02   Ea 120 B 0.02 tSL 18: cover 0.947, LB/true 0.88, SEmax 0.15, loss40 20.9 %, cf 0.87 vs sim 0.88
+  ICH 3x2 0/2/4/6  sigma 0.0075 Ea 120 B 0.06 tSL 18: cover 0.947, LB/true 0.97, SEmax 0.06, loss40 34.8 %, cf 0.97 vs sim 0.97
+  ICH 3x2 0/2/4/6  sigma 0.0075 Ea 100 B 0.06 tSL 30: cover 0.947, LB/true 0.91, SEmax 0.14, loss40 16.0 %, cf 0.91 vs sim 0.91

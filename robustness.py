@@ -1,10 +1,11 @@
 """paper-C §5 の頑健性(崩し)。
- (A) バッチ間のランダム効果: ln k_batch = ln k + N(0, tau^2)(paper-B と同じ tau 格子)。共通勾配でプールする本稿の Stage 1 は
+ (A) バッチ間のランダム効果: ln k_batch = ln k + N(0, tau^2)(paper-B と同じ tau 格子)。バッチ別の切片・共通勾配でプールする本稿の Stage 1 は
      tau を s_data に含めない → 被覆がどれだけ落ちるか、「バッチを単位に」(バッチ別の k_hat、間の分散、df = B-1)で戻るか、その価格。
-     Stage B(40/75 × 3 バッチ + 輸入事前)と Stage A(ICH 3×2 × 3 バッチ、弱事前)の両方。
+     Stage B(40/75 × 3 バッチ + 輸入事前)と Stage A(ICH 3×2 × 3 バッチ、平坦な事前)の両方。
  (B) 速度式の次数 n: dalpha/dt = k (1-alpha)^n。真 n in {1, 2, 0} を一次で読む / 真 n で読む / n を格子でプロファイル(plug-in, t 混合)。
      docs/audit/humidity_order_n.py(09-19)の移植。
  (C) isoconversion 入力の構造同一性: k_hat_i = g(alpha*)/t_hat_iso,i は Stage 1 の数値そのもの(一次では恒等)。数値確認 1 行。
+ (D) 条件ごとに残差 SD が違う場合(10-28 模擬査読 3 回目 M2): 本稿の推定量は共通 sigma を仮定する。湿度・温度で SD を振って被覆を見る。
 
     python3 robustness.py > output/robustness.txt      (~1 min)
 """
@@ -17,8 +18,9 @@ ICH3 = [(T, rh) for T in (40, 50, 60) for rh in (60, 75)]
 
 
 # ================================================================ (A) バッチ間ランダム効果
-def stage1_batches(rng, conds, grid, nrep, sig, B, tau):
-    """バッチごとに ln k をずらして生成。返り値: プール版 s1(共通勾配)と、バッチ別 k_hat (nrep, n, B)。"""
+def stage1_batches(rng, conds, grid, nrep, sig, B, tau, common_intercept=False):
+    """バッチごとに ln k をずらして生成。返り値: プール版 s1(バッチ別の切片・共通勾配)と、バッチ別 k_hat (nrep, n, B)。
+    common_intercept=True は比較用(10-27 R2 以前の Stage 1: 切片も共通、df = n_t B - 2)。"""
     n = len(conds); grid = np.asarray(grid, float)
     KHp = np.zeros((nrep, n)); RSSp = np.zeros((nrep, n)); STTp = np.zeros(n); DFp = np.zeros(n); Np = np.zeros(n)
     KHb = np.zeros((nrep, n, B))
@@ -26,10 +28,15 @@ def stage1_batches(rng, conds, grid, nrep, sig, B, tau):
         lnk = np.log(M.k_true(T, rh)) + rng.normal(0, tau, (nrep, B))          # (nrep, B)
         t = np.tile(grid, B); which = np.repeat(np.arange(B), grid.size)
         y = -np.exp(lnk)[:, which] * t + rng.normal(0, sig, (nrep, t.size))
-        tc = t - t.mean(); Stt = (tc ** 2).sum()
-        slope = (y * tc).sum(1) / Stt; icpt = y.mean(1) - slope * t.mean()
-        RSSp[:, i] = ((y - icpt[:, None] - slope[:, None] * t) ** 2).sum(1)
-        KHp[:, i] = -slope; STTp[i] = Stt; DFp[i] = t.size - 2; Np[i] = t.size
+        tc = np.tile(grid - grid.mean(), B); Stt = (tc ** 2).sum()                # model.stage1 と同じ: バッチ別の切片・共通勾配
+        slope = (y * tc).sum(1) / Stt
+        if common_intercept:
+            icpt = y.mean(1) - slope * grid.mean()
+            RSSp[:, i] = ((y - icpt[:, None] - slope[:, None] * t) ** 2).sum(1); DFp[i] = t.size - 2
+        else:
+            yb = y.reshape(nrep, B, grid.size); icpt = yb.mean(2) - slope[:, None] * grid.mean()
+            RSSp[:, i] = ((yb - icpt[:, :, None] - slope[:, None, None] * grid) ** 2).sum((1, 2)); DFp[i] = t.size - B - 1
+        KHp[:, i] = -slope; STTp[i] = Stt; Np[i] = t.size
         gc = grid - grid.mean(); Sg = (gc ** 2).sum()
         for b in range(B):
             yb = y[:, which == b]; KHb[:, i, b] = -(yb * gc).sum(1) / Sg
@@ -50,27 +57,31 @@ def batch_as_unit_stageB(KHb, sdE, sdB, dE=0.0, dB=0.0):
 
 print("=== (A) batch-to-batch variation: ln k per batch = ln k + N(0, tau^2); assay sigma=0.02; grid 0/2/4/6 mo; B=3 ===")
 print("truth for coverage = t90 of the batch-mean ln k (the product's typical batch)")
-print("\n-- Stage B: 40/75 only, prior (5, 0.01) exact (shift 0) and displaced (dEa=5); pooled common slope vs batch-as-unit")
+print("\n-- Stage B: 40/75 only, prior (5, 0.01) exact (shift 0) and displaced (dEa=5); pooled (per-batch intercepts, common slope; decoupled, Stage B variance) vs batch-as-unit; last: 10-22 NIG pooled, exact / dEa=5")
 print(f"{'tau':>5s} | {'pooled: cover':>13s} {'LB/true':>7s} {'LB/med':>6s} | {'batch-unit: cover':>17s} {'LB/true':>7s} {'LB/med':>6s} | "
       f"{'pooled cover @dEa=5':>19s} {'batch-unit @dEa=5':>17s}")
 for tau in (0.0, 0.05, 0.1, 0.2, 0.3):
     rng = np.random.default_rng(11)
     s1, KHb = stage1_batches(rng, [(40, 75)], M.MONTHS, NREP, 0.02, 3, tau)
-    o = M.stage2(s1, [20, M.EA, M.B_TRUE], [100, 5, 0.01], 'gn', a0=9.0, sig_ref=0.02); sp = M.summarise(o)
+    o = M.stageB_decoupled(s1, [M.EA, M.B_TRUE], [5, 0.01]); sp = M.summarise(o)          # 10-27: 切り離した Stage B(標準)
     u = batch_as_unit_stageB(KHb, 5, 0.01); su = M.summarise(u)
-    o5 = M.stage2(s1, [20, M.EA + 5, M.B_TRUE], [100, 5, 0.01], 'gn', a0=9.0, sig_ref=0.02)
+    o5 = M.stageB_decoupled(s1, [M.EA + 5, M.B_TRUE], [5, 0.01])
+    n0 = M.stage2(s1, [20, M.EA, M.B_TRUE], [100, 5, 0.01], 'gn', a0=M.A0_STAGEB, sig_ref=0.02)          # 比較: 10-22 版の NIG
+    n5 = M.stage2(s1, [20, M.EA + 5, M.B_TRUE], [100, 5, 0.01], 'gn', a0=M.A0_STAGEB, sig_ref=0.02)
     u5 = batch_as_unit_stageB(KHb, 5, 0.01, dE=5)
     print(f"{tau:5.2f} | {sp['cover']:13.3f} {sp['lb_true']:7.2f} {sp['lb_med']:6.2f} | {su['cover']:17.3f} {su['lb_true']:7.2f} {su['lb_med']:6.2f} | "
-          f"{(o5['lb'] <= M.LNT).mean():19.3f} {(u5['lb'] <= M.LNT).mean():17.3f}")
+          f"{(o5['lb'] <= M.LNT).mean():19.3f} {(u5['lb'] <= M.LNT).mean():17.3f} | NIG {(n0['lb'] <= M.LNT).mean():.3f} / {(n5['lb'] <= M.LNT).mean():.3f}")
 
-print("\n-- Stage A: ICH 3x2 x 3 batches, weak prior, pooled common slope (Stage 2 residuals absorb part of tau)")
+print("\n-- Stage A: ICH 3x2 x 3 batches, flat prior, pooled (per-batch intercepts, common slope; tau is not in the variance model)")
 print(f"{'tau':>5s} {'cover':>6s} {'LB/true':>7s} {'LB/med':>6s} {'med/true':>8s} {'z sd':>5s}")
 for tau in (0.0, 0.05, 0.1, 0.2, 0.3):
     rng = np.random.default_rng(12)
     s1, _ = stage1_batches(rng, ICH3, M.MONTHS, NREP, 0.02, 3, tau)
-    o = M.stage2(s1, [20, M.EA, M.B_TRUE], [100, 30, 0.05], 'gn', sig_ref=0.02); s = M.summarise(o)
+    o = M.stage2(s1, [20, M.EA, M.B_TRUE], None, 'gn', sig_ref=0.02); s = M.summarise(o)
     print(f"{tau:5.2f} {s['cover']:6.3f} {s['lb_true']:7.2f} {s['lb_med']:6.2f} {s['med_true']:8.2f} {s['z_sd']:5.2f}")
-print("(paper-B, Section 4.5: between-batch SD of ln k of 0.05-0.1 is typical for a well-controlled product; 0.2-0.3 is large)")
+print("(tau = 0.3 is a between-batch coefficient of variation of the rate of about 30 %)")
+print("-- same, Stage 1 with a common intercept per condition (for comparison; the batch component leaks into RSS and inflates sigma_hat^2)")
+print("   " + " / ".join(f"tau {tau:.2f}: {M.summarise(M.stage2(stage1_batches(np.random.default_rng(12), ICH3, M.MONTHS, NREP, 0.02, 3, tau, common_intercept=True)[0], [20, M.EA, M.B_TRUE], None, 'gn', sig_ref=0.02))['cover']:.3f}" for tau in (0.0, 0.05, 0.1, 0.2, 0.3)))
 
 
 # ================================================================ (B) 速度式の次数 n(監査 humidity_order_n.py の移植)
@@ -118,7 +129,7 @@ def bound_n(o, n_fit):
 
 
 NREP_N = 3000; SIG = 0.02; NGRID = np.array([0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0])
-print(f"\n=== (B) kinetic order: dalpha/dt = k (1-alpha)^n; ICH 3x2, 0/2/4/6 mo, 1 batch, assay sigma={SIG}, weak prior; nrep={NREP_N} ===")
+print(f"\n=== (B) kinetic order: dalpha/dt = k (1-alpha)^n; ICH 3x2, 0/2/4/6 mo, 1 batch, assay sigma={SIG}, flat prior; nrep={NREP_N} ===")
 print("g_n(0.10): " + ", ".join(f"n={n:g}: {g(0.10, n):.4f}" for n in NGRID))
 rng = np.random.default_rng(3); grids = [M.MONTHS] * 6
 for n_true in (1.0, 2.0, 0.0):
@@ -129,7 +140,7 @@ for n_true in (1.0, 2.0, 0.0):
     print(f"{'fit':34s} {'cover':>6s} {'LB/true':>7s} {'med/true':>8s} {'LB/med':>6s}")
     fits = {}
     for n_fit in NGRID:
-        o = M.stage2(stage1_order(data, n_fit, ICH3), [20, M.EA, M.B_TRUE], [100, 30, 0.05], 'gn', sig_ref=SIG, iters=8)
+        o = M.stage2(stage1_order(data, n_fit, ICH3), [20, M.EA, M.B_TRUE], None, 'gn', sig_ref=SIG, iters=8)
         fits[n_fit] = (o, raw_rss(data, o['mean'], n_fit, ICH3))
     for n_fit in ((1.0,) if n_true == 1.0 else (1.0, n_true)):
         lb, med = bound_n(fits[n_fit][0], n_fit)
@@ -142,7 +153,7 @@ for n_true in (1.0, 2.0, 0.0):
     print(f"{'n profiled on grid, plug-in best n':34s} {(lb_plug <= LNT).mean():6.3f} {np.exp(np.median(lb_plug)) / T90:7.2f} {np.exp(np.median(med_plug)) / T90:8.2f} "
           f"{np.exp(np.median(lb_plug - med_plug)):6.2f}   | n_hat: median {np.median(nbest):.1f}, P(|n_hat-n|<=0.5)={np.mean(np.abs(nbest - n_true) <= 0.5):.2f}")
     # t 混合(重み w)の 5 % 分位: 各格子点 400 本の t 乱数から加重分位(監査と同じ近似)
-    draws = np.stack([MED[:, j][:, None] - fits[n][0]['scale'][:, None] * stats.t.rvs(np.broadcast_to(fits[n][0]['nu'], (NREP_N, 1)), size=(NREP_N, 400), random_state=rng)
+    draws = np.stack([MED[:, j][:, None] - fits[n][0]['scale'][:, None] * stats.t.rvs(np.broadcast_to(np.reshape(fits[n][0]['nu'], (-1, 1)), (NREP_N, 1)), size=(NREP_N, 400), random_state=rng)
                       for j, n in enumerate(NGRID)], 1)
     lb_mix = np.empty(NREP_N); med_mix = np.empty(NREP_N)
     for i in range(NREP_N):
@@ -158,7 +169,7 @@ for n_true in (1.0, 2.0):
     loss = [100 * (1 - ginv(np.exp(lnA + M.EA * M.x1_abs(T) + M.B_TRUE * rh) * 28 / 30.4375, n_true)) for T, rh in ASAP5]
     print(f"true n={n_true:g}; 28-d loss = " + " ".join(f"{l:.0f}%" for l in loss))
     for n_fit in (1.0, 2.0):
-        o = M.stage2(stage1_order(data, n_fit, ASAP5), [20, M.EA, M.B_TRUE], [100, 30, 0.05], 'gn', sig_ref=SIG, iters=8)
+        o = M.stage2(stage1_order(data, n_fit, ASAP5), [20, M.EA, M.B_TRUE], None, 'gn', sig_ref=SIG, iters=8)
         lb, med = bound_n(o, n_fit)
         print(f"   fit n={n_fit:g}: cover {(lb <= LNT).mean():.3f}  med/true {np.exp(np.median(med)) / T90:.2f}  LB/med {np.exp(np.median(lb - med)):.2f}")
 
@@ -166,5 +177,27 @@ for n_true in (1.0, 2.0):
 rng = np.random.default_rng(5)
 s1 = M.stage1(rng, ICH3, [M.MONTHS] * 6, 2000, 0.02)
 s1_iso = dict(s1); s1_iso['KH'] = np.log(10 / 9) / (np.log(10 / 9) / s1['KH'])       # k_hat = g(0.1) / t_hat_iso
-o1 = M.stage2(s1, [20, M.EA, M.B_TRUE], [100, 30, 0.05], 'gn'); o2 = M.stage2(s1_iso, [20, M.EA, M.B_TRUE], [100, 30, 0.05], 'gn')
+o1 = M.stage2(s1, [20, M.EA, M.B_TRUE], None, 'gn'); o2 = M.stage2(s1_iso, [20, M.EA, M.B_TRUE], None, 'gn')
 print(f"\n=== (C) isoconversion entry k_hat_i = g(alpha*)/t_hat_iso,i: max |LB difference| = {np.abs(o1['lb'] - o2['lb']).max():.2e} (identical by construction) ===")
+
+# ================================================================ (D) 条件ごとに残差 SD が違う場合(模擬査読 3 回目 M2)
+def stage1_het(rng, conds, grid, nrep, sigs):
+    t = np.asarray(grid, float); tc = t - t.mean(); Stt = (tc ** 2).sum(); n = len(conds)
+    KH = np.zeros((nrep, n)); RSS = np.zeros((nrep, n))
+    for i, ((T, rh), s) in enumerate(zip(conds, sigs)):
+        y = -M.k_true(T, rh) * t + rng.normal(0, s, (nrep, t.size))
+        sl = (y * tc).sum(1) / Stt; ic = y.mean(1) - sl * t.mean()
+        RSS[:, i] = ((y - ic[:, None] - sl[:, None] * t) ** 2).sum(1); KH[:, i] = -sl
+    return dict(KH=KH, RSS=RSS, STT=np.full(n, Stt), DF=np.full(n, t.size - 2.0), N=np.full(n, float(t.size)), conds=list(conds))
+
+
+print("\n=== (D) residual SD differing between conditions; ICH 3x2 (40/50/60 C x 60/75 %RH), 0/2/4/6 mo, 1 batch, flat prior, common-sigma estimator; nrep=4000 ===")
+print("SDs listed in the order 40/60, 40/75, 50/60, 50/75, 60/60, 60/75")
+for lab, sigs in (('equal, assay 0.02', [0.02] * 6), ('by RH: 0.01 at 60 %, 0.03 at 75 %', [0.01, 0.03] * 3),
+                  ('by RH reversed: 0.03 at 60 %, 0.01 at 75 %', [0.03, 0.01] * 3),
+                  ('by T: 0.005 / 0.02 / 0.04 at 40 / 50 / 60 C', [0.005, 0.005, 0.02, 0.02, 0.04, 0.04]),
+                  ('by T reversed: 0.04 / 0.02 / 0.005', [0.04, 0.04, 0.02, 0.02, 0.005, 0.005]),
+                  ('degradant 0.0075: 0.5x at 60 %, 1.5x at 75 %', [0.00375, 0.01125] * 3)):
+    s1 = stage1_het(np.random.default_rng(5), ICH3, M.MONTHS, 4000, sigs)
+    o = M.summarise(M.stage2(s1, [20, M.EA, M.B_TRUE], None, 'gn'))
+    print(f"  {lab:46s} cover {o['cover']:.3f}  LB/true {o['lb_true']:.2f}")

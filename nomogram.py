@@ -65,6 +65,8 @@ for label, v_of in (('uniform SE 0.10', lambda conds, grids: SIG_U ** 2),
               f"(cross with intercept {t['icpt_T'] + t['icpt_RH']:+.1e}; bound/med {M.bound_over_median(d['sd0']):.2f})")
 
 # ================================================================ 次の 1 条件の価値(rank-1、§3.4)
+print("\n=== Time to a 0.4 % degradant limit at the ASAP-5 conditions at the reference truth (0.004 / k, small conversion) ===")
+print('   ' + '; '.join(f"{T} C / {rh} %RH: {0.004 / M.k_true(T, rh) * 30.4375:.2f} d" for T, rh in ASAP5))
 print(f"\n=== Value of one more condition added to ASAP-5 (rank-1 update); bound/median before -> after ===")
 CANDS = [(40, 40), (40, 60), (40, 75), (50, 40), (60, 75), (70, 40), (80, 75), (90, 40), (90, 75)]
 for label, v_base, v_new in (('uniform SE 0.10 (new condition also 0.10; = ASAP isoconversion at sigma/alpha* 0.075)', lambda: SIG_U ** 2, lambda T, rh: SIG_U ** 2),
@@ -90,16 +92,17 @@ DESIGNS = [('ICH-type 3×2, 0/2/4/6 mo', ICH3, [M.MONTHS] * 6, '-', 'C0'),
            ('ASAP isoconversion + 40/75 0/2/4/6 mo', ASAP5 + [(40, 75)], [M.iso_grid(T, rh) for T, rh in ASAP5] + [M.MONTHS], '-', 'C2')]
 # Table 3 のシミュレーション値(simulate.py, gn)を点で重ねる: (assay, degradant) の median LB/true
 # (assay 0.02, degradant-at-ASAP-precision 0.0075, optimistic degradant 0.0025)
-SIM = {'ICH-type 3×2, 0/2/4/6 mo': (0.61, 0.83, 0.94), 'ICH-type 3×2, 0/3/6 mo': (0.61, 0.83, 0.94), 'ICH-type 2×2, 0/2/4/6 mo': (0.49, 0.75, 0.91),
-       'ASAP five conditions, isoconversion': (0.45, 0.73, 0.90), 'ASAP five conditions, fixed 28 d': (0.16, 0.39, 0.72),
-       'ASAP isoconversion + 40/75 0/2/4/6 mo': (0.55, 0.79, 0.93)}
+SIM = {'ICH-type 3×2, 0/2/4/6 mo': (0.57, 0.81, 0.93), 'ICH-type 3×2, 0/3/6 mo': (0.55, 0.80, 0.93), 'ICH-type 2×2, 0/2/4/6 mo': (0.40, 0.71, 0.89),
+       'ASAP five conditions, isoconversion': (0.38, 0.69, 0.89), 'ASAP five conditions, fixed 28 d': (0.04, 0.32, 0.69),
+       'ASAP isoconversion + 40/75 0/2/4/6 mo': (0.50, 0.77, 0.92)}   # 10-27 R2: 平坦な事前・a0 = 0(output/simulate.txt)
 
 
 def nu_of(grids):
-    return 1 + sum(len(g) - 2 for g in grids) + len(grids)       # 2 a_n with a0 = 1/2
+    nu = sum(len(g) - 2 for g in grids) + len(grids)        # 2 a_n with a0 = 0 (flat, 10-27 R2)
+    return nu - 3 if M.DF_FIX else nu                            # 平坦な事前: p_eff = 3(10-27、M1)
 
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.2, 3.1))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.2, 3.9))
 se_u = np.logspace(np.log10(0.02), 0, 80)
 seen = set()
 for name, conds, grids, ls, col in DESIGNS:
@@ -108,7 +111,8 @@ for name, conds, grids, ls, col in DESIGNS:
         continue
     seen.add(key)
     y = [M.bound_over_median(M.design_cov(conds, s ** 2)['sd0']) for s in se_u]
-    ax1.plot(se_u, y, '-', color=col, label=name.split(',')[0].replace(' 0/2/4/6 mo', ''))
+    ls_a = ('-', '--', '-', ':')[len(seen) - 1]                                       # 10-27(m10): 重なる 3 本を線種で区別
+    ax1.plot(se_u, y, ls_a, color=col, label=name.split(',')[0].replace(' 0/2/4/6 mo', ''))
 ax1.set_xscale('log'); ax1.set_xlabel('SE(ln $k_i$), the same at every condition'); ax1.set_ylabel('one-sided 95 % bound / median')
 ax1.set_ylim(0, 1); ax1.set_title('(a) geometry only', loc='left', pad=22); ax1.legend(frameon=False, fontsize=7)
 sig = np.logspace(np.log10(0.001), np.log10(0.05), 100)
@@ -119,9 +123,15 @@ for name, conds, grids, ls, col in DESIGNS:
         y.append(M.bound_over_median(M.design_cov(conds, v)['sd0'], nu_of(grids)))
     ax2.plot(sig, y, ls, color=col, label=name)
     ax2.plot([0.02, 0.0075, 0.0025], SIM[name], 'o', color=col, ms=3.5, mfc='white')
+    cf3 = []
+    for s, sim in zip((0.02, 0.0075, 0.0025), SIM[name]):                            # 閉形式と白丸の差(本文 §3.3)
+        v = np.array([M.se_lnk(T, rh, g, s) ** 2 for (T, rh), g in zip(conds, grids)])
+        cf3.append(f"sigma {s}: max SE(ln k) {np.sqrt(v.max()):.2f}, closed form {M.bound_over_median(M.design_cov(conds, v)['sd0'], nu_of(grids)):.2f} vs simulated {sim:.2f}")
+    print(f"Figure 1b, {name}: " + '; '.join(cf3))
 for s, lab in ((0.0025, 'σ/α* = 0.025'), (0.0075, '0.075\n(ASAP-reported)'), (0.02, '0.2 (assay)')):
     ax2.axvline(s, color='#999999', lw=0.6); ax2.text(s, 1.01, lab, ha='center', va='bottom', fontsize=6.5, color='#555555')   # 縦線の上端に(凡例と重ならない)
 ax2.set_xscale('log'); ax2.set_xlabel('measurement error $\\sigma$ on $\\ln(C/C_0)$  (= $\\sigma/\\alpha^*$ × 0.10)'); ax2.set_ylim(0, 1)
-ax2.set_title('(b) each design with its own grid and rates', loc='left', pad=22); ax2.legend(frameon=False, fontsize=6.5, loc='lower left')
+ax2.set_title('(b) each design with its own grid and rates', loc='left', pad=22)
+ax2.legend(frameon=False, fontsize=6.5, loc='upper center', bbox_to_anchor=(0.5, -0.24), ncol=2)   # 10-27(m14): 凡例を軸の下へ、曲線と重ねない
 fig.tight_layout(); save(fig, 'fig1_design_nomogram')
 print(f"\nfigure: {os.path.relpath(OUT / 'fig1_design_nomogram.png')}  (open circles = simulated median LB/true from simulate.py)")

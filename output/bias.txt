@@ -1,5 +1,5 @@
 === Bias of ln k(25 C / 60 %RH) [= -(bias of ln t90)], flat prior, 20000 replicates ===
-Proposition 2: (i) observed weights sigma^2 M^-1 X' (3/2 - 2h) = WLS of c_i = -v_i/2 (Jensen) + 2 v_i (1 - h_ii); (ii) log scale + fitted weights: Jensen only; (iii) k-space GN: Box (1971) -sigma^2/2 M^-1 X' h
+Proposition 1: (i) observed weights sigma^2 M^-1 X' (3/2 - 2h) = WLS of c_i = -v_i/2 (Jensen) + 2 v_i (1 - h_ii); (ii) log scale + fitted weights: Jensen only; (iii) k-space GN: Box (1971) -sigma^2/2 M^-1 X' h
 design          sigma max v | obs: formula sim mean sim med | fit (Jensen): formula sim mean sim med | gn (Box): formula sim mean sim med | drop
 ICH 3Tx2RH     0.0200  0.31 |      +0.1630  +0.1451 +0.1586 |               -0.0796  -0.0766 -0.0572 |           -0.0189  -0.0201 -0.0033 | 0.006
 ICH 3Tx2RH     0.0075  0.04 |      +0.0229  +0.0220 +0.0243 |               -0.0112  -0.0119 -0.0094 |           -0.0027  -0.0031 -0.0007 | 0.000
@@ -13,7 +13,18 @@ ASAP iso       0.0025  0.00 |      +0.0002  +0.0006 +0.0002 |               -0.0
 ASAP 28 d      0.0200  5.08 |      +2.4162  +1.1531 +1.3402 |               -1.5528  -0.0024 +0.2926 |           -0.5606  -1.5614 +0.0045 | 0.129
 ASAP 28 d      0.0075  0.71 |      +0.3398  +0.2861 +0.3421 |               -0.2184  -0.1858 -0.0782 |           -0.0788  -0.0870 -0.0004 | 0.027
 ASAP 28 d      0.0025  0.08 |      +0.0378  +0.0373 +0.0456 |               -0.0243  -0.0254 -0.0152 |           -0.0088  -0.0085 +0.0004 | 0.000
+ICH 3Tx2RH, assay: k_hat <= 0 in 0.6 % of condition fits, 3.6 % of replicates have at least one (left out of the log-scale fits)
 
 ICH 3Tx2RH, assay: v_i = [0.311 0.094 0.046 0.014 0.008 0.002]  h_ii = [0.11 0.31 0.25 0.51 0.87 0.95] 
-  obs-weight term +0.2425 (exp(-.) = 0.785), Jensen -0.0796, total +0.1630 (exp(-.) = 0.850; Table 1 median 0.86); k-space Box -0.0189
+  obs-weight term +0.2425 (exp(-.) = 0.785), Jensen -0.0796, total +0.1630 (exp(-.) = 0.850; simulated median 0.85, Supplementary S1 and Section 2.5); k-space Box -0.0189
   per-condition contribution to the obs-weight term: [ 0.1047  0.0719  0.0437  0.0223  0.0004 -0.0005] -> 40 C share 0.73
+
+=== Temperature only: three temperatures 40/50/60 C at 60 %RH, ln k = b0 + Ea x1, extrapolated to 25 C / 60 %RH, flat prior, 20000 replicates ===
+grid        sigma max v | obs: formula sim mean sim med median t90 ratio | gn: sim med  ratio | drop
+0/2/4/6    0.0200  0.31 |      +0.1977  +0.1663 +0.2303            0.794 |     -0.0037  1.004 | 0.012
+0/2/4/6    0.0075  0.04 |      +0.0278  +0.0287 +0.0370            0.964 |     -0.0018  1.002 | 0.000
+0/2/4/6    0.0025  0.00 |      +0.0031  +0.0035 +0.0038            0.996 |     -0.0007  1.001 | 0.000
+0/3/6      0.0200  0.35 |      +0.2197  +0.1698 +0.2436            0.784 |     -0.0018  1.002 | 0.014
+0/3/6      0.0075  0.05 |      +0.0309  +0.0279 +0.0403            0.960 |     -0.0016  1.002 | 0.000
+0/3/6      0.0025  0.01 |      +0.0034  +0.0027 +0.0039            0.996 |     -0.0006  1.001 | 0.000
+  0/2/4/6, assay: v_i = [0.311 0.046 0.008], obs-weight term +0.3583, Jensen -0.1605, total +0.1977 (median t90 ratio exp(-total) = 0.821, i.e. 18 % short)

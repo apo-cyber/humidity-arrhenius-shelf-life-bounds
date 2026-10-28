@@ -79,12 +79,12 @@ for key, s_ in sorted(zip(keys_all, se), key=lambda z: -z[1])[:5]:
 print(f"k_hat <= 0: {(s1_all['KH'] <= 0).sum()} conditions")
 
 # ================================================================ Stage 2
-SIG = np.sqrt(sig2_pool); A0 = 0.5
-print(f"\n=== Stage 2, weakly informative prior (SD Ea 100, B 0.1, C 10; flat intercept), k-space GN, NIG-t; alpha0={ALPHA0} %, limit {ALPHA_STAR} % ===")
+SIG = np.sqrt(sig2_pool); A0 = 0.0
+print(f"\n=== Stage 2, flat prior (a0 = 0), k-space GN, NIG-t; alpha0={ALPHA0} %, limit {ALPHA_STAR} % ===")
 print("-- 60 conditions, 4 parameters (Tamura Eq. 2: ln k = b0 + Ea x1 + B RH + C MgSt)")
-o4 = M.stage2(s1_all, [90, 200, 0.02, 0.4], [1000, 100, 0.1, 10], 'gn', a0=A0, sig_ref=SIG, iters=12, X=Xmat(keys_all, True), x0=x0vec(2.0))
+o4 = M.stage2(s1_all, [90, 200, 0.02, 0.4], None, 'gn', a0=A0, sig_ref=SIG, iters=12, X=Xmat(keys_all, True), x0=x0vec(2.0))
 r4 = report(o4, "this paper, working weights (MgSt 2 %)")
-o4o = M.stage2(s1_all, [90, 200, 0.02, 0.4], [1000, 100, 0.1, 10], 'obs', a0=A0, sig_ref=SIG, X=Xmat(keys_all, True), x0=x0vec(2.0))
+o4o = M.stage2(s1_all, [90, 200, 0.02, 0.4], None, 'obs', a0=A0, sig_ref=SIG, X=Xmat(keys_all, True), x0=x0vec(2.0))
 report(o4o, "  observed weights, for comparison")
 # 著者の無重み回帰の再現(ln k_hat の OLS)
 X4 = Xmat(keys_all, True); y = np.log(s1_all['KH'][0]); bols, *_ = np.linalg.lstsq(X4, y, rcond=None); res = y - X4 @ bols
@@ -95,7 +95,7 @@ print("\n-- per MgSt level, 12 conditions, 3 parameters")
 LEVELS = {}
 for m in (0, 1, 2, 3, 4):
     keys = [k for k in keys_all if k[2] == m]; s1 = stage1_real(keys)
-    o = M.stage2(s1, [90, 200, 0.02], [1000, 100, 0.1], 'gn', a0=A0, sig_ref=SIG, iters=12, X=Xmat(keys), x0=x0vec())
+    o = M.stage2(s1, [90, 200, 0.02], None, 'gn', a0=A0, sig_ref=SIG, iters=12, X=Xmat(keys), x0=x0vec())
     LEVELS[m] = (s1, report(o, f"MgSt {m} % (12 conditions)"))
 
 # ================================================================ 設計: 内訳(MgSt 0 %、実測 SE(ln k_i))
@@ -115,19 +115,26 @@ ell = np.array([L_T, L_RH]); SigA = covA[1:, 1:]
 print(f"Stage A posterior: Ea={muA[1]:.1f} ± {np.sqrt(SigA[0, 0]):.1f}, B={muA[2]:.4f} ± {np.sqrt(SigA[1, 1]):.4f}, corr={SigA[0, 1] / np.sqrt(SigA[0, 0] * SigA[1, 1]):+.2f}; "
       f"levers (40/77 -> 25/60): L_T={L_T:.4f}, L_RH={L_RH:.0f}; sqrt(l' Sigma_A l)={np.sqrt(ell @ SigA @ ell):.3f}")
 # Stage A の残差分散を IG で運ぶ: a_A = a0 + df_A/2 + n/2, b_A から
-sA_s1 = LEVELS[0][0]; aA = A0 + sA_s1['DF'].sum() / 2 + 12 / 2
+sA_s1 = LEVELS[0][0]; aA = A0 + sA_s1['DF'].sum() / 2 + 12 / 2 - (3 / 2 if M.DF_FIX else 0)   # 10-27: 平坦な 3 係数を引く(M1)
+print("Stage B: decoupled (prior on (Ea, B) in absolute units with its correlation; sigma^2 pooled with Stage A because the single condition has 2 residual df < 5)")
 print(f"{'level':8s} {'Stage B bound (mo)':>18s} {'median':>7s} {'LB/med':>6s} | {'12-cond fit: LB':>15s} {'median':>7s} | {'dEa':>6s} {'dB':>8s} {'shift':>6s} {'budget':>6s} {'cf cov':>6s}")
 for m in (1, 2, 3, 4):
     key = (40, 77, m); s1B = stage1_real([key])
     sdata = SIG / (s1B['KH'][0, 0] * np.sqrt(s1B['STT'][0]))
-    cov0 = np.zeros((3, 3)); cov0[0, 0] = 1e4; cov0[1:, 1:] = SigA
-    oB = M.stage2(s1B, [muA[0], muA[1], muA[2]], None, 'gn', a0=aA, b0=aA * sig2_pool, sig_ref=SIG, iters=12, X=Xmat([key]), x0=x0vec(), cov0=cov0)
+    # 10-27: 切り離した Stage B(標準)。単一条件 4 点・1 バッチで残差 df 2 < 5 なので、例外として Stage A の分散を合併する
+    # (同じ研究・同じ分析法の 2 水準なので「同じ分析法・分析室」を満たす)。比較用に 10-22 版の NIG も出す。
+    sdEB = np.sqrt(np.diag(SigA)); rhoA = SigA[0, 1] / (sdEB[0] * sdEB[1])
+    oB = M.stageB_decoupled(s1B, [muA[1], muA[2]], sdEB, rho=rhoA, var_A=(aA, aA * sig2_pool), iters=12)
     lnk0 = M.LN_C - oB['med'][0]; tiso = (ALPHA_STAR - ALPHA0) / np.exp(lnk0) / 30.4375
-    lb = tiso * np.exp(-stats.t.ppf(0.95, oB['nu']) * oB['scale'][0])
+    lb = tiso * np.exp(-stats.t.ppf(0.95, float(np.ravel(oB['nu'])[0])) * oB['scale'][0])
+    cov0 = np.zeros((3, 3)); cov0[0, 0] = 1e4; cov0[1:, 1:] = SigA
+    oN = M.stage2(s1B, [muA[0], muA[1], muA[2]], None, 'gn', a0=aA, b0=aA * sig2_pool, sig_ref=SIG, iters=12, X=Xmat([key]), x0=x0vec(), cov0=cov0)
+    lbN = (ALPHA_STAR - ALPHA0) / np.exp(M.LN_C - oN['med'][0]) / 30.4375 * np.exp(-stats.t.ppf(0.95, float(np.ravel(oN['nu'])[0])) * oN['scale'][0])
     full = LEVELS[m][1]
     bm = full['beta']; dE = muA[1] - bm[1]; dB = muA[2] - bm[2]       # 輸入した平均 − その水準の当てはめ(真値の代理)
     shift = -(L_T * dE + L_RH * dB); s_ = np.sqrt(sdata ** 2 + ell @ SigA @ ell); bud = M.budget(s_, sdata)
-    print(f"MgSt {m} % {lb:18.1f} {tiso:7.1f} {lb / tiso:6.2f} | {full['lb']:15.1f} {full['tiso']:7.1f} | {dE:+6.1f} {dB:+8.4f} {shift:+6.2f} {bud:6.3f} {M.coverage_cf(s_, shift, sdata):6.3f}")
+    print(f"MgSt {m} % {lb:18.1f} {tiso:7.1f} {lb / tiso:6.2f} | {full['lb']:15.1f} {full['tiso']:7.1f} | {dE:+6.1f} {dB:+8.4f} {shift:+6.2f} {bud:6.3f} {M.coverage_cf(s_, shift, sdata):6.3f}"
+          f" | nu {float(np.ravel(oB['nu'])[0]):4.1f}; 10-22 NIG LB {lbN:.1f}")
 print("shift > 0 = imported prior makes the product look more stable than its own 12-condition fit (anti-conservative); budget = 1.645 (s - s_data)")
 
 # 感度: 20 % を超える点を除く(著者の「約 20 % まで 0 次」)
@@ -140,7 +147,7 @@ DATA.clear(); DATA.update(DATA20)
 s1_20 = stage1_raw(keys20)
 f20 = np.array([SIG_REF ** 2 / SIG_T[k[0]] ** 2 for k in keys20]); s1_20['STT'] = s1_20['STT'] * f20; s1_20['RSS'] = s1_20['RSS'] * f20
 sig2_20 = s1_20['RSS'].sum() / s1_20['DF'].sum()
-o20 = M.stage2(s1_20, [90, 200, 0.02, 0.4], [1000, 100, 0.1, 10], 'gn', a0=A0, sig_ref=np.sqrt(sig2_20), iters=12, X=Xmat(keys20, True), x0=x0vec(2.0))
+o20 = M.stage2(s1_20, [90, 200, 0.02, 0.4], None, 'gn', a0=A0, sig_ref=np.sqrt(sig2_20), iters=12, X=Xmat(keys20, True), x0=x0vec(2.0))
 print(f"{len(keys20)} conditions kept (>= 3 points), pooled sigma {np.sqrt(sig2_20):.3f} %")
 report(o20, "4-parameter fit, points <= 20 %")
 DATA.clear(); DATA.update(_D)
@@ -159,19 +166,58 @@ OUT = M.fig_dir()
 plt.rcParams.update({"font.size": 9, "axes.spines.top": False, "axes.spines.right": False, "figure.dpi": 100, "savefig.dpi": 300,
                      "font.family": "sans-serif", "font.sans-serif": ["Helvetica", "Arial", "DejaVu Sans"], "mathtext.fontset": "dejavusans",
                      "pdf.fonttype": 42, "ps.fonttype": 42})
-fig, ax = plt.subplots(figsize=(4.2, 3.2)); tt = np.linspace(0, 6.5, 50)
+fig, ax = plt.subplots(figsize=(4.2, 3.2)); tt = np.linspace(0, 6.5, 50); ALLPTS = []
 for m, col in zip((0, 1, 2, 3, 4), ('C0', 'C1', 'C2', 'C3', 'C4')):
     x0 = x0vec(m); lnk = x0 @ b4; sc = np.sqrt(x0 @ C4 @ x0); k = np.exp(lnk) * 30.4375
     up = np.exp(lnk + stats.t.ppf(0.95, nu4) * sc) * 30.4375
     y = np.array(REALTIME[m]); tc = RT_MONTHS - RT_MONTHS.mean(); kobs = (tc * y).sum() / (tc ** 2).sum()
     resid = y - (y.mean() - kobs * RT_MONTHS.mean()) - kobs * RT_MONTHS; se_k = np.sqrt((resid ** 2).sum() / 2 / (tc ** 2).sum())
     print(f"MgSt {m} % {k:14.3f} {ALPHA0 + 6 * k:9.1f} {ALPHA0 + 6 * up:10.1f} {REALTIME[m][-1]:8.2f} {AUTHORS_6MO[m]:7.2f} {AUTHORS_6MO[m] / REALTIME[m][-1]:8.2f} | {kobs:8.3f} ± {se_k:.3f} %/mo")
+    # 10-27(模擬査読 M9): 6 か月だけでなく全時点で、実測が中央値・片側 95 % 上限のどちら側にあるか
+    ALLPTS.append((m, [(t_, yy, ALPHA0 + k * t_, ALPHA0 + up * t_) for t_, yy in zip(RT_MONTHS, y)]))
     ax.plot(tt, ALPHA0 + k * tt, '-', color=col, lw=1, label=f'MgSt {m} %'); ax.plot(tt, ALPHA0 + up * tt, ':', color=col, lw=0.8)
     ax.plot(RT_MONTHS, y, 'o', color=col, ms=4, mfc='white')
     ax.text(6.55, ALPHA0 + k * 6.5, f'{m} %', color=col, fontsize=7, va='center', ha='left')   # 白黒でも系列が読めるように右端にラベル
 ax.set_xlabel('months at 25 °C / 60 % RH'); ax.set_ylabel('total related substances (%)'); ax.set_xlim(0, 6.9); ax.set_ylim(0, 15)
 ax.legend(frameon=False, fontsize=7, loc='upper left'); ax.set_title('solid: posterior median; dotted: one-sided 95 % upper bound', loc='left', fontsize=8)
+print("\nall time points (months: observed / median / one-sided 95 % upper; * = observed above the upper bound)")
+nabove = 0
+for m, pts in ALLPTS:
+    cells = []
+    for t_, yy, med, upb in pts:
+        cells.append(f"{t_:g} mo {yy:5.2f} / {med:5.2f} / {upb:5.2f}{'*' if yy > upb else ' '}"); nabove += yy > upb
+    print(f"MgSt {m} %  " + " | ".join(cells))
+print(f"{nabove} of {sum(len(p) for _, p in ALLPTS)} measurements above the upper bound")
 fig.tight_layout()
 for ext in ('png', 'pdf'): fig.savefig(OUT / f"fig3_tamura_realtime.{ext}")
 M.save_tiff(fig, OUT / "fig3_tamura_realtime.tiff", dpi=600)   # カラー/グレー: 規程 300/600 dpi
 print(f"figure: {os.path.relpath(OUT / 'fig3_tamura_realtime.png')}")
+
+# ================================================================ 10-28(模擬査読 4 回目 M6): 個々の測定値の片側 95 % 予測上限
+# 上の上限は平均の分解量(速度)についてのもの。個々の測定値には分析の誤差 e ~ N(0, sigma_e^2) が加わる:
+#   Y(t) = ALPHA0 + t k(25/60) + e、ln k は位置 x0'beta・尺度 sc・自由度 nu4 の t(上と同じ事後)。
+# 予測分布の 95 % 点を求積(t 密度 × 正規の分布関数)と根の探索で求める(乱数なし)。ALPHA0 は固定(著者の初期値)。
+# sigma_e は温度ごとにプールした残差 SD のうち 35 °C(最も低い水準)と 40 °C(Stage 2 の尺度)の 2 通り。
+from scipy import integrate, optimize
+
+
+def pred_upper(t_, lnk, sc, nu, sig_e):
+    def cdf(yv):
+        f = lambda u: stats.t.pdf(u, nu) * stats.norm.cdf((yv - ALPHA0 - t_ * np.exp(lnk + sc * u) * 30.4375) / sig_e)
+        return integrate.quad(f, -60, 60, limit=200)[0]
+    hi = ALPHA0 + t_ * np.exp(lnk + 8 * sc) * 30.4375 + 6 * sig_e
+    return optimize.brentq(lambda yv: cdf(yv) - 0.95, ALPHA0 - 6 * sig_e, hi, xtol=1e-6)
+
+
+print("\n=== Prediction bound (M6, 10-28): one-sided 95 % upper prediction bound for an individual measurement at 25 C / 60 %RH ===")
+print("Y = alpha0 + t k + e, e ~ N(0, sigma_e^2); k from the sixty-condition fit as above; quadrature, no random numbers. Entries: observed / prediction bound (* = above)")
+for T_e in (35, 40):
+    sig_e = SIG_T[T_e]; nab = 0; lines = []
+    for m in (0, 1, 2, 3, 4):
+        x0 = x0vec(m); lnk = x0 @ b4; sc = np.sqrt(x0 @ C4 @ x0); cells = []
+        for t_, yy in zip(RT_MONTHS, REALTIME[m]):
+            pu = pred_upper(t_, lnk, sc, nu4, sig_e); cells.append(f"{t_:g} mo {yy:5.2f} / {pu:5.2f}{'*' if yy > pu else ' '}"); nab += yy > pu
+        lines.append(f"MgSt {m} %  " + " | ".join(cells))
+    print(f"-- sigma_e = {sig_e:.3f} % (residual SD pooled at {T_e} C)")
+    print("\n".join(lines))
+    print(f"   {nab} of 20 measurements above the prediction bound")

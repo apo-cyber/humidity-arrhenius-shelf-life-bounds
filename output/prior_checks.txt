@@ -1,0 +1,71 @@
+=== (a) M2a': weakly informative prior (SD 30 kJ/mol, 0.05 /%RH), sigma_ref = generating sigma x {1/2, 1, 2} ===
+    sigma_ref = sigma/2 widens the prior twofold in absolute units, 2 sigma narrows it twofold; the factor-1 rows reproduce Table 1 (Cw) and Table S7
+-- reference truth (Ea 80, B 0.04, t_SL 30), prior mean at the truth, ICH 3x2 0/2/4/6, assay sigma = 0.02
+   sigma_ref = 0.5 sigma: cover 0.969  LB/true 0.57  med/true 1.01  nu  15.0  p_eff 2.98
+   sigma_ref = 1.0 sigma: cover 0.971  LB/true 0.58  med/true 1.00  nu  15.1  p_eff 2.92
+   sigma_ref = 2.0 sigma: cover 0.984  LB/true 0.61  med/true 1.00  nu  15.3  p_eff 2.73
+-- reference truth (Ea 80, B 0.04, t_SL 30), prior mean at the truth, ICH 3x2 0/2/4/6, degradant sigma = 0.0075
+   sigma_ref = 0.5 sigma: cover 0.961  LB/true 0.81  med/true 1.00  nu  15.0  p_eff 3.00
+   sigma_ref = 1.0 sigma: cover 0.961  LB/true 0.81  med/true 1.00  nu  15.0  p_eff 2.99
+   sigma_ref = 2.0 sigma: cover 0.963  LB/true 0.81  med/true 1.00  nu  15.0  p_eff 2.95
+-- reference truth (Ea 80, B 0.04, t_SL 30), prior mean at the truth, ASAP-5 iso, assay sigma = 0.02
+   sigma_ref = 0.5 sigma: cover 0.960  LB/true 0.38  med/true 1.00  nu  12.0  p_eff 2.96
+   sigma_ref = 1.0 sigma: cover 0.971  LB/true 0.40  med/true 1.00  nu  12.1  p_eff 2.86
+   sigma_ref = 2.0 sigma: cover 0.991  LB/true 0.46  med/true 1.00  nu  12.4  p_eff 2.59
+-- reference truth (Ea 80, B 0.04, t_SL 30), prior mean at the truth, ASAP-5 iso, degradant sigma = 0.0075
+   sigma_ref = 0.5 sigma: cover 0.951  LB/true 0.69  med/true 1.00  nu  12.0  p_eff 2.99
+   sigma_ref = 1.0 sigma: cover 0.952  LB/true 0.69  med/true 1.00  nu  12.0  p_eff 2.98
+   sigma_ref = 2.0 sigma: cover 0.956  LB/true 0.70  med/true 1.00  nu  12.1  p_eff 2.92
+-- slow truth (Ea 40, B 0.02, t_SL 30), prior mean fixed at (80, 0.04), ICH 3x2 0/2/4/6, assay sigma = 0.02
+   sigma_ref = 0.5 sigma: cover 0.974  LB/true 0.19  med/true 1.45  nu  15.3  p_eff 2.67
+   sigma_ref = 1.0 sigma: cover 0.857  LB/true 0.47  med/true 2.70  nu  15.9  p_eff 2.08
+   sigma_ref = 2.0 sigma: cover 0.193  LB/true 1.46  med/true 4.63  nu  16.6  p_eff 1.44
+-- slow truth (Ea 40, B 0.02, t_SL 30), prior mean fixed at (80, 0.04), ICH 2x2 0/3/6, assay sigma = 0.02
+   sigma_ref = 0.5 sigma: cover 0.982  LB/true 0.10  med/true 1.81  nu   5.5  p_eff 2.47
+   sigma_ref = 1.0 sigma: cover 0.853  LB/true 0.38  med/true 3.85  nu   6.2  p_eff 1.79
+   sigma_ref = 2.0 sigma: cover 0.257  LB/true 1.41  med/true 5.58  nu   6.7  p_eff 1.29
+
+=== (b) M2b: informative priors centred at the truth; a_n with p_eff subtracted (this paper) vs the strictly conjugate count ===
+    reference truth (Ea 80, B 0.04, t_SL 30); sigma_ref = sigma; a0 = b0 = 0; same Stage 1 data for both counts
+-- ICH 3x2 0/2/4/6, assay sigma = 0.02, residual df of the flat fit 15
+   weak (30, 0.05)            p_eff subtracted: cover 0.967  LB/true 0.58  med/true 1.00  nu  15.1  p_eff 2.92
+                              strictly conjugate: cover 0.951  LB/true 0.61  med/true 1.00  nu  18.0  p_eff 2.92
+   typical Stage A (5, 0.01)  p_eff subtracted: cover 0.998  LB/true 0.73  med/true 1.00  nu  16.0  p_eff 2.02
+                              strictly conjugate: cover 0.998  LB/true 0.74  med/true 1.00  nu  18.0  p_eff 2.02
+   tight (3, 0.005)           p_eff subtracted: cover 1.000  LB/true 0.80  med/true 1.00  nu  16.5  p_eff 1.53
+                              strictly conjugate: cover 1.000  LB/true 0.81  med/true 1.00  nu  18.0  p_eff 1.53
+-- ICH 3x2 0/2/4/6, degradant sigma = 0.0075, residual df of the flat fit 15
+   weak (30, 0.05)            p_eff subtracted: cover 0.951  LB/true 0.81  med/true 1.00  nu  15.0  p_eff 2.99
+                              strictly conjugate: cover 0.936  LB/true 0.83  med/true 1.00  nu  18.0  p_eff 2.99
+   typical Stage A (5, 0.01)  p_eff subtracted: cover 0.972  LB/true 0.84  med/true 1.00  nu  15.3  p_eff 2.69
+                              strictly conjugate: cover 0.961  LB/true 0.85  med/true 1.00  nu  18.0  p_eff 2.69
+   tight (3, 0.005)           p_eff subtracted: cover 0.988  LB/true 0.86  med/true 1.00  nu  15.7  p_eff 2.33
+                              strictly conjugate: cover 0.982  LB/true 0.87  med/true 1.00  nu  18.0  p_eff 2.33
+-- ICH 2x2 0/3/6, assay sigma = 0.02, residual df of the flat fit 5
+   weak (30, 0.05)            p_eff subtracted: cover 0.990  LB/true 0.40  med/true 1.01  nu   5.2  p_eff 2.83
+                              strictly conjugate: cover 0.965  LB/true 0.50  med/true 1.01  nu   8.0  p_eff 2.83
+   typical Stage A (5, 0.01)  p_eff subtracted: cover 1.000  LB/true 0.69  med/true 1.00  nu   6.2  p_eff 1.81
+                              strictly conjugate: cover 1.000  LB/true 0.73  med/true 1.00  nu   8.0  p_eff 1.81
+   tight (3, 0.005)           p_eff subtracted: cover 1.000  LB/true 0.78  med/true 1.00  nu   6.6  p_eff 1.39
+                              strictly conjugate: cover 0.999  LB/true 0.80  med/true 1.00  nu   8.0  p_eff 1.39
+-- ICH 2x2 0/3/6, degradant sigma = 0.0075, residual df of the flat fit 5
+   weak (30, 0.05)            p_eff subtracted: cover 0.966  LB/true 0.69  med/true 1.00  nu   5.0  p_eff 2.97
+                              strictly conjugate: cover 0.926  LB/true 0.76  med/true 1.00  nu   8.0  p_eff 2.97
+   typical Stage A (5, 0.01)  p_eff subtracted: cover 0.997  LB/true 0.76  med/true 1.00  nu   5.5  p_eff 2.47
+                              strictly conjugate: cover 0.981  LB/true 0.81  med/true 1.00  nu   8.0  p_eff 2.47
+   tight (3, 0.005)           p_eff subtracted: cover 1.000  LB/true 0.82  med/true 1.00  nu   5.9  p_eff 2.08
+                              strictly conjugate: cover 0.998  LB/true 0.85  med/true 1.00  nu   8.0  p_eff 2.08
+-- ASAP-5 iso, assay sigma = 0.02, residual df of the flat fit 12
+   weak (30, 0.05)            p_eff subtracted: cover 0.965  LB/true 0.41  med/true 1.02  nu  12.1  p_eff 2.86
+                              strictly conjugate: cover 0.949  LB/true 0.46  med/true 1.02  nu  15.0  p_eff 2.86
+   typical Stage A (5, 0.01)  p_eff subtracted: cover 0.997  LB/true 0.66  med/true 1.01  nu  13.0  p_eff 2.00
+                              strictly conjugate: cover 0.995  LB/true 0.68  med/true 1.01  nu  15.0  p_eff 2.00
+   tight (3, 0.005)           p_eff subtracted: cover 0.992  LB/true 0.73  med/true 1.00  nu  13.4  p_eff 1.63
+                              strictly conjugate: cover 0.990  LB/true 0.74  med/true 1.00  nu  15.0  p_eff 1.63
+-- ASAP-5 iso, degradant sigma = 0.0075, residual df of the flat fit 12
+   weak (30, 0.05)            p_eff subtracted: cover 0.953  LB/true 0.70  med/true 1.00  nu  12.0  p_eff 2.98
+                              strictly conjugate: cover 0.933  LB/true 0.73  med/true 1.00  nu  15.0  p_eff 2.98
+   typical Stage A (5, 0.01)  p_eff subtracted: cover 0.988  LB/true 0.76  med/true 1.00  nu  12.5  p_eff 2.54
+                              strictly conjugate: cover 0.978  LB/true 0.78  med/true 1.00  nu  15.0  p_eff 2.54
+   tight (3, 0.005)           p_eff subtracted: cover 0.996  LB/true 0.81  med/true 1.00  nu  12.8  p_eff 2.22
+                              strictly conjugate: cover 0.992  LB/true 0.83  med/true 1.00  nu  15.0  p_eff 2.22

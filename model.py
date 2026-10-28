@@ -3,13 +3,17 @@
   モデル   ln k = beta0 + Ea*x1 + B*x2,  x1 = -(1/T - 1/T_ref)/R [mol/kJ],  x2 = RH - RH_ref [%RH]
            一次分解 ln(C/C0) = -k t + eps,  eps ~ N(0, sigma^2)(paper-A の生成モデル)
   真値     Ea = 80 kJ/mol, B = 0.04 /%RH, t_SL(95 %) = 30 か月 @ 25 °C / 60 %RH → t90 = 61.6 か月(paper-A CORE_BASELINE)
-  Stage 1  条件ごとの OLS → k_hat_i, S_tt,i, RSS_i, df_i = n_i - 2   (バッチは共通勾配・共通切片でプール)
+  Stage 1  条件ごとの OLS → k_hat_i, S_tt,i, RSS_i, df_i = n_i - B_i - 1   (B_i バッチはバッチ別の切片・共通勾配でプール、ICH Q1E の併合の形。10-27 R2)
   Stage 2  NIG 共役。3 方式:
              'obs'  観測 k_hat の重み k_hat_i^2 S_tt,i(paper-A 流儀。k_hat<=0 は捨てる)
              'fit'  当てはめ k~ の重み(ln k 尺度で反復。k_hat<=0 は捨てる)
              'gn'   k 空間 Gauss-Newton(Var(k_hat_i) = sigma^2/S_tt,i、捨てない)= 当てはめ重みの共役更新の Laplace 近似 ← 採用
            事前 beta|sigma^2 ~ N(mu0, sigma^2 Sigma0*),  Sigma0* = diag(SD^2)/sigma_ref^2,  sigma^2 ~ IG(a0, b0)
+           Stage A の既定は平坦(sd=None、a0 = b0 = 0、10-27 R2 = 模擬査読 2 回目の M1)。弱い事前 WEAK_SD は効き方を示す選択肢
            x0'beta の周辺事後 = Student-t(2 a_n)
+           a_n = a0 + (sum df_i + n - p_eff)/2(df_i = n_i - 2、B_i バッチなら n_i - B_i - 1)、p_eff = tr(Sigma_n* X'WX) = p - tr(Sigma_n* Sigma0*^-1)(データが決める係数の数)。
+           10-27 修正(模擬査読 M1): 以前は p_eff を引かず、平坦に近い係数の数 p = 3 だけ自由度が多かった(β|σ² の事前の σ^-p が残る)。
+           平坦(a0 = 0)では一段の N - n - 3 に一致し、強い事前の係数(Stage B の Ea・B)は数えない。DF_FIX = False で旧版。
   評価量   t90(25 °C / 60 %RH)の片側 95 % 下限 LB。固定真値での頻度論的被覆、LB/真値、中央値/真値、z = (中央値 - 真)/scale
   閉形式   設計の共分散(SE(ln k_i) 入力)、分散の内訳、rank-1 更新、Stage B の budget / 被覆 / 価格
 
@@ -28,6 +32,9 @@ T90_TRUE = -np.log(0.9) / K25                  # 61.62 か月
 LNT = np.log(T90_TRUE)
 LN_C = np.log(np.log(10 / 9))                  # ln g(0.10), 一次
 Z95 = stats.norm.ppf(0.95)                     # 1.645
+DF_FIX = True                                  # a_n から p_eff を引く(10-27、M1)。False で 10-22 版の数え方
+A0_STAGEB = 7.5                                # Stage B の分散事前 IG(a, a σ²): Stage A 要因(6 条件 × 4 点、平坦)の事後 2 a_n = 12 + 6 - 3 = 15(10-27 R2、旧 8 = a0 1/2 の 16 df)
+WEAK_SD = [100.0, 30.0, 0.05]                  # 弱い事前の SD (beta0, Ea, B)。10-27 R2 から既定ではなく、効き方を示す選択肢(平均は計画値)
 
 # 時間格子 [か月]
 MONTHS = np.array([0., 2., 4., 6.])                       # paper-A/B の基準(等間隔 4 点)
@@ -83,24 +90,25 @@ def x_target(ref=None, T=T0, rh=RH0):
 
 # ------------------------------------------------------------------ Stage 1
 def stage1(rng, conds, grids, nrep, sig, batches=1):
-    """条件ごとに ln(C/C0) を t に OLS。返り値: KH (nrep×n), RSS (nrep×n), STT (n), DF (n), N (n)。"""
+    """条件ごとに ln(C/C0) を t に OLS(batches > 1 はバッチ別の切片・共通勾配、df = n_t B - B - 1)。返り値: KH (nrep×n), RSS (nrep×n), STT (n), DF (n), N (n)。"""
     n = len(conds)
     KH = np.zeros((nrep, n)); RSS = np.zeros((nrep, n)); STT = np.zeros(n); DF = np.zeros(n); N = np.zeros(n)
     for i, ((T, rh), t) in enumerate(zip(conds, grids)):
-        t = np.tile(np.asarray(t, float), batches); k = k_true(T, rh)
+        t0 = np.asarray(t, float); t = np.tile(t0, batches); k = k_true(T, rh)
         y = -k * t + rng.normal(0, sig, (nrep, t.size))
-        tc = t - t.mean(); Stt = (tc ** 2).sum()
-        slope = (y * tc).sum(1) / Stt; icpt = y.mean(1) - slope * t.mean()
-        RSS[:, i] = ((y - icpt[:, None] - slope[:, None] * t) ** 2).sum(1)
-        KH[:, i] = -slope; STT[i] = Stt; DF[i] = t.size - 2; N[i] = t.size
+        tc = np.tile(t0 - t0.mean(), batches); Stt = (tc ** 2).sum()             # バッチ別の切片・共通勾配(バッチ内で中心化)
+        slope = (y * tc).sum(1) / Stt
+        yb = y.reshape(nrep, batches, t0.size); icpt = yb.mean(2) - slope[:, None] * t0.mean()
+        RSS[:, i] = ((yb - icpt[:, :, None] - slope[:, None, None] * t0) ** 2).sum((1, 2))
+        KH[:, i] = -slope; STT[i] = Stt; DF[i] = t.size - batches - 1; N[i] = t.size
     return dict(KH=KH, RSS=RSS, STT=STT, DF=DF, N=N, conds=list(conds))
 
 
 # ------------------------------------------------------------------ Stage 2
-def stage2(s1, mu0, sd, method='gn', a0=0.5, b0=None, sig_ref=0.02, iters=6, ref=None, X=None, x0=None, cov0=None):
-    """NIG 共役更新(3 方式)。mu0, sd は (beta0, Ea, B) の事前平均と SD。
+def stage2(s1, mu0, sd, method='gn', a0=0.0, b0=None, sig_ref=0.02, iters=6, ref=None, X=None, x0=None, cov0=None):
+    """NIG 共役更新(3 方式)。mu0, sd は (beta0, Ea, B) の事前平均と SD。sd = None かつ cov0 = None で平坦(既定 a0 = b0 = 0 と合わせて一段と同じ ν = N - n - 3)。
     ref で中心化すると beta0 の意味が変わるので、mu0[0] は ref での ln k として与える(平坦なら無関係)。
-    返り値: lb (ln t90 の片側 95 % 下限), med (事後中央値), scale, nu, drop (k_hat<=0 の割合), mean (nrep×3), cov (nrep×3×3, sigma^2 単位)。"""
+    返り値: lb (ln t90 の片側 95 % 下限、GN が発散した反復は -inf = 下限なし), med (事後中央値), scale, nu, drop (k_hat<=0 の割合), mean (nrep×3), cov (nrep×3×3, sigma^2 単位)。"""
     KH, RSS, STT, DF, conds = s1['KH'], s1['RSS'], s1['STT'], s1['DF'], s1['conds']
     nrep, n = KH.shape
     if X is None:
@@ -109,8 +117,11 @@ def stage2(s1, mu0, sd, method='gn', a0=0.5, b0=None, sig_ref=0.02, iters=6, ref
     if b0 is None:
         b0 = a0 * sig_ref ** 2
     mu0 = np.asarray(mu0, float)
-    # 事前精度(sigma^2 単位): 対角 sd か、輸入用の共分散 cov0(絶対単位、sigma_ref^2 = b0/a0 でスケール)
-    P0m = (b0 / a0) * (np.linalg.inv(np.asarray(cov0, float)) if cov0 is not None else np.diag(1 / np.asarray(sd, float) ** 2))
+    # 事前精度(sigma^2 単位): 平坦、対角 sd か、輸入用の共分散 cov0(絶対単位、sigma_ref^2 = b0/a0、a0 = 0 なら sig_ref でスケール)
+    if cov0 is None and sd is None:
+        P0m = 1e-10 * np.eye(p)                                                     # 平坦(逆行列のための微小な正則化)
+    else:
+        P0m = (b0 / a0 if a0 > 0 else sig_ref ** 2) * (np.linalg.inv(np.asarray(cov0, float)) if cov0 is not None else np.diag(1 / np.asarray(sd, float) ** 2))
     P0 = np.diag(P0m)                                                                 # 'obs'/'fit' の b_n 用(対角近似)
     valid = KH > 0; y = np.where(valid, np.log(np.where(valid, KH, 1.0)), 0.0)
     a1 = a0 + DF.sum() / 2; b1 = b0 + RSS.sum(1) / 2
@@ -142,17 +153,23 @@ def stage2(s1, mu0, sd, method='gn', a0=0.5, b0=None, sig_ref=0.02, iters=6, ref
         bn = b1 + 0.5 * ((STT[None] * (KH - kf) ** 2).sum(1) + np.einsum('rj,jk,rk->r', d, P0m, d))
     else:
         raise ValueError(method)
+    p_eff = p - np.einsum('rjk,kj->r', Sn, P0m)                                      # tr(Sigma_n* X'WX)
+    if DF_FIX:
+        an = an - p_eff / 2
     m = beta @ x0; scale = np.sqrt(bn / an * np.einsum('j,rjk,k->r', x0, Sn, x0)); nu = 2 * an
-    return dict(lb=LN_C - m - stats.t.ppf(0.95, nu) * scale, med=LN_C - m, scale=scale, nu=nu,
+    lb = LN_C - m - stats.t.ppf(0.95, nu) * scale
+    bad = ~np.isfinite(lb); lb = np.where(bad, -np.inf, lb)                       # GN が発散(情報のない設計)→ 下限なし
+    return dict(lb=lb, n_bad=bad.sum(), med=LN_C - m, scale=scale, nu=nu, p_eff=p_eff,
                 drop=(~valid).mean(), mean=beta, cov=Sn * (bn / an)[:, None, None])
 
 
 def summarise(o):
-    """被覆, LB/真値, LB/中央値, 中央値/真値, z 平均, z SD, drop %。"""
-    z = (o['med'] - LNT) / o['scale']
-    return dict(cover=(o['lb'] <= LNT).mean(), lb_true=np.exp(np.median(o['lb'])) / T90_TRUE,
-                lb_med=np.exp(np.median(o['lb'] - o['med'])), med_true=np.exp(np.median(o['med'])) / T90_TRUE,
-                z_mean=z.mean(), z_sd=z.std(), drop=100 * o['drop'])
+    """被覆, LB/真値, LB/中央値, 中央値/真値, z 平均, z SD, drop %, nobound %(下限なし = lb が -inf の反復、被覆には含める)。"""
+    lb = o['lb']; ok = np.isfinite(lb)
+    z = (o['med'] - LNT) / o['scale']; z = z[np.isfinite(z)]
+    return dict(cover=(lb <= LNT).mean(), lb_true=np.exp(np.median(lb)) / T90_TRUE,
+                lb_med=np.exp(np.median(np.where(ok, lb - o['med'], -np.inf))), med_true=np.exp(np.nanmedian(o['med'])) / T90_TRUE,
+                z_mean=z.mean(), z_sd=z.std(), drop=100 * o['drop'], nobound=100 * (~ok).mean())
 
 
 # ------------------------------------------------------------------ 閉形式(設計)
@@ -225,6 +242,49 @@ def inflation_f(shift, s_data, prior_var_lever):
     return max(1.0, np.sqrt(need / prior_var_lever))
 
 # ------------------------------------------------------------------ 正面比較用の他の区間法(同じ Stage 1 要約から)
+DF_MIN_OWN = 5                                 # Stage B の残差 df がこれ未満なら、同じ分析法・分析室を確かめたうえで Stage A の分散を運ぶ(10-27 決定)
+
+
+def stageB_var_df(df_B, var_A=None):
+    """Stage B の分散の df: 自前の df_B か、例外(df_B < DF_MIN_OWN かつ var_A = (a_A, b_A) あり)で 2 a_A + df_B。"""
+    return 2 * var_A[0] + df_B if (var_A is not None and df_B < DF_MIN_OWN) else df_B
+
+
+def stageB_decoupled(s1, mu_EB, sd_EB, rho=0.0, var_A=None, iters=6):
+    """Stage B(単一条件)の標準(10-27、模擬査読 M2): 係数の事前を σ² から切り離す。
+    (Ea, B) の事前 N(mu_EB, Σ_A) は絶対単位のまま(Stage A の事後の平均と共分散)、切片は平坦。データが決めるのはその条件の ln k だけなので
+      ln k(保存) = ln k̃_B + L_T Ea + L_RH B、  s² = σ̂²/(k̃² S_tt) + ℓ' Σ_A ℓ
+    σ̂² は Stage B の残差だけ(df = n_t B − B − 1、バッチ別の切片)。例外: 残差 df が DF_MIN_OWN 未満で、同じ分析法・分析室を確かめた場合だけ
+    var_A = (a_A, b_A)(Stage A の分散の事後 IG)を渡し、合併する。df が DF_MIN_OWN 以上なら var_A は使わない。
+    t の df は Welch–Satterthwaite: ν = s⁴ / ((σ̂²/(k̃² S_tt))² / df)。k̃ は k 空間 GN の当てはめ(k̂ > 0 なら k̂、k̂ ≤ 0 は stage2 と同じ扱い)。"""
+    conds = s1['conds']; assert len(conds) == 1, "単一条件の Stage B 用"
+    T_B, RH_B = conds[0]
+    sdE, sdB = sd_EB
+    X = design_matrix(conds)
+    kpos = s1['KH'][:, 0][s1['KH'][:, 0] > 0]                                         # GN の出発点: 切片を k̂ の中央値に合わせる
+    b0_init = np.log(np.median(kpos) if kpos.size else 1e-12) - mu_EB[0] * X[0, 1] - mu_EB[1] * X[0, 2]
+    o = stage2(s1, [b0_init, mu_EB[0], mu_EB[1]], [100.0, sdE, sdB], 'gn', iters=iters)   # 中央値と k̃(事前の σ 単位は中央値にほぼ効かない)
+    kt = np.exp(o['mean'] @ X[0])
+    RSS = s1['RSS'][:, 0]; STT = s1['STT'][0]; DF = s1['DF'][0]
+    if var_A is None or DF >= DF_MIN_OWN:
+        s2 = RSS / DF; nu_d = DF
+    else:
+        a_A, b_A = var_A; s2 = (2 * b_A + RSS) / (2 * a_A + DF); nu_d = 2 * a_A + DF
+    L_T, L_RH = levers(T_B, RH_B)
+    lnk_B = np.log(kt)
+    med = LN_C - (lnk_B + L_T * mu_EB[0] + L_RH * mu_EB[1])
+    v_data = s2 / (kt ** 2 * STT)
+    p = (L_T * sdE) ** 2 + (L_RH * sdB) ** 2 + 2 * L_T * L_RH * rho * sdE * sdB
+    var = v_data + p; nu = var ** 2 / (v_data ** 2 / nu_d)
+    return dict(lb=med - stats.t.ppf(0.95, nu) * np.sqrt(var), med=med, scale=np.sqrt(var), nu=nu, drop=(s1['KH'][:, 0] <= 0).mean())
+
+
+def stageB_nu_expected(s_data, sd_Ea, sd_B, df, rho=0.0, T_B=40.0, RH_B=75.0):
+    """切り離した Stage B の Satterthwaite の df を、σ̂ = σ(期待値)で。閉形式の t 版に使う。"""
+    s2 = stageB_scale(s_data, sd_Ea, sd_B, rho, T_B, RH_B) ** 2
+    return s2 ** 2 / (s_data ** 4 / df)
+
+
 def stage2_paperA(s1, mu0, sd, floor=0.05, ref=None):
     """paper-A 公開版を 2 軸に転記: 観測重み 1/sigma_j^2, sigma_j = max(s_j, floor k_hat_j)/k_hat_j(s_j = Stage 1 の SE(k_hat)、
     残差 df で推定)、beta の正規事後(sigma^2 の事前なし)、区間は v + 残差分散 SS_res/(n-3) を足して正規分位(片側 1.645)。
@@ -247,7 +307,7 @@ def stage2_paperA(s1, mu0, sd, floor=0.05, ref=None):
 def one_stage_delta(s1, ref=None, iters=8, fbh_draws=0, rng=None):
     """AccelStab 型: 全生データの一段非線形当てはめ(条件ごとの切片 + 共通 beta、一次)+ delta 法 + t 分位。
     条件ごとの切片を消去すると、beta の最尤 = k 空間 GN(平坦事前)、総 RSS = sum RSS_i + sum S_tt,i (k_hat_i - k_i(beta))^2 なので
-    Stage 1 の要約だけで厳密に計算できる。df = N - n - 3。fbh_draws>0 なら多変量 t から引いて分位(FBH)も返す。"""
+    Stage 1 の要約だけで厳密に計算できる。df = N - n - 3(1 条件 1 バッチの前提。compare.py だけで使う)。fbh_draws>0 なら多変量 t から引いて分位(FBH)も返す。"""
     KH, RSS, STT, DF, N, conds = s1['KH'], s1['RSS'], s1['STT'], s1['DF'], s1['N'], s1['conds']
     nrep, n = KH.shape; X = design_matrix(conds, ref); x0 = x_target(ref)
     valid = KH > 0; y = np.where(valid, np.log(np.where(valid, KH, 1.0)), 0.0); Wd = np.where(valid, KH ** 2 * STT[None], 0.0)
@@ -268,13 +328,23 @@ def one_stage_delta(s1, ref=None, iters=8, fbh_draws=0, rng=None):
     return out
 
 
-def asap_type_mc(s1, draws=2000, rng=None, ref=None):
+def asap_type_mc(s1, draws=2000, rng=None, ref=None, se_mode='plugin', sig=None):
     """ASAP 型(仕様は公開情報からの推定): ln t_iso,i(= -ln k_hat_i + const)を無重みの最小二乗で (1, x1, RH) に回帰し、
-    Stage 1 の誤差 SE(ln k_hat_i)(残差 df で推定)から ln k を draws 回引き直して refit、ln t90 の 5 % 点を下限に。k_hat<=0 は捨てる。"""
+    Stage 1 の誤差 SE(ln k_hat_i)から ln k を正規分布で draws 回引き直して refit、ln t90 の 5 % 点を下限に。k_hat<=0 は捨てる。
+    se_mode: 'plugin' = 条件ごとの残差 df で推定した sigma(本稿の再構成、4 点なら df 2)、'pooled' = 条件をまたいで合併した sigma、
+    'known' = sigma を与える(sig、ソフトウェアで分析誤差を入力する場合に近い)。10-27 模擬査読 2 回目 M3。"""
     KH, RSS, STT, DF, conds = s1['KH'], s1['RSS'], s1['STT'], s1['DF'], s1['conds']
     nrep, n = KH.shape; X = design_matrix(conds, ref); x0 = x_target(ref)
     valid = KH > 0; y = np.where(valid, np.log(np.where(valid, KH, 1.0)), 0.0)
-    se = np.sqrt(RSS / DF[None] / STT[None]) / np.where(valid, KH, 1.0)
+    if se_mode == 'plugin':
+        s2 = RSS / DF[None]
+    elif se_mode == 'pooled':
+        s2 = np.repeat((RSS.sum(1) / DF.sum())[:, None], n, 1)
+    elif se_mode == 'known':
+        s2 = np.full((nrep, n), sig ** 2)
+    else:
+        raise ValueError(se_mode)
+    se = np.sqrt(s2 / STT[None]) / np.where(valid, KH, 1.0)
     Wv = valid.astype(float)
     Pn = np.einsum('ri,ij,ik->rjk', Wv, X, X) + 1e-12 * np.eye(3)[None]; Pinv = np.linalg.inv(Pn)
     beta = np.einsum('rjk,rk->rj', Pinv, np.einsum('ri,ij->rj', Wv * y, X)); m = beta @ x0
@@ -284,11 +354,13 @@ def asap_type_mc(s1, draws=2000, rng=None, ref=None):
     return dict(lb=LN_C - np.quantile(lnk0, 0.95, axis=1), med=LN_C - m, scale=np.std(lnk0, axis=1), nu=np.nan, drop=(~valid).mean())
 
 
-def bias_obs_weights(conds, grids, sig, batches=1, ref=None):
+def bias_obs_weights(conds, grids, sig, batches=1, ref=None, X=None, x0=None):
     """命題 2(式 (13′)): 2 次までの偏り、x0 での ln k(ln t90 の偏りは符号反転)。
     (i) 観測重み: sigma^2 M^{-1} X' (3/2 1 - 2h) = Jensen (-v_i/2) + 観測重み項 (2 v_i (1-h_ii))
     (ii) 対数尺度 + 当てはめ重み: Jensen のみ  (iii) k 空間 GN: Box (1971) の曲率バイアス -sigma^2/2 M^{-1} X' h"""
-    X = design_matrix(conds, ref); x0 = x_target(ref)
+    if X is None:
+        X = design_matrix(conds, ref); x0 = x_target(ref)
+    X = np.asarray(X, float); x0 = np.asarray(x0, float)                              # X, x0 を渡せば温度だけの設計(2 列)にも使える
     v = np.array([se_lnk(T, rh, g, sig, batches) ** 2 for (T, rh), g in zip(conds, grids)])
     w = sig ** 2 / v
     Minv = np.linalg.inv(X.T @ (w[:, None] * X))

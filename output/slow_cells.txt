@@ -1,0 +1,5 @@
+cell: Ea 40 kJ/mol, B 0.02 /%RH, shelf life 60 months; ICH 3x2 on 0/2/4/6 months; assay sigma 0.02; 4000 replicates; flat prior, nu = 15
+conditions with k_hat <= 0: 22.0 % of condition fits; replicates with at least one: 78.3 %
+(1) code: additive step, ridge 1e-10                 non-finite (bound set to 0)  0.15 % | bound below e^-10 of the truth  22.2 % | coverage 1.000 | median bound/truth 0.009
+(2) Algorithm as printed: working response, no ridge non-finite (bound set to 0) 12.03 % | bound below e^-10 of the truth  29.2 % | coverage 1.000 | median bound/truth 0.008
+replicates with both bounds above e^-10 of the truth: 70.2 %; max |difference| of the two bounds there 5.8e+00 in ln t90

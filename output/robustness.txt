@@ -1,52 +1,63 @@
 === (A) batch-to-batch variation: ln k per batch = ln k + N(0, tau^2); assay sigma=0.02; grid 0/2/4/6 mo; B=3 ===
 truth for coverage = t90 of the batch-mean ln k (the product's typical batch)
 
--- Stage B: 40/75 only, prior (5, 0.01) exact (shift 0) and displaced (dEa=5); pooled common slope vs batch-as-unit
+-- Stage B: 40/75 only, prior (5, 0.01) exact (shift 0) and displaced (dEa=5); pooled (per-batch intercepts, common slope; decoupled, Stage B variance) vs batch-as-unit; last: 10-22 NIG pooled, exact / dEa=5
   tau | pooled: cover LB/true LB/med | batch-unit: cover LB/true LB/med | pooled cover @dEa=5 batch-unit @dEa=5
- 0.00 |         0.996    0.66   0.66 |             0.984    0.64   0.66 |               0.980             0.956
- 0.05 |         0.996    0.66   0.66 |             0.983    0.64   0.66 |               0.980             0.953
- 0.10 |         0.994    0.65   0.66 |             0.981    0.63   0.65 |               0.979             0.954
- 0.20 |         0.993    0.64   0.65 |             0.978    0.60   0.62 |               0.971             0.955
- 0.30 |         0.987    0.62   0.64 |             0.976    0.55   0.58 |               0.961             0.955
+ 0.00 |         0.994    0.65   0.66 |             0.984    0.64   0.66 |               0.977             0.956 | NIG 0.997 / 0.984
+ 0.05 |         0.993    0.65   0.66 |             0.983    0.64   0.66 |               0.976             0.953 | NIG 0.996 / 0.984
+ 0.10 |         0.992    0.65   0.66 |             0.981    0.63   0.65 |               0.973             0.954 | NIG 0.995 / 0.983
+ 0.20 |         0.987    0.64   0.65 |             0.978    0.60   0.62 |               0.967             0.955 | NIG 0.992 / 0.973
+ 0.30 |         0.980    0.62   0.65 |             0.976    0.55   0.58 |               0.959             0.955 | NIG 0.987 / 0.960
 
--- Stage A: ICH 3x2 x 3 batches, weak prior, pooled common slope (Stage 2 residuals absorb part of tau)
+-- Stage A: ICH 3x2 x 3 batches, flat prior, pooled (per-batch intercepts, common slope; tau is not in the variance model)
   tau  cover LB/true LB/med med/true  z sd
- 0.00  0.956    0.74   0.74     1.00  1.03
- 0.05  0.954    0.72   0.72     1.00  1.05
- 0.10  0.943    0.68   0.69     1.00  1.11
- 0.20  0.934    0.57   0.59     0.99  1.21
- 0.30  0.937    0.46   0.49     0.97  1.26
-(paper-B, Section 4.5: between-batch SD of ln k of 0.05-0.1 is typical for a well-controlled product; 0.2-0.3 is large)
+ 0.00  0.957    0.73   0.73     1.00  1.02
+ 0.05  0.948    0.72   0.72     1.00  1.08
+ 0.10  0.926    0.70   0.70     1.00  1.21
+ 0.20  0.885    0.63   0.64     0.99  1.46
+ 0.30  0.872    0.55   0.57     0.98  1.61
+(tau = 0.3 is a between-batch coefficient of variation of the rate of about 30 %)
+-- same, Stage 1 with a common intercept per condition (for comparison; the batch component leaks into RSS and inflates sigma_hat^2)
+   tau 0.00: 0.959 / tau 0.05: 0.956 / tau 0.10: 0.948 / tau 0.20: 0.939 / tau 0.30: 0.940
 
-=== (B) kinetic order: dalpha/dt = k (1-alpha)^n; ICH 3x2, 0/2/4/6 mo, 1 batch, assay sigma=0.02, weak prior; nrep=3000 ===
+=== (B) kinetic order: dalpha/dt = k (1-alpha)^n; ICH 3x2, 0/2/4/6 mo, 1 batch, assay sigma=0.02, flat prior; nrep=3000 ===
 g_n(0.10): n=0: 0.1000, n=0.5: 0.1026, n=1: 0.1054, n=1.5: 0.1082, n=2: 0.1111, n=2.5: 0.1141, n=3: 0.1173
 
 -- true n=1: t90(25/60)=61.6 mo; 6-mo loss per condition = 5% 8% 12% 20% 26% 43%
 fit                                 cover LB/true med/true LB/med
-n=1 assumed = true                  0.953    0.61     1.00   0.61
-n profiled on grid, plug-in best n  0.910    0.63     1.04   0.61   | n_hat: median 1.0, P(|n_hat-n|<=0.5)=0.89
-n profiled, t-mixture over weights  0.935    0.61     1.06   0.58
+n=1 assumed = true                  0.961    0.57     1.01   0.57
+n profiled on grid, plug-in best n  0.929    0.59     1.05   0.57   | n_hat: median 1.0, P(|n_hat-n|<=0.5)=0.88
+n profiled, t-mixture over weights  0.944    0.57     1.06   0.55
 
 -- true n=2: t90(25/60)=63.3 mo; 6-mo loss per condition = 5% 8% 11% 19% 24% 36%
 fit                                 cover LB/true med/true LB/med
-first-order (n=1) assumed           0.995    0.44     0.76   0.58
-true order n=2 known                0.961    0.58     0.99   0.59
-n profiled on grid, plug-in best n  0.934    0.60     1.02   0.59   | n_hat: median 2.0, P(|n_hat-n|<=0.5)=0.69
-n profiled, t-mixture over weights  0.963    0.56     1.00   0.56
+first-order (n=1) assumed           0.996    0.40     0.75   0.54
+true order n=2 known                0.968    0.54     1.00   0.54
+n profiled on grid, plug-in best n  0.950    0.56     1.03   0.55   | n_hat: median 2.0, P(|n_hat-n|<=0.5)=0.71
+n profiled, t-mixture over weights  0.971    0.52     1.02   0.52
 
 -- true n=0: t90(25/60)=60.0 mo; 6-mo loss per condition = 5% 9% 12% 22% 30% 54%
 fit                                 cover LB/true med/true LB/med
-first-order (n=1) assumed           0.616    0.93     1.73   0.54
-true order n=0 known                0.957    0.63     1.00   0.63
-n profiled on grid, plug-in best n  0.905    0.68     1.08   0.63   | n_hat: median 0.0, P(|n_hat-n|<=0.5)=0.98
-n profiled, t-mixture over weights  0.917    0.67     1.10   0.62
+first-order (n=1) assumed           0.698    0.87     1.80   0.49
+true order n=0 known                0.962    0.59     0.99   0.60
+n profiled on grid, plug-in best n  0.921    0.64     1.08   0.59   | n_hat: median 0.0, P(|n_hat-n|<=0.5)=0.99
+n profiled, t-mixture over weights  0.936    0.63     1.09   0.58
 
 -- ASAP-like, all conditions below ~20 % conversion: does n matter?
 true n=1; 28-d loss = 3% 2% 1% 18% 10%
-   fit n=1: cover 1.000  med/true 1.04  LB/med 0.16
-   fit n=2: cover 1.000  med/true 1.13  LB/med 0.16
+   fit n=1: cover 1.000  med/true 1.03  LB/med 0.05
+   fit n=2: cover 1.000  med/true 1.21  LB/med 0.05
 true n=2; 28-d loss = 3% 2% 1% 17% 10%
-   fit n=1: cover 1.000  med/true 0.95  LB/med 0.16
-   fit n=2: cover 1.000  med/true 1.02  LB/med 0.16
+   fit n=1: cover 1.000  med/true 0.85  LB/med 0.05
+   fit n=2: cover 1.000  med/true 0.98  LB/med 0.05
 
-=== (C) isoconversion entry k_hat_i = g(alpha*)/t_hat_iso,i: max |LB difference| = 8.67e-13 (identical by construction) ===
+=== (C) isoconversion entry k_hat_i = g(alpha*)/t_hat_iso,i: max |LB difference| = 2.19e-12 (identical by construction) ===
+
+=== (D) residual SD differing between conditions; ICH 3x2 (40/50/60 C x 60/75 %RH), 0/2/4/6 mo, 1 batch, flat prior, common-sigma estimator; nrep=4000 ===
+SDs listed in the order 40/60, 40/75, 50/60, 50/75, 60/60, 60/75
+  equal, assay 0.02                              cover 0.965  LB/true 0.58
+  by RH: 0.01 at 60 %, 0.03 at 75 %              cover 0.936  LB/true 0.55
+  by RH reversed: 0.03 at 60 %, 0.01 at 75 %     cover 0.989  LB/true 0.54
+  by T: 0.005 / 0.02 / 0.04 at 40 / 50 / 60 C    cover 0.971  LB/true 0.53
+  by T reversed: 0.04 / 0.02 / 0.005             cover 0.978  LB/true 0.47
+  degradant 0.0075: 0.5x at 60 %, 1.5x at 75 %   cover 0.924  LB/true 0.80

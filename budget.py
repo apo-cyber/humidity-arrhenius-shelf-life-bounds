@@ -1,7 +1,7 @@
 """paper-C §4 の閉形式の図。Figure 2:
   (a) 事前平均のずれ(shift、ln t90 単位)に対する片側 95 % 下限の被覆。輸入事前 4 種。× = budget(被覆 = 0.95 の点)
   (b) 頑健化の価格: 備えるずれ(shift)→ 必要な膨張 f → bound/median。Stage B の精度 3 種(0/2/4/6 × 3 バッチ、0/3/6 × 3、0/1/3 × 1)
-上軸に dEa 単独 / dB 単独の目盛り。数値は simulate.py の Table 4 / 5 と同じ式(model.py)。
+上軸に dEa 単独 / dB 単独の目盛り。数値は simulate.py の本文 Table 3・補足 S3 と同じ式(model.py)。
 
     python3 budget.py > output/budget.txt
 """
@@ -43,11 +43,32 @@ for grid, batches, lab in STAGEB:
     print(f"  Stage B {lab:24s} s_data={sd:.3f}: bound/med at covered shift 0 / 0.1 / 0.2 / 0.3 / 0.5 = "
           + " / ".join(f"{np.exp(-M.Z95 * M.stageB_scale(sd, 5 * M.inflation_f(x, sd, pv), 0.01 * M.inflation_f(x, sd, pv))):.2f}" for x in (0, 0.1, 0.2, 0.3, 0.5)))
 
+# 10-27: 切り離した Stage B(σ² は Stage B だけ、Satterthwaite の t)。(a) に典型的な事前の被覆の模擬値(ΔEa だけずらす)、
+# (b) に t 分位(期待される Satterthwaite の df)での下限を破線で重ねる。df の小さい Stage B(0/1/3 × 1 バッチ、df 1)で差が出る。
+from scipy import stats
+SIMPTS = []
+rng = np.random.default_rng(1)
+s1B = M.stage1(rng, [(40, 75)], [M.MONTHS], 4000, 0.02, batches=3)
+for dE in (-10, -5, 0, 5, 10, 15, 20, 25, 30, 40):
+    o = M.stageB_decoupled(s1B, [M.EA + dE, M.B_TRUE], [5, 0.01])
+    SIMPTS.append((M.shift_of(dE, 0), (o['lb'] <= M.LNT).mean()))
+print("\n(a') simulated coverage, decoupled Stage B, typical prior (5, 0.01), dEa only (shift, coverage, closed form): "
+      + "; ".join(f"{x:+.2f} {c:.3f} ({M.coverage_cf(M.stageB_scale(SDATA, 5, 0.01), x, SDATA):.3f})" for x, c in SIMPTS))
+print("\n(b') bound/median with the t quantile on the expected Satterthwaite df (Stage B variance; Stage A's pooled in when Stage B df < 5)")
+for grid, batches, lab in STAGEB:
+    sd = M.se_lnk(40, 75, grid, 0.02, batches); pv = (L_T * 5) ** 2 + (L_RH * 0.01) ** 2; df = M.stageB_var_df(batches * len(grid) - batches - 1, (M.A0_STAGEB, M.A0_STAGEB * 0.02 ** 2))
+    vals = []
+    for x in (0, 0.1, 0.2, 0.3, 0.5):
+        f = M.inflation_f(x, sd, pv); s = M.stageB_scale(sd, 5 * f, 0.01 * f); nu = M.stageB_nu_expected(sd, 5 * f, 0.01 * f, df)
+        vals.append(f"{np.exp(-stats.t.ppf(0.95, nu) * s):.2f} (nu {nu:.1f})")
+    print(f"  Stage B {lab:24s} df {df}: " + " / ".join(vals))
+
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.2, 3.1))
 for (sdE, sdB), lab in PRIORS:
     s = M.stageB_scale(SDATA, sdE, sdB); b = M.budget(s, SDATA)
     ax1.plot(shifts, M.coverage_cf(s, shifts, SDATA), label=lab)
     ax1.plot(b, 0.95, 'x', color='k', ms=5)
+ax1.plot([x for x, _ in SIMPTS], [c for _, c in SIMPTS], 'o', color='C1', ms=3.5, mfc='white', label='simulated, typical prior')
 ax1.axhline(0.95, color='#999999', lw=0.6, ls='--')
 ax1.set_xlabel('shift of the imported mean in $\\ln t_{90}$ (+ = anti-conservative)')
 ax1.set_ylabel('coverage of the one-sided 95 % bound'); ax1.set_ylim(0, 1.02); ax1.set_xlim(-0.3, 0.8)
@@ -59,7 +80,11 @@ ins = np.linspace(0, 0.8, 161)
 for grid, batches, lab in STAGEB:
     sd = M.se_lnk(40, 75, grid, 0.02, batches); pv = (L_T * 5) ** 2 + (L_RH * 0.01) ** 2
     y = [np.exp(-M.Z95 * M.stageB_scale(sd, 5 * M.inflation_f(x, sd, pv), 0.01 * M.inflation_f(x, sd, pv))) for x in ins]
-    ax2.plot(ins, y, label=f'Stage B {lab} ($s_{{\\rm data}}$ = {sd:.2f})')
+    line, = ax2.plot(ins, y, label=f'Stage B {lab} ($s_{{\\rm data}}$ = {sd:.2f})')
+    df = M.stageB_var_df(batches * len(grid) - batches - 1, (M.A0_STAGEB, M.A0_STAGEB * 0.02 ** 2))
+    yt = [np.exp(-stats.t.ppf(0.95, M.stageB_nu_expected(sd, 5 * M.inflation_f(x, sd, pv), 0.01 * M.inflation_f(x, sd, pv), df))
+                 * M.stageB_scale(sd, 5 * M.inflation_f(x, sd, pv), 0.01 * M.inflation_f(x, sd, pv))) for x in ins]
+    ax2.plot(ins, yt, '--', color=line.get_color(), lw=0.9)
 for dE, dB, txt in ((10, 0, '$\\Delta E_a$=10'), (0, 0.02, '$\\Delta B$=0.02'), (10, 0.02, 'both')):
     x = M.shift_of(dE, dB); ax2.axvline(x, color='#bbbbbb', lw=0.6); ax2.text(x, 0.98, txt, fontsize=6.5, ha='center', va='top', color='#555555')
 ax2.set_xlabel('displacement covered, shift in $\\ln t_{90}$'); ax2.set_ylabel('one-sided 95 % bound / median')

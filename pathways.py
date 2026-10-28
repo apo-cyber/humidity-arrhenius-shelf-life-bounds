@@ -1,10 +1,10 @@
-"""Section 5.5 / Proposition 4: two pathways. Generating model = first-order loss whose rate is the SUM of two
+"""Section 5.5 / Proposition 2 (sign) and Supplementary S6 (size): two pathways. Generating model = first-order loss whose rate is the SUM of two
 Arrhenius pathways (parallel; ln k convex in 1/T) or the reciprocal sum (consecutive; concave), both sharing B.
 Calibrated so that k(25 °C/60 % RH) = K25 (t90 = 61.6 mo unchanged) with equal pathway rates at 25 °C.
-The estimator of the paper (single Arrhenius line, working weights, NIG-t, weak prior) is applied unchanged.
+The estimator of the paper (single Arrhenius line, working weights, NIG-t, flat prior) is applied unchanged.
 Reported: coverage of the one-sided 95 % bound, LB/true, median/true, the simulated displacement of ln k at 25 °C
 (= -ln(median/true)), the noise-free (pseudo-true) displacement of the weighted least-squares line, and the
-second-order closed form 1/2 Var_w(E) (l_T^2 - s_T^2) of Proposition 4(iii)."""
+second-order closed form 1/2 Var_w(E) (l_T^2 - s_T^2) of Supplementary S6."""
 import numpy as np
 import model as M
 
@@ -55,20 +55,22 @@ def closed_form(conds, w, delta, kind):
 
 if __name__ == "__main__":
     rng = np.random.default_rng(SEED)
-    print(f"=== Proposition 4: two pathways, E = 80 ± delta/2, equal rates at 25 °C, B = 0.04 shared; first-order loss; sigma={SIG}; weak prior; nrep={NREP} ===")
+    print(f"=== Proposition 2: two pathways, E = 80 ± delta/2, equal rates at 25 °C, B = 0.04 shared; first-order loss; sigma={SIG}; flat prior; nrep={NREP} ===")
     print("displacement = ln k_hat(25/60) - ln k(25/60) of the fitted line (negative = rate too low = shelf life too long = anti-conservative)")
     for name, conds, grids in (("ICH 3x2, 0/2/4/6 mo", ICH3, [M.MONTHS] * 6), ("ASAP-5, isoconversion", ASAP5, None)):
         print(f"\n-- {name}")
+        ls, s2s = [], []
         print(f"{'kind':12s} {'delta':>5s} {'Var_w(E)':>8s} {'cover':>6s} {'LB/true':>7s} {'med/true':>8s} {'disp sim':>9s} {'disp WLS':>9s} {'closed':>7s}")
         for kind in ('parallel', 'consecutive'):
             for delta in (0, 20, 40, 60):
                 kf = two_path(delta, kind)
                 g = grids if grids is not None else [(-np.log(0.9) / kf(T, rh)) * M.ISO_FRAC for T, rh in conds]
                 s1 = stage1_k(rng, conds, g, NREP, SIG, kf)
-                o = M.stage2(s1, [20, M.EA, M.B_TRUE], [100, 30, 0.05], 'gn', sig_ref=SIG, iters=8)
+                o = M.stage2(s1, [20, M.EA, M.B_TRUE], None, 'gn', sig_ref=SIG, iters=8)
                 sm = M.summarise(o)
                 disp_sim = -np.log(sm['med_true'])
                 disp_wls, w = wls_line_displacement(conds, g, kf, SIG)
-                cf, var, l, s2 = closed_form(conds, w, delta, kind)
+                cf, var, l, s2 = closed_form(conds, w, delta, kind); ls.append(l); s2s.append(s2)
                 print(f"{kind:12s} {delta:5d} {var:8.0f} {sm['cover']:6.3f} {sm['lb_true']:7.2f} {sm['med_true']:8.2f} {disp_sim:+9.3f} {disp_wls:+9.3f} {cf:+7.3f}")
-        print(f"   (lever l_T = {l:+.4f} mol/kJ from the weighted centre, s_T^2 = {s2:.1e})")
+        print(f"   (lever l_T = {min(ls):+.4f} to {max(ls):+.4f} mol/kJ from the weighted centre, s_T^2 = {min(s2s):.1e} to {max(s2s):.1e}; "
+              f"each row uses the working weights of its own truth)")
